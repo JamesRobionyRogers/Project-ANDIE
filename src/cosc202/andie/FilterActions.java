@@ -35,7 +35,10 @@ public class FilterActions {
     public FilterActions() {
         actions = new ArrayList<Action>();
         actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new MedianFilterAction("Median filter", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_M)));
+        //make median filter action class like mean filter action class below
     }
+    
 
     /**
      * <p>
@@ -112,5 +115,46 @@ public class FilterActions {
             target.getParent().revalidate();
         }
 
+    }
+
+    /**
+     * Action to blur image with median filter
+     * 
+     * @see MedianFilter
+     * 
+     */
+    public class MedianFilterAction extends ImageAction {
+
+        /**
+         * Create a new median-filter action
+         * 
+         * @param name The name of the action
+         * @param icon An icon to use to represent the action
+         * @param desc A brief description of the action
+         * @param mnemonic A mnemonic key to use as a shortcut
+         */
+        MedianFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic){
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**??? */
+        public void actionPerformed(ActionEvent e){
+            //Determine radius - ask user
+            int radius = 1;
+
+            SpinnerNumberModel radiusModel2 = new SpinnerNumberModel(1, 1, 10, 1);
+            JSpinner radiusSpinner = new JSpinner(radiusModel2);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter filter radius", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            
+            if (option == JOptionPane.CANCEL_OPTION){
+                return;
+            } else if(option == JOptionPane.OK_OPTION){
+                radius = radiusModel2.getNumber().intValue();
+            }
+
+            target.getImage().apply(new MedianFilter(radius));
+            target.repaint();
+            target.getParent().revalidate();
+        }
     }
 }
