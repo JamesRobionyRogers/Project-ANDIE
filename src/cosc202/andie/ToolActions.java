@@ -20,6 +20,8 @@ public class ToolActions {
     public ToolActions() {
         actions = new ArrayList<Action>();
         actions.add(new PixelPeekToolAction("Peek", null, "Peek the Pixel", null));
+        actions.add(new RotateToolAction("Rotate", null, "Rotate image", null));
+
     }
 
     /**
@@ -38,6 +40,19 @@ public class ToolActions {
 
         return toolMenu;
     }
+    public class RotateToolAction extends ImageAction {
+        public void actionPerformed(ActionEvent e){
+
+
+        }
+
+        RotateToolAction(String name, ImageIcon icon,
+        String desc, Integer mnemonic) {
+        super(name, icon, desc, mnemonic);
+        }
+
+    }
+
     public class PixelPeekToolAction extends ImageAction {
 
         public void actionPerformed(ActionEvent e){
