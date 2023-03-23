@@ -1,9 +1,5 @@
 package cosc202.andie;
 import java.awt.image.*;
-import java.util.*;
-
-import javax.management.relation.RelationSupport;
-import javax.naming.OperationNotSupportedException;
 
 public class RotateTool implements ImageOperation, java.io.Serializable {
 
