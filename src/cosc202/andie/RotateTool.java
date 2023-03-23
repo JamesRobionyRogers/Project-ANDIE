@@ -20,6 +20,10 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
         // 2 = 180
         // 1 = 90
         // 0 = 360
+        // force clockwise rotation
+        while(deg<0){
+            deg+=360;
+        }
 
         this.deg = (deg%360)/90;
      }

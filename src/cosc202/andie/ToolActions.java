@@ -42,7 +42,14 @@ public class ToolActions {
     }
     public class RotateToolAction extends ImageAction {
         public void actionPerformed(ActionEvent e){
-            target.getImage().apply(new RotateTool(360));
+            int deg;
+
+            SpinnerNumberModel radiusModel6 = new SpinnerNumberModel(90, null, null, 90);
+            JSpinner radiusSpinner = new JSpinner(radiusModel6);
+            JOptionPane.showOptionDialog(null, radiusSpinner, "Degrees", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+           deg = radiusModel6.getNumber().intValue();
+
+            target.getImage().apply(new RotateTool(deg));
             target.repaint();
             target.getParent().revalidate();
 
