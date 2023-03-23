@@ -26,7 +26,7 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
 
 
       public BufferedImage apply(BufferedImage input){
-
+        Translation translate;
         //multiple of 360 no rotation
         if (this.deg == 0){
             return input;
@@ -34,55 +34,24 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
         int width = input.getWidth();
         int height = input.getHeight();
 
-        int a,b,c,d,xOffset,yOffset;
-        a = b = c = d = xOffset = yOffset = 0;
-
         /*
          * | a,  b |
          * | c,  d |
          */
-        int store;
         switch (deg){
             // 90 deg rotation
             case(1):
-                
-                store = width;
-
-                xOffset = (height-1);
-                width = height;
-                height = store;
-
-                a = 0;
-                b = -1;
-                c = 1;
-                d = 0;
-
+                translate = new Translation(0,-1,1,0,(height-1),0,height,width);
                 break;
 
             // 180 deg rotation
             case(2):
-                a = -1;
-                b = 0;
-                c = 0;
-                d = -1;
-
-                yOffset = (height-1);
-                xOffset = (width-1);
-
-
+                translate = new Translation(-1,0,0,-1,(height-1),(width-1),width,height);
                 break;
             
                 // 270 deg rotation
             case(3):
-                store = width;
-                a = 0;
-                b = 1;
-                c = -1;
-                d = 0;
-                yOffset = (width-1);
-
-                width = height;
-                height = store;
+                translate = new Translation(0,1,-1,0,0,(width-1),height,width);
                 break;
 
             // something went wrong
@@ -92,8 +61,8 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
 
         }
 
-
-        BufferedImage output = new BufferedImage(width,height, input.getType());
+        
+        BufferedImage output = new BufferedImage(translate.width,translate.height, input.getType());
             
         // loop over every x
         for (int x = 0; x < input.getWidth(); x++){
@@ -101,18 +70,32 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
             // loop over every y
             for (int y = 0; y < input.getHeight(); y++){
 
-                // generate new coord
-                int newX = x * a + y * b + xOffset;
-                int newY = x * c + y * d + yOffset;
-
-                //System.out.println("(" + x + ", " + y +") --> (" + newX + ", " + newY + ")");
-
                 // write old pxl to new location
-                output.setRGB(newX,newY, input.getRGB(x, y));
+                output.setRGB(translate.getX(x,y),translate.getY(x,y), input.getRGB(x, y));
             }
         }
 
         return output;
+    }
+    
+    private class Translation{
+        int a,b,c,d,xOff,yOff,height,width;
+        Translation(int a, int b, int c,int d,int xOffset,int yOffset,int width,int height){
+            this.a = a;
+            this.b = b;
+            this.c = c;
+            this.d = d;
+            this.xOff = xOffset;
+            this.yOff = yOffset;
+            this.height = height;
+            this.width = width;
+        }
+        int getY(int x, int y){
+            return x * c + y * d + yOff;
+        }
+        int getX(int x, int y){
+            return x * a + y * b + xOff;
+        }
     }
 }
     
