@@ -2,9 +2,27 @@ package cosc202.andie;
 
 import java.awt.image.*;
 
-/** */
+/**
+ * <p>
+ * ImageOperation to apply a rotate tool.
+ * </p>
+* 
+* <p>
+* Rotates image using a matrix
+* </p>
+* 
+* <p> 
+* <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+* </p>
+* 
+* @see java.awt.image.ConvolveOp
+* @version 1.0
+*/
 public class RotateTool implements ImageOperation, java.io.Serializable {
 
+    /*
+     * Degrees of rotation
+     */
     private int deg;
 
     /** Default rotate constructor 
