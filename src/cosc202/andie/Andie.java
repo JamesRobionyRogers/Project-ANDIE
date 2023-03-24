@@ -85,8 +85,8 @@ public class Andie {
         menuBar.add(colourActions.createMenu());
 
         // Actions that affect image size and orienation etc
-        //ToolActions toolActions = new ToolActions();
-        //menuBar.add(toolActions.createMenu());
+        ToolActions toolActions = new ToolActions();
+        menuBar.add(toolActions.createMenu());
 
         FlipImageActions flipAction = new FlipImageActions();
         menuBar.add(flipAction.createMenu());

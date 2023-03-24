@@ -157,6 +157,7 @@ public class FilterActions {
             target.repaint();
             target.getParent().revalidate();
         }
+        
     }
 
      /**
@@ -165,20 +166,19 @@ public class FilterActions {
      * @see SharpenFilter
      * 
      */
-    
-        public class SharpenFilterAction extends ImageAction {
-            /**
-            * Create a new sharpen filter action
-            * 
-            * @param name The name of the action
-            * @param icon An icon to use to represent the action
-            * @param desc A brief description of the action
-            * @param mnemonic A mnemonic key to use as a shortcut
-            */
-            SharpenFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-                super(name, icon, desc, mnemonic); 
+    public class SharpenFilterAction extends ImageAction {
+        /**
+        * Create a new sharpen filter action
+        * 
+        * @param name The name of the action
+        * @param icon An icon to use to represent the action
+        * @param desc A brief description of the action
+        * @param mnemonic A mnemonic key to use as a shortcut
+        */
+        SharpenFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic); 
 
-    }
+        }
 
 
         public void actionPerformed(ActionEvent e) { 
