@@ -36,6 +36,7 @@ public class FilterActions {
         actions = new ArrayList<Action>();
         actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new MedianFilterAction("Median filter", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new SharpenFilterAction("Sharpen filter", null, "Apply a sharpen filter",Integer.valueOf(KeyEvent.VK_B)));
         //make median filter action class like mean filter action class below
     }
     
@@ -156,5 +157,35 @@ public class FilterActions {
             target.repaint();
             target.getParent().revalidate();
         }
+    }
+
+     /**
+     * Action to sharpen image with sharpen filter
+     * 
+     * @see SharpenFilter
+     * 
+     */
+    
+        public class SharpenFilterAction extends ImageAction {
+            /**
+            * Create a new sharpen filter action
+            * 
+            * @param name The name of the action
+            * @param icon An icon to use to represent the action
+            * @param desc A brief description of the action
+            * @param mnemonic A mnemonic key to use as a shortcut
+            */
+            SharpenFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+                super(name, icon, desc, mnemonic); 
+
+    }
+
+
+        public void actionPerformed(ActionEvent e) { 
+            // Create and apply the filter 
+            target.getImage().apply(new SharpenFilter()); 
+            target.repaint(); 
+            target.getParent().revalidate();
+        } 
     }
 }
