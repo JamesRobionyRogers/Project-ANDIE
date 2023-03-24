@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -35,6 +36,8 @@ public class ColourActions {
     public ColourActions() {
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeBrightnessAndContrast("Brightness&Contrast", null, "Change Brightness and Contrast", Integer.valueOf(KeyEvent.VK_B)));
+
     }
 
     /**
@@ -96,5 +99,79 @@ public class ColourActions {
         }
 
     }
+
+
+
+
+    /**
+     * <p>
+     * Action to convert an images Brightness and Contrast.
+     * </p>
+     * 
+     * @see BrightnessAndCotrast
+     */
+    public class ChangeBrightnessAndContrast extends ImageAction { 
+        
+        
+        /**
+         * <p>
+         * Create a ChangeBrightnessAndContrast action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+
+        ChangeBrightnessAndContrast(String name, ImageIcon icon, String desc, Integer mnemonic) { 
+            super(name, icon, desc, mnemonic); 
+        } 
+
+
+         /**
+         * <p>
+         * Callback for when the Change-Brightness-And-Contrast action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the ChangeBrightnessAndContrast is triggered.
+         * It prompts the user for a Brightness percentage, and a Contrast Percentage, then applys {@link BrightnessAndContrast}.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            int brightness = 0;
+            int contrast = 0;
+        
+            SpinnerNumberModel B = new SpinnerNumberModel(0, -100, 100, 5);
+            JSpinner brightnessSpinner = new JSpinner(B);
+            SpinnerNumberModel C = new SpinnerNumberModel(0, -100, 100, 5);
+            JSpinner contrastSpinner = new JSpinner(C);
+        
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(2, 2));
+            panel.add(new JLabel("Brightness:"));
+            panel.add(brightnessSpinner);
+            panel.add(new JLabel("Contrast:"));
+            panel.add(contrastSpinner);
+        
+            int option = JOptionPane.showOptionDialog(null, panel, "Enter Brightness and Contrast",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                brightness = B.getNumber().intValue();
+                contrast = C.getNumber().intValue();
+            }
+        
+            target.getImage().apply(new BrightnessAndContrast(brightness, contrast));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+
+    } 
 
 }
