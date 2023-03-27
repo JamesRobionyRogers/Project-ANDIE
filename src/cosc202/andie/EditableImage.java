@@ -110,7 +110,10 @@ class EditableImage {
      * @param bi The BufferedImage to copy.
      * @return A deep copy of the input.
      */
-    private static BufferedImage deepCopy(BufferedImage bi) {
+    private static BufferedImage deepCopy(BufferedImage bi) throws java.lang.NullPointerException{
+        if (bi==null) {
+            throw new java.lang.NullPointerException("bi wasn't a BufferedImage (twas null)");
+        }
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = bi.copyData(null);
@@ -137,10 +140,18 @@ class EditableImage {
         opsFilename = imageFilename + ".ops";
         File imageFile = new File(imageFilename);
         original = ImageIO.read(imageFile);
-        current = deepCopy(original);
-        
+
+
+        try{
+            current = deepCopy(original);
+        } catch(java.lang.NullPointerException e) {
+            System.out.println("Wasn't an image");
+            // file wasn't an image
+            return;
+        }
         try {
             FileInputStream fileIn = new FileInputStream(this.opsFilename);
+            
             ObjectInputStream objIn = new ObjectInputStream(fileIn);
 
             // Silence the Java compiler warning about type casting.
@@ -150,13 +161,18 @@ class EditableImage {
             // produce code that fails at this point in all cases in
             // which there is actually a type mismatch for one of the
             // elements within the Stack, i.e., a non-ImageOperation.
+            
             @SuppressWarnings("unchecked")
             Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
+            
             ops = opsFromFile;
             redoOps.clear();
             objIn.close();
             fileIn.close();
         } catch (Exception ex) {
+            // ops file didn't exist, image still loaded so clear application stack
+            redoOps.clear();
+            ops.clear();
             // Could be no file or something else. Carry on for now.
         }
         this.refresh();
@@ -221,6 +237,9 @@ class EditableImage {
      * @param op The operation to apply.
      */
     public void apply(ImageOperation op) {
+        // image isn't loaded
+        if (current==null) return;
+
         current = op.apply(current);
         ops.add(op);
     }
@@ -231,8 +250,10 @@ class EditableImage {
      * </p>
      */
     public void undo() {
-        redoOps.push(ops.pop());
-        refresh();
+        if (ops.size() != 0){
+            redoOps.push(ops.pop());
+            refresh();
+        }
     }
 
     /**
@@ -241,7 +262,9 @@ class EditableImage {
      * </p>
      */
     public void redo()  {
-        apply(redoOps.pop());
+        if (redoOps.size() != 0){
+            apply(redoOps.pop());
+        }
     }
 
     /**
