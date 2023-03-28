@@ -56,7 +56,9 @@ public class ToolActions {
             options,
             options[2]);
 
-            
+            // -1 is cancel code for dialog option
+            if (deg == -1) return;
+
             // set chosen option to corresponding degrees of rotation
             deg = (3-deg)*90;
             target.getImage().apply(new RotateTool(deg));
