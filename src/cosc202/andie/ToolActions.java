@@ -44,11 +44,21 @@ public class ToolActions {
         public void actionPerformed(ActionEvent e){
             int deg;
 
-            SpinnerNumberModel radiusModel6 = new SpinnerNumberModel(90, null, null, 90);
-            JSpinner radiusSpinner = new JSpinner(radiusModel6);
-            JOptionPane.showOptionDialog(null, radiusSpinner, "Degrees", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-           deg = radiusModel6.getNumber().intValue();
+            //Custom button text
+            Object[] options = {"270°/-90°",
+                                "180°/-180°",
+                                "90°/-270°"};
+            deg = JOptionPane.showOptionDialog(null, "How do you want to rotate the image?",
+            "Rotate",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[2]);
 
+            
+            // set chosen option to corresponding degrees of rotation
+            deg = (3-deg)*90;
             target.getImage().apply(new RotateTool(deg));
             target.repaint();
             target.getParent().revalidate();
