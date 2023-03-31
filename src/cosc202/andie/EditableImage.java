@@ -242,6 +242,7 @@ class EditableImage {
 
         current = op.apply(current);
         ops.add(op);
+        redoOps.clear();
     }
 
     /**
@@ -263,7 +264,8 @@ class EditableImage {
      */
     public void redo()  {
         if (redoOps.size() != 0){
-            apply(redoOps.pop());
+            current = redoOps.peek().apply(current);
+            ops.add(redoOps.pop());
         }
     }
 
