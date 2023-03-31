@@ -88,7 +88,7 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
 
             // 180 deg rotation
             case (2):
-                translate = new Translation(-1, 0, 0, -1, (height - 1), (width - 1), width, height);
+                translate = new Translation(-1, 0, 0, -1, (width - 1),(height - 1) , width, height);
                 break;
 
             // 270 deg rotation
