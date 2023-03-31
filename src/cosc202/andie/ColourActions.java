@@ -36,12 +36,9 @@ public class ColourActions {
     public ColourActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-<<<<<<< src/cosc202/andie/ColourActions.java
         actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), null, language.getTranslated("greyscale_desc"), Integer.valueOf(KeyEvent.VK_G)));
-=======
         actions.add(new ChangeBrightnessAndContrast("Brightness&Contrast", null, "Change Brightness and Contrast", Integer.valueOf(KeyEvent.VK_B)));
 
->>>>>>> src/cosc202/andie/ColourActions.java
     }
 
     /**
