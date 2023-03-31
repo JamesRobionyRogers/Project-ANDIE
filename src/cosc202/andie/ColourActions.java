@@ -34,10 +34,14 @@ public class ColourActions {
      * </p>
      */
     public ColourActions() {
+        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction("Greyscale", null, "Convert to greyscale", Integer.valueOf(KeyEvent.VK_G)));
+<<<<<<< src/cosc202/andie/ColourActions.java
+        actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), null, language.getTranslated("greyscale_desc"), Integer.valueOf(KeyEvent.VK_G)));
+=======
         actions.add(new ChangeBrightnessAndContrast("Brightness&Contrast", null, "Change Brightness and Contrast", Integer.valueOf(KeyEvent.VK_B)));
 
+>>>>>>> src/cosc202/andie/ColourActions.java
     }
 
     /**
@@ -48,7 +52,8 @@ public class ColourActions {
      * @return The colour menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Colour");
+        SetLanguage language = SetLanguage.getInstance();
+        JMenu fileMenu = new JMenu(language.getTranslated("colour"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));
