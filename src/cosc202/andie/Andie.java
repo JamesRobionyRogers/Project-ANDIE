@@ -35,21 +35,17 @@ public class Andie {
      * {@code ImageAction}s grouped by their general purpose into menus.
      * </p>
      * 
-     * @see ImagePanel
-     * @see ImageAction
-     * @see ImageOperation
-     * @see FileActions
-     * @see EditActions
-     * @see ViewActions
-     * @see FilterActions
-     * @see ColourActions
-     * @see ToolActions
+     *
      * 
      * @throws Exception if something goes wrong.
      */
+    private static JFrame frame;
+    private static boolean frameSet = false;
+    private static JMenuBar menuBar;
+
     private static void createAndShowGUI() throws Exception {
         // Set up the main GUI frame
-        JFrame frame = new JFrame("ANDIE");
+        frame = new JFrame("ANDIE");
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -60,42 +56,62 @@ public class Andie {
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
+        setBar();
         
-        // Add in menus for various types of action the user may perform.
-        JMenuBar menuBar = new JMenuBar();
-
-        // File menus are pretty standard, so things that usually go in File menus go here.
-        FileActions fileActions = new FileActions();
-        menuBar.add(fileActions.createMenu());
-
-        // Likewise Edit menus are very common, so should be clear what might go here.
-        EditActions editActions = new EditActions();
-        menuBar.add(editActions.createMenu());
-
-        // View actions control how the image is displayed, but do not alter its actual content
-        ViewActions viewActions = new ViewActions();
-        menuBar.add(viewActions.createMenu());
-
-        // Filters apply a per-pixel operation to the image, generally based on a local window
-        FilterActions filterActions = new FilterActions();
-        menuBar.add(filterActions.createMenu());
-
-        // Actions that affect the representation of colour in the image
-        ColourActions colourActions = new ColourActions();
-        menuBar.add(colourActions.createMenu());
-
-        // Actions that affect image size and orienation etc
-        ToolActions toolActions = new ToolActions();
-        menuBar.add(toolActions.createMenu());
-
-        FlipImageActions flipAction = new FlipImageActions();
-        menuBar.add(flipAction.createMenu());
-
         frame.setJMenuBar(menuBar);
         frame.pack();
         frame.setVisible(true);
     }
 
+    /**
+     * Make the menuBar
+     * 
+     * Makes accessible for refreshing the GUI
+     * 
+     * @see ImagePanel
+     * @see ImageAction
+     * @see ImageOperation
+     * @see FileActions
+     * @see EditActions
+     * @see ViewActions
+     * @see FilterActions
+     * @see ColourActions
+     * 
+     * @param args
+     * @throws Exception
+     */
+
+     public static void setBar(){
+                // Add in menus for various types of action the user may perform.
+                menuBar = new JMenuBar();
+
+                // File menus are pretty standard, so things that usually go in File menus go here.
+                FileActions fileActions = new FileActions();
+                menuBar.add(fileActions.createMenu());
+        
+                // Likewise Edit menus are very common, so should be clear what might go here.
+                EditActions editActions = new EditActions();
+                menuBar.add(editActions.createMenu());
+        
+                // View actions control how the image is displayed, but do not alter its actual content
+                ViewActions viewActions = new ViewActions();
+                menuBar.add(viewActions.createMenu());
+        
+                // Filters apply a per-pixel operation to the image, generally based on a local window
+                FilterActions filterActions = new FilterActions();
+                menuBar.add(filterActions.createMenu());
+        
+                // Actions that affect the representation of colour in the image
+                ColourActions colourActions = new ColourActions();
+                menuBar.add(colourActions.createMenu());
+        
+                MultilingualSupport multilingual = new MultilingualSupport();
+                menuBar.add(multilingual.createMenu());
+        
+                //System.out.println("setting up gui");
+                
+        
+     }
     /**
      * <p>
      * Main entry point to the ANDIE program.
@@ -114,7 +130,15 @@ public class Andie {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    createAndShowGUI();
+                    if(!frameSet){
+                        createAndShowGUI();
+                        frameSet = true;
+                        //System.out.println("making GUI");
+                    }
+                    setBar();
+                    frame.setJMenuBar(menuBar);
+                    frame.revalidate();
+                    //System.out.println("revalidating");
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     System.exit(1);
@@ -122,4 +146,5 @@ public class Andie {
             }
         });
     }
+
 }

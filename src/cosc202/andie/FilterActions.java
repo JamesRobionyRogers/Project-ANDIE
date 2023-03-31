@@ -33,10 +33,14 @@ public class FilterActions {
      * </p>
      */
     public FilterActions() {
+        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new MeanFilterAction("Mean filter", null, "Apply a mean filter", Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new MedianFilterAction("Median filter", null, "Apply a median filter", Integer.valueOf(KeyEvent.VK_M)));
+<<<<<<< src/cosc202/andie/FilterActions.java
+        actions.add(new MeanFilterAction(language.getTranslated("mean_filter"), null, language.getTranslated("mean_filter_desc"), Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new MedianFilterAction(language.getTranslated("median_filter"), null, language.getTranslated("median_filter_desc"), Integer.valueOf(KeyEvent.VK_M)));
+=======
         actions.add(new SharpenFilterAction("Sharpen filter", null, "Apply a sharpen filter",Integer.valueOf(KeyEvent.VK_B)));
+>>>>>>> src/cosc202/andie/FilterActions.java
         //make median filter action class like mean filter action class below
     }
     
@@ -49,7 +53,8 @@ public class FilterActions {
      * @return The filter menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("Filter");
+        SetLanguage language = SetLanguage.getInstance();
+        JMenu fileMenu = new JMenu(language.getTranslated("filter"));
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));

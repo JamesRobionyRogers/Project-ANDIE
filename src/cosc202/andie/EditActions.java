@@ -33,9 +33,10 @@ public class EditActions {
      * </p>
      */
     public EditActions() {
+        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new UndoAction("Undo", null, "Undo", Integer.valueOf(KeyEvent.VK_Z)));
-        actions.add(new RedoAction("Redo", null, "Redo", Integer.valueOf(KeyEvent.VK_Y)));
+        actions.add(new UndoAction(language.getTranslated("undo"), null, language.getTranslated("undo"), Integer.valueOf(KeyEvent.VK_Z)));
+        actions.add(new RedoAction(language.getTranslated("redo"), null, language.getTranslated("redo"), Integer.valueOf(KeyEvent.VK_Y)));
     }
 
     /**
@@ -46,7 +47,8 @@ public class EditActions {
      * @return The edit menu UI element.
      */
     public JMenu createMenu() {
-        JMenu editMenu = new JMenu("Edit");
+        SetLanguage language = SetLanguage.getInstance();
+        JMenu editMenu = new JMenu(language.getTranslated("edit"));
 
         for (Action action: actions) {
             editMenu.add(new JMenuItem(action));

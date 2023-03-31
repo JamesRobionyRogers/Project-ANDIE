@@ -33,11 +33,12 @@ public class FileActions {
      * </p>
      */
     public FileActions() {
+        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction("Open", null, "Open a file", Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new FileSaveAction("Save", null, "Save the file", Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction("Save As", null, "Save a copy", Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new FileExitAction("Exit", null, "Exit the program", Integer.valueOf(0)));
+        actions.add(new FileOpenAction(language.getTranslated("open"), null, language.getTranslated("open_desc"), Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new FileSaveAction(language.getTranslated("save"), null, language.getTranslated("save_desc"), Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new FileSaveAsAction(language.getTranslated("save_as"), null, language.getTranslated("save_as_desc"), Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new FileExitAction(language.getTranslated("exit"), null, language.getTranslated("exit_desc"), Integer.valueOf(0)));
     }
 
     /**
@@ -48,7 +49,9 @@ public class FileActions {
      * @return The File menu UI element.
      */
     public JMenu createMenu() {
-        JMenu fileMenu = new JMenu("File");
+        SetLanguage language = SetLanguage.getInstance();
+        JMenu fileMenu = new JMenu(language.getTranslated("file"));
+        //JMenu fileMenu = new JMenu("file");
 
         for(Action action: actions) {
             fileMenu.add(new JMenuItem(action));

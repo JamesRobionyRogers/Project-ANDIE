@@ -34,10 +34,12 @@ public class ViewActions {
      * </p>
      */
     public ViewActions() {
+        SetLanguage language = SetLanguage.getInstance();
+
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction("Zoom In", null, "Zoom In", Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction("Zoom Out", null, "Zoom Out", Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction("Zoom Full", null, "Zoom Full", Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomInAction(language.getTranslated("zoom_in"), null, language.getTranslated("zoom_in"), Integer.valueOf(KeyEvent.VK_PLUS)));
+        actions.add(new ZoomOutAction(language.getTranslated("zoom_out"), null, language.getTranslated("zoom_out"), Integer.valueOf(KeyEvent.VK_MINUS)));
+        actions.add(new ZoomFullAction(language.getTranslated("zoom_full"), null, language.getTranslated("zoom_full"), Integer.valueOf(KeyEvent.VK_1)));
     }
 
     /**
@@ -48,7 +50,8 @@ public class ViewActions {
      * @return The view menu UI element.
      */
     public JMenu createMenu() {
-        JMenu viewMenu = new JMenu("View");
+        SetLanguage language = SetLanguage.getInstance();
+        JMenu viewMenu = new JMenu(language.getTranslated("view"));
 
         for (Action action: actions) {
             viewMenu.add(new JMenuItem(action));
