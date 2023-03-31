@@ -105,13 +105,14 @@ public class Andie {
                 ColourActions colourActions = new ColourActions();
                 menuBar.add(colourActions.createMenu());
 
+                //Actions to do toolactions
+                ToolActions toolActions = new ToolActions();
+                menuBar.add(toolActions.createMenu());
+
                 //Actions to add multilingual support
                 MultilingualSupport multilingual = new MultilingualSupport();
                 menuBar.add(multilingual.createMenu());
 
-                //Actions to do toolactions
-                ToolActions toolActions = new ToolActions();
-                menuBar.add(toolActions.createMenu());
                 //System.out.println("setting up gui");
                 
         
