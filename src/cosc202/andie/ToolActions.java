@@ -19,11 +19,13 @@ public class ToolActions {
      */
     public ToolActions() {
         actions = new ArrayList<Action>();
+        SetLanguage language = SetLanguage.getInstance();
 
         actions.add(new ResizeToolAction("Resize", null, "Resize the image", null));
         actions.add(new PixelPeekToolAction("Peek", null, "Peek the Pixel", null));
         actions.add(new RotateToolAction("Rotate", null, "Rotate image", null));
-
+        //actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), null));
+        actions.add(new FlipImageActions("Flip Image", null, "Flip the Image", null));
     }
 
     /**
@@ -42,6 +44,56 @@ public class ToolActions {
 
         return toolMenu;
     }
+
+            /**
+         * Create a new Image flip tool action
+         * 
+         * @param name The name of the action
+         * @param icon An icon to use to represent the action
+         * @param desc A brief description of the action
+         * @param mnemonic A mnemonic key to use as a shortcut
+         */
+        public class FlipImageActions extends ImageAction{
+
+            /**
+             * Action to flip image horizontally or vertically
+             * 
+             * @see ImageFlip
+             * 
+             * @param e The event triggering the callback
+             */
+
+             //0 is true - horizontal
+             //1 is false - vertical
+            FlipImageActions(String name, ImageIcon icon, String desc, Integer mnemonic){
+                super(name, icon, desc, mnemonic);
+            }
+    
+        public void actionPerformed(ActionEvent e){
+            int option; 
+            Object[] flip = {"Horizontal",
+                                "Vertical"};
+            option = JOptionPane.showOptionDialog(null, "Which way do you want to flip the Image?",
+            "Rotate",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            flip,
+            flip[1]);
+
+            if (option == 0){
+                target.getImage().apply(new ImageFlip(true));
+            } else if(option==1){
+                target.getImage().apply(new ImageFlip(false));
+            }else if(option==-1){
+                return;
+            }
+
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    }
+
     
     public class ResizeToolAction extends ImageAction {
 
