@@ -110,7 +110,7 @@ public class Andie {
                 menuBar.add(multilingual.createMenu());
 
                 //Actions to do toolactions
-                FileActions toolActions = new FileActions();
+                ToolActions toolActions = new ToolActions();
                 menuBar.add(toolActions.createMenu());
                 //System.out.println("setting up gui");
                 
