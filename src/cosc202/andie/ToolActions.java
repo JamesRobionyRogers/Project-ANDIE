@@ -21,11 +21,11 @@ public class ToolActions {
         actions = new ArrayList<Action>();
         SetLanguage language = SetLanguage.getInstance();
 
-        actions.add(new ResizeToolAction("Resize", null, "Resize the image", null));
+        actions.add(new ResizeToolAction(language.getTranslated("resize"), null, language.getTranslated("resize_desc"), null));
         actions.add(new PixelPeekToolAction("Peek", null, "Peek the Pixel", null));
-        actions.add(new RotateToolAction("Rotate", null, "Rotate image", null));
-        //actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), null));
-        actions.add(new FlipImageActions("Flip Image", null, "Flip the Image", null));
+        actions.add(new RotateToolAction(language.getTranslated("rotate"), null, language.getTranslated("rotate_desc"), null));
+        actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), null));
+        //actions.add(new FlipImageActions("Flip Image", null, "Flip the Image", null));
     }
 
     /**
@@ -36,7 +36,8 @@ public class ToolActions {
      * @return The Tool menu UI element.
      */
     public JMenu createMenu() {
-        JMenu toolMenu = new JMenu("Tools");
+        SetLanguage language = SetLanguage.getInstance();
+        JMenu toolMenu = new JMenu(language.getTranslated("tools"));
 
         for (Action action: actions) {
             toolMenu.add(new JMenuItem(action));
@@ -70,11 +71,12 @@ public class ToolActions {
             }
     
         public void actionPerformed(ActionEvent e){
+            SetLanguage language = SetLanguage.getInstance();
             int option; 
-            Object[] flip = {"Horizontal",
-                                "Vertical"};
-            option = JOptionPane.showOptionDialog(null, "Which way do you want to flip the Image?",
-            "Rotate",
+            Object[] flip = {language.getTranslated("horizontal"),
+                    language.getTranslated("Vertical")};
+            option = JOptionPane.showOptionDialog(null, language.getTranslated("flip_image_question"),
+            language.getTranslated("flip"),
             JOptionPane.YES_NO_CANCEL_OPTION,
             JOptionPane.QUESTION_MESSAGE,
             null,
@@ -98,12 +100,13 @@ public class ToolActions {
     public class ResizeToolAction extends ImageAction {
 
         public void actionPerformed(ActionEvent e){
+            SetLanguage language = SetLanguage.getInstance();
             //Determine scale - ask user
             int scale = 100;
 
             SpinnerNumberModel radiusModel3 = new SpinnerNumberModel(100, 1, null, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel3);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, "Enter Resize %", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("resize_question"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             
             if (option == JOptionPane.CANCEL_OPTION){
                 return;
@@ -120,15 +123,16 @@ public class ToolActions {
         }
     }
     public class RotateToolAction extends ImageAction {
+        SetLanguage language = SetLanguage.getInstance();
         public void actionPerformed(ActionEvent e){
             int deg;
 
             //Custom button text
-            Object[] options = {"270°/-90°",
-                                "180°/-180°",
-                                "90°/-270°"};
-            deg = JOptionPane.showOptionDialog(null, "How do you want to rotate the image?",
-            "Rotate",
+            Object[] options = {language.getTranslated("rotate_270_-90"),
+                                language.getTranslated("rotate_180_-180"),
+                                language.getTranslated("rotate_90_-270")};
+            deg = JOptionPane.showOptionDialog(null, language.getTranslated("rotate_image_question"),
+            language.getTranslated("rotate"),
             JOptionPane.YES_NO_CANCEL_OPTION,
             JOptionPane.QUESTION_MESSAGE,
             null,

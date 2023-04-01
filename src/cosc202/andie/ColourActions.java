@@ -37,7 +37,7 @@ public class ColourActions {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
         actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), null, language.getTranslated("greyscale_desc"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeBrightnessAndContrast("Brightness&Contrast", null, "Change Brightness and Contrast", Integer.valueOf(KeyEvent.VK_B)));
+        actions.add(new ChangeBrightnessAndContrast(language.getTranslated("brightness_contrast"), null, language.getTranslated("brightness_contrast_desc"), Integer.valueOf(KeyEvent.VK_B)));
 
     }
 
@@ -144,6 +144,8 @@ public class ColourActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            SetLanguage language = SetLanguage.getInstance();
+
             int brightness = 0;
             int contrast = 0;
         
@@ -154,12 +156,12 @@ public class ColourActions {
         
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(2, 2));
-            panel.add(new JLabel("Brightness:"));
+            panel.add(new JLabel(language.getTranslated("brightness")));
             panel.add(brightnessSpinner);
-            panel.add(new JLabel("Contrast:"));
+            panel.add(new JLabel(language.getTranslated("contrast")));
             panel.add(contrastSpinner);
         
-            int option = JOptionPane.showOptionDialog(null, panel, "Enter Brightness and Contrast",
+            int option = JOptionPane.showOptionDialog(null, panel, language.getTranslated("b_c_question"),
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
         
             if (option == JOptionPane.CANCEL_OPTION) {

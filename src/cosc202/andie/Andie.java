@@ -36,7 +36,7 @@ public class Andie {
      * </p>
      * 
      *
-     * 
+     *  
      * @throws Exception if something goes wrong.
      */
     private static JFrame frame;
@@ -44,8 +44,9 @@ public class Andie {
     private static JMenuBar menuBar;
 
     private static void createAndShowGUI() throws Exception {
+        SetLanguage language = SetLanguage.getInstance();
         // Set up the main GUI frame
-        frame = new JFrame("ANDIE");
+        frame = new JFrame(language.getTranslated("andie"));
 
         Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
         frame.setIconImage(image);
@@ -141,7 +142,9 @@ public class Andie {
                         //System.out.println("making GUI");
                     }
                     setBar();
+                    SetLanguage language = SetLanguage.getInstance();
                     frame.setJMenuBar(menuBar);
+                    frame.setTitle(language.getTranslated("andie"));
                     frame.revalidate();
                     //System.out.println("revalidating");
                 } catch (Exception ex) {
