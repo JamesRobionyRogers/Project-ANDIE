@@ -4,6 +4,7 @@ import java.util.*;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.plaf.OptionPaneUI;
 
 /**
  * <p>
@@ -160,9 +161,11 @@ public class ColourActions {
             panel.add(brightnessSpinner);
             panel.add(new JLabel(language.getTranslated("contrast")));
             panel.add(contrastSpinner);
+
+            Object[] options = {language.getTranslated("ok"), language.getTranslated("cancel")};
         
             int option = JOptionPane.showOptionDialog(null, panel, language.getTranslated("b_c_question"),
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         
             if (option == JOptionPane.CANCEL_OPTION) {
                 return;

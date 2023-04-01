@@ -101,10 +101,12 @@ public class FilterActions {
             // Determine the radius - ask the user.
             int radius = 1;
 
+            Object[] options = {language.getTranslated("ok"), language.getTranslated("cancel")};
+
             // Pop-up dialog box to ask for the radius value.
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("enter_filter_radius"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
             // Check the return value from the dialog box.
             if (option == JOptionPane.CANCEL_OPTION) {
@@ -148,9 +150,11 @@ public class FilterActions {
             //Determine radius - ask user
             int radius = 1;
 
+            Object[] options = {language.getTranslated("ok"), language.getTranslated("cancel")};
+
             SpinnerNumberModel radiusModel2 = new SpinnerNumberModel(1, 1, 10, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel2);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("enter_filter_radius"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             
             if (option == JOptionPane.CANCEL_OPTION){
                 return;

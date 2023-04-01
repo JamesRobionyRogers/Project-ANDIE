@@ -77,7 +77,7 @@ public class ToolActions {
                     language.getTranslated("Vertical")};
             option = JOptionPane.showOptionDialog(null, language.getTranslated("flip_image_question"),
             language.getTranslated("flip"),
-            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.DEFAULT_OPTION,
             JOptionPane.QUESTION_MESSAGE,
             null,
             flip,
@@ -104,9 +104,11 @@ public class ToolActions {
             //Determine scale - ask user
             int scale = 100;
 
+            Object[] options = {language.getTranslated("ok"), language.getTranslated("cancel")};
+
             SpinnerNumberModel radiusModel3 = new SpinnerNumberModel(100, 1, null, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel3);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("resize_question"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("resize_question"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             
             if (option == JOptionPane.CANCEL_OPTION){
                 return;
@@ -133,7 +135,7 @@ public class ToolActions {
                                 language.getTranslated("rotate_90_-270")};
             deg = JOptionPane.showOptionDialog(null, language.getTranslated("rotate_image_question"),
             language.getTranslated("rotate"),
-            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.DEFAULT_OPTION,
             JOptionPane.QUESTION_MESSAGE,
             null,
             options,
