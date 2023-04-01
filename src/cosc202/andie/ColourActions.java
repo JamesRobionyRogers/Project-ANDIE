@@ -4,7 +4,7 @@ import java.util.*;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.plaf.OptionPaneUI;
+//import javax.swing.plaf.OptionPaneUI;
 
 /**
  * <p>
