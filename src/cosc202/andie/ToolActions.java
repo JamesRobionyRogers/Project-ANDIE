@@ -1,6 +1,7 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -22,7 +23,7 @@ public class ToolActions {
         SetLanguage language = SetLanguage.getInstance();
 
         actions.add(new ResizeToolAction(language.getTranslated("resize"), null, language.getTranslated("resize_desc"), null));
-        actions.add(new PixelPeekToolAction("Peek", null, "Peek the Pixel", null));
+        actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
         actions.add(new RotateToolAction(language.getTranslated("rotate"), null, language.getTranslated("rotate_desc"), null));
         actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), null));
         //actions.add(new FlipImageActions("Flip Image", null, "Flip the Image", null));
@@ -164,18 +165,31 @@ public class ToolActions {
         public void actionPerformed(ActionEvent e){
             int x,y;
             x = y = 0;
-            SpinnerNumberModel radiusModel3 = new SpinnerNumberModel(0, 0, null, 1);
-            JSpinner radiusSpinner = new JSpinner(radiusModel3);
-            JOptionPane.showOptionDialog(null, radiusSpinner, "x coord", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            x = radiusModel3.getNumber().intValue();
-            JOptionPane.showOptionDialog(null, radiusSpinner, "y coord", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-            y = radiusModel3.getNumber().intValue();
-
-            target.getImage().apply(new PixelPeekTool(x,y));
-            target.repaint();
-            target.getParent().revalidate();
+    
+            SpinnerNumberModel B = new SpinnerNumberModel(0, 0, null, 1);
+            JSpinner brightnessSpinner = new JSpinner(B);
+            SpinnerNumberModel C = new SpinnerNumberModel(0, 0, null, 1);
+            JSpinner contrastSpinner = new JSpinner(C);
+        
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(2, 2));
+            panel.add(new JLabel("x:"));
+            panel.add(brightnessSpinner);
+            panel.add(new JLabel("y:"));
+            panel.add(contrastSpinner);
+        
+            int option = JOptionPane.showOptionDialog(null, panel, "Enter a pixels coordinates [DNT]",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                x = B.getNumber().intValue();
+                y = C.getNumber().intValue();
+            }
+            PixelPeek.pixelPeek(x,y,target.getImage().getCurrentImage());
         }
-
+    
         PixelPeekToolAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
