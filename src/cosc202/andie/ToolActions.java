@@ -74,7 +74,7 @@ public class ToolActions {
             SetLanguage language = SetLanguage.getInstance();
             int option; 
             Object[] flip = {language.getTranslated("horizontal"),
-                    language.getTranslated("Vertical")};
+                    language.getTranslated("vertical")};
             option = JOptionPane.showOptionDialog(null, language.getTranslated("flip_image_question"),
             language.getTranslated("flip"),
             JOptionPane.DEFAULT_OPTION,
@@ -110,9 +110,9 @@ public class ToolActions {
             JSpinner radiusSpinner = new JSpinner(radiusModel3);
             int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("resize_question"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             
-            if (option == JOptionPane.CANCEL_OPTION){
+            if (option == 1){
                 return;
-            } else if(option == JOptionPane.OK_OPTION){
+            } else if(option == 0){
                 scale = radiusModel3.getNumber().intValue();
             }
 

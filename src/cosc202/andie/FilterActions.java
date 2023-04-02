@@ -109,9 +109,9 @@ public class FilterActions {
             int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
             // Check the return value from the dialog box.
-            if (option == JOptionPane.CANCEL_OPTION) {
+            if (option == 1) {
                 return;
-            } else if (option == JOptionPane.OK_OPTION) {
+            } else if (option == 0) {
                 radius = radiusModel.getNumber().intValue();
             }
 
@@ -156,9 +156,9 @@ public class FilterActions {
             JSpinner radiusSpinner = new JSpinner(radiusModel2);
             int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             
-            if (option == JOptionPane.CANCEL_OPTION){
+            if (option == 1){
                 return;
-            } else if(option == JOptionPane.OK_OPTION){
+            } else if(option == 0){
                 radius = radiusModel2.getNumber().intValue();
             }
 
