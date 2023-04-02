@@ -32,7 +32,7 @@ public class SetLanguage {
         locale = (new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
         // language = "English";
         // country = "NZ";
-        bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundle");
+        bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundles.LanguageBundle");
         //System.out.println(locale);
     }
 
@@ -86,7 +86,7 @@ public class SetLanguage {
         prefs.put("country", country);
         locale = (new Locale(prefs.get("language", language), prefs.get("country", country)));
         //System.out.println(locale);
-        bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundle", locale);
+        bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundles.LanguageBundle", locale);
         try {
             Andie.main(null);
             //System.out.println("trying main");
