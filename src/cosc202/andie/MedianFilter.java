@@ -1,7 +1,8 @@
 package cosc202.andie;
 
-import java.awt.image.*;
-import java.util.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayDeque;
+import java.util.Arrays;
 
 /**
  * <p>
@@ -72,81 +73,100 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
 
         //This part sets each pixel of the image, not corners or sides, to be the median in its area
-        for (int y = 0; y < input.getHeight(); ++y) {
-            for (int x = 0; x < input.getWidth(); ++x) {
-                //This below sets the pixel colour of x,y to the median in output without altering the surrounding pixels
-                //This makes sure the the original isn't altered, and each time a pixel is changed, it's from th original.
+
+
+        // create pools
+        ArrayDeque<Integer> horizontalOps = new ArrayDeque<Integer>(input.getWidth());
+        for (int i = 0; i < input.getWidth(); horizontalOps.add(i++));
+
+        ArrayDeque<Integer> verticalOps = new ArrayDeque<Integer>(input.getHeight());
+        for (int i = 0; i < input.getHeight(); verticalOps.add(i++));
+
+        // start work
+        long time = System.currentTimeMillis();
+        horizontalOps.parallelStream().forEach(x -> {
+            verticalOps.parallelStream().forEach(y -> {
+                // do a thing
                 output.setRGB(x, y, setARGB(x, y, input));
-            }
-        }
-        //System.out.println("Almost there");
+            });
+        });
+        time = System.currentTimeMillis() - time;
+
+        System.out.println(time/1000);
         return output;
     }
+    
 
     //This method sets the ARGB for each pixel, and allows less clutter in prev method
     public int setARGB(int x, int y, BufferedImage input){
 
         //set areaSize 
         int areaSize = 0;
-
+        short height = 0;
+        short width = 0;
         for(int i=x-radius; i<x+radius+1; i++){
             if(i>=0 && i<input.getWidth()){
-                for(int j=y-radius; j<y+radius+1; j++){
-                    if(j>=0 && j<input.getHeight()){
-                        areaSize++;
-                    }
-                }
+                width++;
             }
         }
+        for(int i=y-radius; i<y+radius+1; i++){
+            if(i>=0 && i<input.getHeight()){
+                height++;
+            }
+        }
+        areaSize = height*width;
+
         int middle = areaSize/2;
 
-        int[] rArr = new int[areaSize];
-        int[] gArr = new int[areaSize];
-        int[] bArr = new int[areaSize];
-        int counter = 0;
-
+        byte[] rArr = new byte[areaSize];
+        byte[] gArr = new byte[areaSize];
+        byte[] bArr = new byte[areaSize];
+        short counter = 0;
+        
         for(int i=x-radius; i<x+radius+1; i++){
             // check index 'i' within image bounds 
             if(i>=0 && i<input.getWidth()){
                 for(int j=y-radius; j<y+radius+1; j++){
                     // check index 'j' within image bounds 
                     if(j>=0 && j<input.getHeight()){
-                        //System.out.println("(" + i + ", " + j + ")");
                         int argb = input.getRGB(i, j);
-                        rArr[counter] = (argb & 0x00FF0000) >> 16;
-                        gArr[counter] = (argb & 0x0000FF00) >> 8;
-                        bArr[counter] = (argb & 0x000000FF);
+                        // Unsign
+                        rArr[counter] = (byte)(((argb & 0x00FF0000) >> 16)-128);
+                        gArr[counter] = (byte)(((argb & 0x0000FF00) >> 8)-128);
+                        bArr[counter] = (byte)((argb & 0x000000FF)-128);
                         counter ++;
+                        
                     }
                 }
             }
         }
 
-        int argb = input.getRGB(x, y);
-        // Unsure when this would occur
+        
+        // Unsure when this would occur I think this is just for testing idk
         if(areaSize==0){
+            int argb = input.getRGB(x, y);
             System.out.println("Something went horribly wrong, area size was 0");
             return argb;
         }
-        int a = (argb & 0xFF000000) >> 24;
+        int a = -1;
         Arrays.sort(rArr);
         Arrays.sort(gArr);
         Arrays.sort(bArr);
         int r=0;
         int g=0;
         int b=0;
-        if(middle==0){
-            r = (rArr[middle -1] + rArr[middle])/2;
-            g = (gArr[middle -1] + gArr[middle])/2;
-            b = (bArr[middle -1] + bArr[middle])/2;
+        if(areaSize%2==0){
+            r = (rArr[middle -1] + rArr[middle])/2+128;
+            g = (gArr[middle -1] + gArr[middle])/2+128;
+            b = (bArr[middle -1] + bArr[middle])/2+128;
+
         }else{
-            r = rArr[middle];
-            g = gArr[middle];
-            b = bArr[middle];
+            r = rArr[middle]+128;
+            g = gArr[middle]+128;
+            b = bArr[middle]+128;
         }
         int argb1 = (a<<24) | (r<<16) | (g<<8) | b;
-        //System.out.println("inside loop");
         return argb1;
-    }
+    } 
 
 }
