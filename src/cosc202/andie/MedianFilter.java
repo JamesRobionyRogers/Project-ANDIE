@@ -62,18 +62,8 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * @return The resulting image
      */
     public BufferedImage apply (BufferedImage input){
-        
-        //int size = (2*radius+1)*(2*radius+1);
-        //float [] array = new float [size];
-        //Arrays.fill(array, 1.0f/size);
-
-        //Kernel kernel = new Kernel(2*radius+1, 2*radius+1, array);
-        //ConvolveOp convOp = new ConvolveOp(kernel);
 
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
-
-        //This part sets each pixel of the image, not corners or sides, to be the median in its area
-
 
         // create pools
         ArrayDeque<Integer> horizontalOps = new ArrayDeque<Integer>(input.getWidth());
@@ -83,22 +73,17 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         for (int i = 0; i < input.getHeight(); verticalOps.add(i++));
 
         // start work
-        long time = System.currentTimeMillis();
         horizontalOps.parallelStream().forEach(x -> {
             verticalOps.parallelStream().forEach(y -> {
                 // do a thing
                 output.setRGB(x, y, setARGB(x, y, input));
             });
         });
-        time = System.currentTimeMillis() - time;
-
-        System.out.println(time/1000);
         return output;
     }
     
-
     //This method sets the ARGB for each pixel, and allows less clutter in prev method
-    public int setARGB(int x, int y, BufferedImage input){
+    private int setARGB(int x, int y, BufferedImage input){
 
         //set areaSize 
         int areaSize = 0;
@@ -118,11 +103,13 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
 
         int middle = areaSize/2;
 
+        // bytes for fast sorting
         byte[] rArr = new byte[areaSize];
         byte[] gArr = new byte[areaSize];
         byte[] bArr = new byte[areaSize];
         short counter = 0;
         
+        // loop over radius area
         for(int i=x-radius; i<x+radius+1; i++){
             // check index 'i' within image bounds 
             if(i>=0 && i<input.getWidth()){
@@ -141,13 +128,6 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
             }
         }
 
-        
-        // Unsure when this would occur I think this is just for testing idk
-        if(areaSize==0){
-            int argb = input.getRGB(x, y);
-            System.out.println("Something went horribly wrong, area size was 0");
-            return argb;
-        }
         int a = -1;
         Arrays.sort(rArr);
         Arrays.sort(gArr);
