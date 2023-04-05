@@ -38,11 +38,8 @@ public class FilterActions {
         actions.add(new MeanFilterAction(language.getTranslated("mean_filter"), null, language.getTranslated("mean_filter_desc"), Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new MedianFilterAction(language.getTranslated("median_filter"), null, language.getTranslated("median_filter_desc"), Integer.valueOf(KeyEvent.VK_M)));
         actions.add(new SharpenFilterAction(language.getTranslated("sharpen_filter"), null, language.getTranslated("sharpen_filter_desc"),Integer.valueOf(KeyEvent.VK_B)));
-        //make median filter action class like mean filter action class below
-
-        // TODO: Add translations for the following actions
-        actions.add(new SoftBlurAction("Soft Blur filter", null, "Apply a soft blur filter", Integer.valueOf(KeyEvent.VK_S))); 
-        actions.add(new GaussianBlurAction("Gaussian Blur filter", null, "Apply a Gaussian blur filter", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new SoftBlurAction(language.getTranslated("soft_blur_filter"), null, language.getTranslated("soft_blur_filter_desc"), Integer.valueOf(KeyEvent.VK_S))); 
+        actions.add(new GaussianBlurAction(language.getTranslated("gaussian_blur_filter"), null, language.getTranslated("gaussian_blur_filter_desc"), Integer.valueOf(KeyEvent.VK_G)));
     }
     
 
