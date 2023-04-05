@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.awt.image.*;
 import javax.imageio.*;
-
+import javax.swing.JOptionPane;
 /**
  * <p>
  * An image with a set of operations applied to it.
@@ -32,6 +32,8 @@ import javax.imageio.*;
  * @version 1.0
  */
 class EditableImage {
+
+    private SetLanguage language = SetLanguage.getInstance();
 
     /** The original image. This should never be altered by ANDIE. */
     private BufferedImage original;
@@ -112,7 +114,7 @@ class EditableImage {
      */
     private static BufferedImage deepCopy(BufferedImage bi) throws java.lang.NullPointerException{
         if (bi==null) {
-            throw new java.lang.NullPointerException("bi wasn't a BufferedImage (twas null)");
+            throw new java.lang.NullPointerException("Argument was null");
         }
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
@@ -133,20 +135,22 @@ class EditableImage {
      * </p>
      * 
      * @param filePath The file to open the image from.
-     * @throws Exception If something goes wrong.
      */
-    public void open(String filePath) throws Exception {
+    public void open(String filePath){
+        try{
         imageFilename = filePath;
         opsFilename = imageFilename + ".ops";
         File imageFile = new File(imageFilename);
         original = ImageIO.read(imageFile);
-
+        } catch(IOException e) {
+            ExceptionHandler.displayError(language.getTranslated("open_file_io_exception"));
+        }
 
         try{
             current = deepCopy(original);
         } catch(java.lang.NullPointerException e) {
-            System.out.println("Wasn't an image");
             // file wasn't an image
+            ExceptionHandler.displayError(language.getTranslated("non_image_file"));
             return;
         }
         try {
@@ -169,12 +173,13 @@ class EditableImage {
             redoOps.clear();
             objIn.close();
             fileIn.close();
-        } catch (Exception ex) {
+        } catch (Exception e ) {
             // ops file didn't exist, image still loaded so clear application stack
             redoOps.clear();
             ops.clear();
             // Could be no file or something else. Carry on for now.
         }
+
         this.refresh();
     }
 
@@ -190,21 +195,27 @@ class EditableImage {
      * the current operations to <code>some/path/to/image.png.ops</code>.
      * </p>
      * 
-     * @throws Exception If something goes wrong.
      */
-    public void save() throws Exception {
-        if (this.opsFilename == null) {
-            this.opsFilename = this.imageFilename + ".ops";
+    public void save(){
+        try {
+            if (this.opsFilename == null) {
+                this.opsFilename = this.imageFilename + ".ops";
         }
-        // Write image file based on file extension
-        String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
-        ImageIO.write(original, extension, new File(imageFilename));
-        // Write operations file
-        FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
-        ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
-        objOut.writeObject(this.ops);
-        objOut.close();
-        fileOut.close();
+            // Write image file based on file extension
+            String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
+            ImageIO.write(original, extension, new File(imageFilename));
+            // Write operations file
+            FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+            objOut.writeObject(this.ops);
+            objOut.close();
+            fileOut.close();
+        }  catch (FileNotFoundException fileException) {
+            ExceptionHandler.displayError(language.getTranslated("file_not_found_exception"));
+
+        } catch (IOException a) {
+            ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
+        }
     }
 
 
@@ -221,12 +232,17 @@ class EditableImage {
      * </p>
      * 
      * @param imageFilename The file location to save the image to.
-     * @throws Exception If something goes wrong.
      */
-    public void saveAs(String imageFilename) throws Exception {
-        this.imageFilename = imageFilename;
-        this.opsFilename = imageFilename + ".ops";
-        save();
+    public void saveAs(String imageFilename){
+        try {
+            this.imageFilename = imageFilename;
+            this.opsFilename = imageFilename + ".ops";
+            save();
+        } 
+        // Not sure when this would catch anything as exceptions should come from save() method 
+        catch(Exception e) {
+            ExceptionHandler.displayError(language.getTranslated("save_as_exception"));
+        }
     }
 
     /**

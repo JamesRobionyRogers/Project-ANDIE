@@ -29,11 +29,27 @@ public class SetLanguage {
          * gets first bundle
          */
     private SetLanguage() {
-        locale = (new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
-        // language = "English";
-        // country = "NZ";
-        bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundles.LanguageBundle");
-        //System.out.println(locale);
+        try {
+            locale = new Locale(prefs.get("language", "en"), prefs.get("country", "NZ"));
+            bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundles.LanguageBundle");
+        }
+        // Catching exception when the user has a different primary language - tested on MacOS
+        catch (MissingResourceException missingResource) {
+            // TODO: Throwing java.lang.NullPointerException & java.lang.ExceptionInInitializerError
+            // ExceptionHandler.displayError("Your primary language is not supported by ANDIE. Defaulting language to New Zealand English.");
+            
+            // Setting the bundle to the default NZ English
+            bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundles.LanguageBundle", new Locale("en", "NZ"));
+        }
+        // Catching is baseName or locale is null in the bundle
+        catch (NullPointerException nullPointer) {
+            ExceptionHandler.debugException(nullPointer);
+        }
+
+        // Catching any other exception
+        catch (Exception e) {
+            ExceptionHandler.debugException(e);
+        }
     }
 
     /**

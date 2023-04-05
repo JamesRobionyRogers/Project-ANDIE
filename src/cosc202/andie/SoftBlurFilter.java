@@ -30,10 +30,8 @@ public class SoftBlurFilter implements ImageOperation, java.io.Serializable {
         BufferedImage outputImg = new BufferedImage(inputImg.getColorModel(), 
             inputImg.copyData(null), inputImg.isAlphaPremultiplied(), null); 
         
-        // Aplying the filter to the image and storing it in the result 
+        // Applying the filter to the image and storing it in the result 
         convOp.filter(inputImg, outputImg);
-        
-        System.out.println("[DEGUGGING] Soft blur applied");
 
         return outputImg;
     }

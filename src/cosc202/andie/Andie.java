@@ -1,6 +1,8 @@
 package cosc202.andie;
 
 import java.awt.*;
+import java.io.IOException;
+
 import javax.swing.*;
 import javax.imageio.*;
 
@@ -37,21 +39,23 @@ public class Andie {
      * 
      *
      *  
-     * @throws Exception if something goes wrong.
      */
     private static JFrame frame;
     private static boolean frameSet = false;
     private static JMenuBar menuBar;
 
-    private static void createAndShowGUI() throws Exception {
+    private static void createAndShowGUI() {
         SetLanguage language = SetLanguage.getInstance();
         // Set up the main GUI frame
         frame = new JFrame(language.getTranslated("andie"));
-
-        Image image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
-        frame.setIconImage(image);
+        Image image;
+        try {
+            image = ImageIO.read(Andie.class.getClassLoader().getResource("icon.png"));
+            frame.setIconImage(image);
+        } catch (IOException e) {
+            ExceptionHandler.displayWarning(language.getTranslated("icon_warning"));
+        }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // The main content area is an ImagePanel
         ImagePanel imagePanel = new ImagePanel();
         ImageAction.setTarget(imagePanel);
@@ -61,7 +65,7 @@ public class Andie {
         
         frame.setJMenuBar(menuBar);
         frame.pack();
-        frame.setVisible(true);
+        frame.setVisible(true); 
     }
 
     /**
@@ -79,7 +83,6 @@ public class Andie {
      * @see ColourActions
      * 
      * @param args
-     * @throws Exception
      */
 
      public static void setBar(){
@@ -129,17 +132,15 @@ public class Andie {
      * </p>
      * 
      * @param args Command line arguments, not currently used
-     * @throws Exception If something goes awry
      * @see #createAndShowGUI()
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
                     if(!frameSet){
                         createAndShowGUI();
                         frameSet = true;
-                        //System.out.println("making GUI");
                     }
                     setBar();
                     SetLanguage language = SetLanguage.getInstance();
@@ -147,12 +148,20 @@ public class Andie {
                     frame.setTitle(language.getTranslated("andie"));
                     frame.revalidate();
                     //System.out.println("revalidating");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                } catch (Exception e) {
                     System.exit(1);
                 }
             }
         });
+    }
+
+    /**
+     * Returns ANDIE's JFrame. Inteded for use in the @see ExceptionHandler class.
+     * 
+     * @return ANDIE's JFrame
+     */
+    public static JFrame getJFrame() {
+        return frame;
     }
 
 }
