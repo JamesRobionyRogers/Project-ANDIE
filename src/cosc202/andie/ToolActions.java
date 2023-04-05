@@ -3,6 +3,8 @@ package cosc202.andie;
 import java.util.*;
 import java.awt.GridLayout;
 import java.awt.event.*;
+import java.nio.charset.Charset;
+
 import javax.swing.*;
 import java.awt.GridLayout;
 
@@ -116,6 +118,23 @@ public class ToolActions {
             } else if(option == 0){
                 scale = radiusModel3.getNumber().intValue();
             }
+            // didn't scale don't perform ops
+            if (scale == 100) return;
+
+            try {
+                // check image area is less than MAX_INTEGER
+                int width = (int)(target.getImage().getCurrentImage().getWidth() * (double) scale / 100);
+                int height = (int)(target.getImage().getCurrentImage().getHeight() * (double) scale / 100);
+
+                // Image larger than max image size
+                int size = Math.multiplyExact(width,height);
+                
+                if (size == 0) throw(new ArithmeticException("Area was 0"));
+            } catch (ArithmeticException ex){
+                ExceptionHandler.displayError(language.getTranslated("resize_warning").replace((CharSequence)"#",(CharSequence)Integer.toString(scale)));
+                return;
+            }
+
 
             target.getImage().apply(new ResizeTool(scale));
             target.repaint();
