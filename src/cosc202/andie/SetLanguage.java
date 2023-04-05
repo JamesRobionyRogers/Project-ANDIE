@@ -104,7 +104,7 @@ public class SetLanguage {
      * All localised strings translated to ASCII code for accents and chinese characters from this site
      * https://www.lddgo.net/en/convert/string-unicode
      * @param translateThis
-     * @return
+     * @return translated string
      */
     public String getTranslated(String translateThis) {
 
