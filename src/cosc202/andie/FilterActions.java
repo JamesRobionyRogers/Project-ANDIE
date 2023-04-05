@@ -23,6 +23,8 @@ import javax.swing.*;
  * @version 1.0
  */
 public class FilterActions {
+
+    SetLanguage language = SetLanguage.getInstance();
     
     /** A list of actions for the Filter menu. */
     protected ArrayList<Action> actions;
@@ -155,8 +157,7 @@ public class FilterActions {
                 target.repaint();
                 target.getParent().revalidate();
             } catch (Exception ex) {
-                System.out.println("[WARNING: Failed to apply filter]");
-                System.out.println(ex.getLocalizedMessage());
+                ExceptionHandler.displayError(language.getTranslated("unapplied_filter_error"));
             }
 
         }

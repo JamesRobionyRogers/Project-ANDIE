@@ -107,7 +107,7 @@ public class ToolActions {
 
             Object[] options = {language.getTranslated("ok"), language.getTranslated("cancel")};
 
-            SpinnerNumberModel radiusModel3 = new SpinnerNumberModel(100, 1, null, 1);
+            SpinnerNumberModel radiusModel3 = new SpinnerNumberModel(100, 1, Integer.MAX_VALUE, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel3);
             int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("resize_question"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             

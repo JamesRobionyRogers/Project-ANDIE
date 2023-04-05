@@ -2,6 +2,8 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.*;
 
 /**
@@ -23,6 +25,8 @@ import javax.swing.*;
  * @version 1.0
  */
 public class FileActions {
+
+    SetLanguage language = SetLanguage.getInstance();
     
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
@@ -103,7 +107,17 @@ public class FileActions {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().open(imageFilepath);
-                } catch (Exception ex) {
+                } 
+                // Catching Input/Output exceptions associated with opening a file
+                catch (IOException ioException) {
+                    ExceptionHandler.displayError(language.getTranslated("open_file_io_excepton"));
+                }
+                // Catching exceptions associated with opening a file Java doesn't have permission for 
+                catch (SecurityException exception) {
+                    ExceptionHandler.displayError(language.getTranslated("security_exception"));
+                }
+                
+                catch (Exception ex) {
                     System.exit(1);
                 }
             }
@@ -153,6 +167,9 @@ public class FileActions {
             try {
                 target.getImage().save();           
             } catch (Exception ex) {
+                ExceptionHandler.displayError(language.getTranslated("general_error"));
+                ExceptionHandler.debugException(ex);
+
                 System.exit(1);
             }
         }
@@ -202,7 +219,17 @@ public class FileActions {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().saveAs(imageFilepath);
-                } catch (Exception ex) {
+                }
+                // Catching Input/Output exceptions associated with opening a file
+                catch (IOException ioException) {
+                    ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
+                }
+                // Catching exceptions associated with opening a file Java doesn't have permission for
+                catch (SecurityException exception) {
+                    ExceptionHandler.displayError(language.getTranslated("security_exception"));
+                }
+                
+                catch (Exception ex) {
                     System.exit(1);
                 }
             }
