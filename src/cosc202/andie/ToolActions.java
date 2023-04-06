@@ -110,7 +110,6 @@ public class ToolActions {
             Object[] options = {language.getTranslated("ok"), language.getTranslated("cancel")};
 
             SpinnerNumberModel radiusModel3 = new SpinnerNumberModel(100, 1, Integer.MAX_VALUE, 1);
-
             JSpinner radiusSpinner = new JSpinner(radiusModel3);
             int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("resize_question"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
             
@@ -131,25 +130,14 @@ public class ToolActions {
                 int size = Math.multiplyExact(width,height);
                 
                 if (size == 0) throw(new ArithmeticException("Area was 0"));
+                if (width > 65535) throw (new ArithmeticException("Width too large"));
+                if (height > 65535) throw (new ArithmeticException("Height too large"));
             } catch (ArithmeticException ex){
                 ExceptionHandler.displayError(language.getTranslated("resize_warning").replace((CharSequence)"#",(CharSequence)Integer.toString(scale)));
                 return;
             }
 
 
-            // didn't scale don't perform ops
-            if (scale == 100) return;
-
-            try {
-                // check image area is less than MAX_INTEGER
-                Math.multiplyExact((int)(target.getImage().getCurrentImage().getWidth() * (double) scale / 100), 
-                    (int)(target.getImage().getCurrentImage().getHeight() * (double) scale / 100));
-            } catch (ArithmeticException ex){
-                ExceptionHandler.displayError(language.getTranslated("resize_warning"));
-                return;
-            }
-            
-            
             target.getImage().apply(new ResizeTool(scale));
             target.repaint();
             target.getParent().revalidate();
