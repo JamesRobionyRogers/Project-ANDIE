@@ -2,9 +2,11 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+import javax.imageio.ImageIO;
 import java.io.IOException;
-
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * <p>
@@ -42,6 +44,7 @@ public class FileActions {
         actions.add(new FileOpenAction(language.getTranslated("open"), null, language.getTranslated("open_desc"), Integer.valueOf(KeyEvent.VK_O)));
         actions.add(new FileSaveAction(language.getTranslated("save"), null, language.getTranslated("save_desc"), Integer.valueOf(KeyEvent.VK_S)));
         actions.add(new FileSaveAsAction(language.getTranslated("save_as"), null, language.getTranslated("save_as_desc"), Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new FileExportAction(language.getTranslated("export"), null, language.getTranslated("export_desc"), Integer.valueOf(KeyEvent.VK_A)));
         actions.add(new FileExitAction(language.getTranslated("exit"), null, language.getTranslated("exit_desc"), Integer.valueOf(0)));
     }
 
@@ -101,6 +104,9 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
+            FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+            fileChooser.setFileFilter(imageFilter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
             int result = fileChooser.showOpenDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -118,7 +124,7 @@ public class FileActions {
                 }
                 
                 catch (Exception ex) {
-                    System.exit(1);
+                    ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("open_file_io_excepton"));
                 }
             }
 
@@ -170,7 +176,7 @@ public class FileActions {
                 ExceptionHandler.displayError(language.getTranslated("general_error"));
                 ExceptionHandler.debugException(ex);
 
-                System.exit(1);
+                ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
             }
         }
 
@@ -230,7 +236,7 @@ public class FileActions {
                 }
                 
                 catch (Exception ex) {
-                    System.exit(1);
+                    ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
                 }
             }
         }
@@ -274,6 +280,84 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
+        }
+
+    }
+
+
+    /**
+     * <p>
+     * Action to export image to a new file.
+     * </p>
+     * 
+     * @see EditableImage#export(String)
+     */
+    public class FileExportAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new file-export action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+         /**
+         * <p>
+         * Callback for when the file-export action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the FileExportAction is triggered.
+         * It prompts the user for a filename, and then saves edited image to that file.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // currently hardcoding the available file types, but need to change this 
+            JFileChooser fileChooser = new JFileChooser();
+
+            // Creating new file extentions
+            FileNameExtensionFilter jpg = new FileNameExtensionFilter(".jpg", "jpg");
+            FileNameExtensionFilter png = new FileNameExtensionFilter(".png", "png");
+            FileNameExtensionFilter jpeg = new FileNameExtensionFilter(".jpeg", "jpeg");
+            FileNameExtensionFilter tiff = new FileNameExtensionFilter(".tiff", "tiff");
+            FileNameExtensionFilter gif = new FileNameExtensionFilter(".gif", "gif");
+            
+            // Adding the new extentions to the file chooser
+            fileChooser.addChoosableFileFilter(jpg);
+            fileChooser.addChoosableFileFilter(png);
+            fileChooser.addChoosableFileFilter(jpeg);
+            fileChooser.addChoosableFileFilter(gif);
+            fileChooser.addChoosableFileFilter(tiff);
+
+            // Hiding the "All Files" option
+            fileChooser.setAcceptAllFileFilterUsed(false); 
+
+            // Setting the title of the dialog box
+            fileChooser.setDialogTitle("Export a file");
+
+            
+            int result = fileChooser.showSaveDialog(target);
+            
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    System.out.println(imageFilepath);
+                    target.getImage().export(imageFilepath, fileChooser.getFileFilter().getDescription());
+                    
+                } catch (Exception ex) {
+                    ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
+                }
+            }
         }
 
     }
