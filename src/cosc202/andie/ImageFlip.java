@@ -54,55 +54,77 @@ public class ImageFlip implements ImageOperation, java.io.Serializable {
      * @param input the image to be flipped
      */
     public BufferedImage apply(BufferedImage input){
+        Translation translate = new Translation(0, 0, 0, 0, 0, 0, 0, 0);
 
-        //Make output image, this is the image will be flipped into?
-        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
+        if (horizontal){
+            translate = new Translation(-1, 0, 0, 1, input.getWidth()-1, 0, input.getWidth(), input.getHeight());
+        }else{
+            translate = new Translation(1, 0, 0, -1, 0, input.getHeight()-1, input.getWidth(), input.getHeight());
+        }
 
-        int x1=0;
-        int x2=input.getWidth()-1;
-        int y1=0;
-        int y2=input.getHeight()-1;
-        //System.out.println("image flip class");
+        BufferedImage output = new BufferedImage(translate.width, translate.height, input.getType());
 
-        if(horizontal){
-            while(y1<y2){
-                for(int i=0; i<y2;i++){
-                    int small=x1;
-                    int large=x2;
-                    while(small<=input.getWidth()/2&&large>=input.getWidth()/2){
-                        //System.out.println(x1+", "+y1+"   "+x2+" "+y1);
-                        int argb1 = input.getRGB(small,y1);
-                        int argb2 = input.getRGB(large,y1);
-                        output.setRGB(small,y1,argb2);
-                        output.setRGB(large,y1,argb1);
-                        small++;
-                        large--;
-                        //System.out.println(small+", "+y1+"   "+large+" "+y2);
-                    }
-                y1++;
-                }
-            }
-        }else if(!horizontal){
-            //System.out.println("vertical loop?");
-            while(x1<x2){
-                for(int i=0; i<x2;i++){
-                    int small = y1;
-                    int large = y2;
-                    while(small<=input.getHeight()/2&&large>=input.getHeight()/2){
-                        //System.out.println(x1+", "+small+"   "+x1+" "+large);
-                        int argb1 = input.getRGB(x1,small);
-                        int argb2 = input.getRGB(x1,large);
-                        output.setRGB(x1,small,argb2);
-                        output.setRGB(x1,large,argb1);
-                        small++;
-                        large--;
-                    }
-                x1++;
-                }
+        // loop over every x
+        for (int x = 0; x < input.getWidth(); x++) {
+
+            // loop over every y
+            for (int y = 0; y < input.getHeight(); y++) {
+
+                // write old pxl to new location
+                output.setRGB(translate.getX(x, y), translate.getY(x, y), input.getRGB(x, y));
             }
         }
 
         return output;
     }
-    
+
+    private class Translation {
+        int a, b, c, d, xOff, yOff, height, width;
+        
+        /**
+         * Translation constructor with points 
+         * | a  b |
+         * | c  d |
+         * 
+         * 
+         * @param a value 'a'
+         * @param b value 'b'
+         * @param c value 'c'
+         * @param d value 'd'
+         * @param xOffset amount to offset any x movement by caused by matrix
+         * @param yOffset amount to offset any y moveemen by caused by matrix
+         * @param width width of image after matrix has been applied
+         * @param height heigh of image after matrix has been applied
+         */
+        Translation(int a, int b, int c, int d, int xOffset, int yOffset, int width, int height) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+            this.d = d;
+            this.xOff = xOffset;
+            this.yOff = yOffset;
+            this.height = height;
+            this.width = width;
+        }
+
+
+        /** Gets x coord after applying matrix to point x, y
+         * @param x current x coord
+         * @param y current y coord
+         * @return x coord after matrix application
+         */
+        int getX(int x, int y) {
+            return x * a + y * b + xOff;
+        }
+
+        /** Gets y coord after applying matrix to point x, y
+         * @param x current x coord
+         * @param y current y coord
+         * @return y coord after matrix application
+         */
+        int getY(int x, int y) {
+            return x * c + y * d + yOff;
+        }
+
+    }
 }
