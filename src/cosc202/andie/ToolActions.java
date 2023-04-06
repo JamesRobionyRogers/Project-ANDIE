@@ -26,10 +26,9 @@ public class ToolActions {
         SetLanguage language = SetLanguage.getInstance();
 
         actions.add(new ResizeToolAction(language.getTranslated("resize"), null, language.getTranslated("resize_desc"), null));
-        actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
+        //actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
         actions.add(new RotateToolAction(language.getTranslated("rotate"), null, language.getTranslated("rotate_desc"), null));
         actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), null));
-        //actions.add(new FlipImageActions("Flip Image", null, "Flip the Image", null));
     }
 
     /**
