@@ -60,11 +60,6 @@ public class ResizeTool implements ImageOperation, java.io.Serializable {
         height = (int) (input.getHeight() * (double) this.scale / 100);
         width = (int) (input.getWidth() * (double) this.scale / 100);
 
-        if (width == 0 || height == 0){
-            System.out.println("0x0 Image error");
-            return input;
-        }
-
         // create scaled image
         Image scaled = input.getScaledInstance(width, height, 0);
 
