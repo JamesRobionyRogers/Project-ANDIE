@@ -149,7 +149,7 @@ public class Andie {
                     frame.revalidate();
                     //System.out.println("revalidating");
                 } catch (Exception e) {
-                    System.exit(1);
+                    ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("general_error"));
                 }
             }
         });

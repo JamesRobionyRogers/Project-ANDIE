@@ -1,31 +1,38 @@
 package cosc202.andie;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.*;
 import java.awt.image.*;
 import javax.imageio.*;
-import javax.swing.JOptionPane;
 /**
  * <p>
  * An image with a set of operations applied to it.
  * </p>
  * 
  * <p>
- * The EditableImage represents an image with a series of operations applied to it.
+ * The EditableImage represents an image with a series of operations applied to
+ * it.
  * It is fairly core to the ANDIE program, being the central data structure.
- * The operations are applied to a copy of the original image so that they can be undone.
- * THis is what is meant by "A Non-Destructive Image Editor" - you can always undo back to the original image.
+ * The operations are applied to a copy of the original image so that they can
+ * be undone.
+ * THis is what is meant by "A Non-Destructive Image Editor" - you can always
+ * undo back to the original image.
  * </p>
  * 
  * <p>
- * Internally the EditableImage has two {@link BufferedImage}s - the original image 
- * and the result of applying the current set of operations to it. 
- * The operations themselves are stored on a {@link Stack}, with a second {@link Stack} 
+ * Internally the EditableImage has two {@link BufferedImage}s - the original
+ * image
+ * and the result of applying the current set of operations to it.
+ * The operations themselves are stored on a {@link Stack}, with a second
+ * {@link Stack}
  * being used to allow undone operations to be redone.
  * </p>
  * 
- * <p> 
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Steven Mills
@@ -37,7 +44,9 @@ class EditableImage {
 
     /** The original image. This should never be altered by ANDIE. */
     private BufferedImage original;
-    /** The current image, the result of applying {@link ops} to {@link original}. */
+    /**
+     * The current image, the result of applying {@link ops} to {@link original}.
+     */
     private BufferedImage current;
     /** The sequence of operations currently applied to the image. */
     private Stack<ImageOperation> ops;
@@ -54,7 +63,8 @@ class EditableImage {
      * </p>
      * 
      * <p>
-     * A new EditableImage has no image (it is a null reference), and an empty stack of operations.
+     * A new EditableImage has no image (it is a null reference), and an empty stack
+     * of operations.
      * </p>
      */
     public EditableImage() {
@@ -79,34 +89,41 @@ class EditableImage {
 
     /**
      * <p>
-     * Make a 'deep' copy of a BufferedImage. 
+     * Make a 'deep' copy of a BufferedImage.
      * </p>
      * 
      * <p>
-     * Object instances in Java are accessed via references, which means that assignment does
+     * Object instances in Java are accessed via references, which means that
+     * assignment does
      * not copy an object, it merely makes another reference to the original.
-     * In order to make an independent copy, the {@code clone()} method is generally used.
-     * {@link BufferedImage} does not implement {@link Cloneable} interface, and so the 
+     * In order to make an independent copy, the {@code clone()} method is generally
+     * used.
+     * {@link BufferedImage} does not implement {@link Cloneable} interface, and so
+     * the
      * {@code clone()} method is not accessible.
      * </p>
      * 
      * <p>
      * This method makes a cloned copy of a BufferedImage.
-     * This requires knoweldge of some details about the internals of the BufferedImage,
+     * This requires knoweldge of some details about the internals of the
+     * BufferedImage,
      * but essentially comes down to making a new BufferedImage made up of copies of
      * the internal parts of the input.
      * </p>
      * 
      * <p>
      * This code is taken from StackOverflow:
-     * <a href="https://stackoverflow.com/a/3514297">https://stackoverflow.com/a/3514297</a>
-     * in response to 
-     * <a href="https://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage">https://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage</a>.
+     * <a href=
+     * "https://stackoverflow.com/a/3514297">https://stackoverflow.com/a/3514297</a>
+     * in response to
+     * <a href=
+     * "https://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage">https://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage</a>.
      * Code by Klark used under the CC BY-SA 2.5 license.
      * </p>
      * 
      * <p>
-     * This method (only) is released under <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a>
+     * This method (only) is released under
+     * <a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a>
      * </p>
      * 
      * @param bi The BufferedImage to copy.
@@ -121,7 +138,7 @@ class EditableImage {
         WritableRaster raster = bi.copyData(null);
         return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
-    
+
     /**
      * <p>
      * Open an image from a file.
@@ -129,8 +146,10 @@ class EditableImage {
      * 
      * <p>
      * Opens an image from the specified file.
-     * Also tries to open a set of operations from the file with <code>.ops</code> added.
-     * So if you open <code>some/path/to/image.png</code>, this method will also try to
+     * Also tries to open a set of operations from the file with <code>.ops</code>
+     * added.
+     * So if you open <code>some/path/to/image.png</code>, this method will also try
+     * to
      * read the operations from <code>some/path/to/image.png.ops</code>.
      * </p>
      * 
@@ -189,9 +208,11 @@ class EditableImage {
      * </p>
      * 
      * <p>
-     * Saves an image to the file it was opened from, or the most recent file saved as.
+     * Saves an image to the file it was opened from, or the most recent file saved
+     * as.
      * Also saves a set of operations from the file with <code>.ops</code> added.
-     * So if you save to <code>some/path/to/image.png</code>, this method will also save
+     * So if you save to <code>some/path/to/image.png</code>, this method will also
+     * save
      * the current operations to <code>some/path/to/image.png.ops</code>.
      * </p>
      * 
@@ -200,7 +221,8 @@ class EditableImage {
         try {
             if (this.opsFilename == null) {
                 this.opsFilename = this.imageFilename + ".ops";
-        }
+            }
+            if (original == null) return;
             // Write image file based on file extension
             String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
             ImageIO.write(original, extension, new File(imageFilename));
@@ -218,7 +240,6 @@ class EditableImage {
         }
     }
 
-
     /**
      * <p>
      * Save an image to a speficied file.
@@ -227,22 +248,46 @@ class EditableImage {
      * <p>
      * Saves an image to the file provided as a parameter.
      * Also saves a set of operations from the file with <code>.ops</code> added.
-     * So if you save to <code>some/path/to/image.png</code>, this method will also save
+     * So if you save to <code>some/path/to/image.png</code>, this method will also
+     * save
      * the current operations to <code>some/path/to/image.png.ops</code>.
      * </p>
      * 
      * @param imageFilename The file location to save the image to.
      */
     public void saveAs(String imageFilename){
+        String oldFile = this.imageFilename;
+        String oldOps = this.opsFilename;
+        
         try {
+            // test that files can be written
+            if (!testWrite(imageFilename)) throw (new IllegalArgumentException("cant write file")); 
+
             this.imageFilename = imageFilename;
-            this.opsFilename = imageFilename + ".ops";
+            this.opsFilename = imageFilename + ".jpg.ops";
+            
+            // create image and save
+            exportSave(imageFilename,".jpg");
             save();
         } 
+        catch(IOException ex){
+            this.imageFilename = oldFile;
+            this.opsFilename = oldOps;
+            ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
+            return;
+        }
+        catch(IllegalArgumentException ex){
+            ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
+            return;
+        }
         // Not sure when this would catch anything as exceptions should come from save() method 
         catch(Exception e) {
-            ExceptionHandler.displayError(language.getTranslated("save_as_exception"));
+            this.imageFilename = oldFile;
+            this.opsFilename = oldOps;
+            ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
+            return;
         }
+        
     }
 
     /**
@@ -290,7 +335,8 @@ class EditableImage {
      * Get the current image after the operations have been applied.
      * </p>
      * 
-     * @return The result of applying all of the current operations to the {@link original} image.
+     * @return The result of applying all of the current operations to the
+     *         {@link original} image.
      */
     public BufferedImage getCurrentImage() {
         return current;
@@ -303,16 +349,96 @@ class EditableImage {
      * 
      * <p>
      * While the latest version of the image is stored in {@link current}, this
-     * method makes a fresh copy of the original and applies the operations to it in sequence.
-     * This is useful when undoing changes to the image, or in any other case where {@link current}
-     * cannot be easily incrementally updated. 
+     * method makes a fresh copy of the original and applies the operations to it in
+     * sequence.
+     * This is useful when undoing changes to the image, or in any other case where
+     * {@link current}
+     * cannot be easily incrementally updated.
      * </p>
      */
-    private void refresh()  {
+    private void refresh() {
         current = deepCopy(original);
-        for (ImageOperation op: ops) {
+        for (ImageOperation op : ops) {
             current = op.apply(current);
         }
     }
 
+    /**
+     * <p>
+     * Exports an edited image to new file with specified file name.
+     * </p>
+     * 
+     * <p>
+     * Saves edited image to new file with file name provided as a parameter.
+     * Also saves a set of operations from the file with <code>.ops</code> added.
+     * So if you save to <code>some/path/to/image.png</code>, this method will also
+     * save
+     * the current operations to <code>some/path/to/image.png.ops</code>.
+     * </p>
+     * 
+     * @param imageFilename The file location to export the image to.
+     * @throws Exception If something goes wrong.
+     */
+    public void export(String imageFilename, String extension) throws Exception {
+        
+        String exportFilename = imageFilename + extension;
+        System.out.println(exportFilename);
+        if (original == null) return;
+        try {
+            String exten2 = extension.substring(1 + extension.lastIndexOf(".")).toLowerCase();
+            if(!testWrite(imageFilename)) throw (new java.lang.IllegalArgumentException("Cant write file"));
+            ImageIO.write(current, exten2, new File(exportFilename));
+        } catch (Exception ex) {
+            ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
+            return;
+        }
+    }
+
+    /**
+     * <p>
+     * Exports an edited image to new file with specified file name.
+     * </p>
+     * 
+     * <p>
+     * Saves edited image to new file with file name provided as a parameter.
+     * Also saves a set of operations from the file with <code>.ops</code> added.
+     * So if you save to <code>some/path/to/image.png</code>, this method will also
+     * save
+     * the current operations to <code>some/path/to/image.png.ops</code>.
+     * </p>
+     * 
+     * @param imageFilename The file location to export the image to.
+     * @throws Exception If something goes wrong.
+     */
+    public void exportSave(String imageFilename, String extension) throws Exception {
+        
+        String exportFilename = imageFilename + extension;
+        System.out.println(exportFilename);
+        if (original == null) return;
+        try {
+            String exten2 = extension.substring(1 + extension.lastIndexOf(".")).toLowerCase();
+            if(!testWrite(imageFilename)) throw (new java.lang.IllegalArgumentException("Cant write file"));
+            ImageIO.write(original, exten2, new File(exportFilename));
+        } catch (Exception ex) {
+            ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
+            return;
+        }
+    }
+
+
+    /** Tests a filename path to see if its valid
+     * This uses regex to test the filename this is extremely restrictive
+     * 
+     * @param testFilename The filename path to test
+     * @return If the filename is valid
+     */
+    private boolean testWrite(String testFilename){
+        File f = new File(testFilename);
+        // create regex pattern
+        Pattern fileNames = Pattern.compile("^[A-Za-z0-9-_()]{1,50}$");
+        // check that the filename matches
+        Matcher test = fileNames.matcher(f.getName());
+        // return result
+        return test.matches();
+    }
 }

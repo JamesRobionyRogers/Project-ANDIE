@@ -108,7 +108,7 @@ public class SetLanguage {
             //System.out.println("trying main");
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.exit(1);
+            ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("general_error"));
         }
     }
 
