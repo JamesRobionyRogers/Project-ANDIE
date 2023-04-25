@@ -84,7 +84,7 @@ class EditableImage {
      * @return True if there is an image, false otherwise.
      */
     public boolean hasImage() {
-        return current != null;
+        return original != null;
     }
 
     /**
@@ -414,7 +414,7 @@ class EditableImage {
         
         String exportFilename = imageFilename + extension;
         System.out.println(exportFilename);
-        if (original == null) return;
+        
         try {
             String exten2 = extension.substring(1 + extension.lastIndexOf(".")).toLowerCase();
             if(!testWrite(imageFilename)) throw (new java.lang.IllegalArgumentException("Cant write file"));

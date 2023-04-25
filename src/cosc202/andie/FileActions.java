@@ -321,6 +321,14 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+
+            // CHecks if image has been imported, shows error and returns if there is no file to export 
+            if(!target.getImage().hasImage()){
+                ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
+                return;
+            } 
+           
+
             // currently hardcoding the available file types, but need to change this 
             JFileChooser fileChooser = new JFileChooser();
 
