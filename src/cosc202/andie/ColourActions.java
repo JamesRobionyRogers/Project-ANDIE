@@ -4,7 +4,9 @@ import java.util.*;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 //import javax.swing.plaf.OptionPaneUI;
+import javax.swing.event.ChangeListener;
 
 /**
  * <p>
@@ -115,7 +117,7 @@ public class ColourActions {
      */
     public class ChangeBrightnessAndContrast extends ImageAction { 
         
-        
+        boolean hasChanged = false;
         /**
          * <p>
          * Create a ChangeBrightnessAndContrast action.
@@ -147,36 +149,89 @@ public class ColourActions {
         public void actionPerformed(ActionEvent e) {
             SetLanguage language = SetLanguage.getInstance();
 
-            int brightness = 0;
-            int contrast = 0;
-        
-            SpinnerNumberModel B = new SpinnerNumberModel(0, -100, 100, 5);
-            JSpinner brightnessSpinner = new JSpinner(B);
-            SpinnerNumberModel C = new SpinnerNumberModel(0, -100, 100, 5);
-            JSpinner contrastSpinner = new JSpinner(C);
+            
+            JSlider brightnessSlider = new JSlider(-100, 100);
+            brightnessSlider.setMajorTickSpacing(25);
+            brightnessSlider.setMinorTickSpacing(5);
+            brightnessSlider.setPaintTicks(true);
+            JSlider contrastSlider = new JSlider(-100, 100);
+            contrastSlider.setMajorTickSpacing(20);
+            contrastSlider.setMinorTickSpacing(5);
+            contrastSlider.setPaintTicks(true);
         
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(2, 2));
             panel.add(new JLabel(language.getTranslated("brightness")));
-            panel.add(brightnessSpinner);
+            panel.add(brightnessSlider);
             panel.add(new JLabel(language.getTranslated("contrast")));
-            panel.add(contrastSpinner);
+            panel.add(contrastSlider);
 
             Object[] options = {language.getTranslated("ok"), language.getTranslated("cancel")};
+
+             //ChangeListener that is notified every time the value in the jslider is updated by the user
+             brightnessSlider.addChangeListener(new ChangeListener() {
+                @Override
+                // is called when state changes, and updates image shown behind the SpinnerNumberModel
+                public void stateChanged(ChangeEvent e) {
+                    if (brightnessSlider.getValueIsAdjusting()) return;
+                    //if this is the first time number is altered, change to show it has been altered and then apply filter
+                    // if number has already changed, undo last operation and then apply filter
+                    if(!hasChanged){ hasChanged = true;
+                        
+                    } else {
+                        
+                        target.getImage().undo();
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
+
+                    target.getImage().apply(new BrightnessAndContrast(brightnessSlider.getValue(), contrastSlider.getValue()));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+            });
+
+            //ChangeListener that is notified every time the value in the jslider is updated by the user
+            contrastSlider.addChangeListener(new ChangeListener() {
+                @Override
+                // is called when state changes, and updates image shown behind the SpinnerNumberModel
+                public void stateChanged(ChangeEvent e) {
+                    if (contrastSlider.getValueIsAdjusting()) return;
+                    //if this is the first time number is altered, change to show it has been altered and then apply filter
+                    // if number has already changed, undo last operation and then apply filter
+                    if(!hasChanged){ hasChanged = true;
+                    } else {
+                        target.getImage().undo();
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
+
+                    target.getImage().apply(new BrightnessAndContrast(brightnessSlider.getValue(), contrastSlider.getValue()));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+
+                
+            });
         
             int option = JOptionPane.showOptionDialog(null, panel, language.getTranslated("b_c_question"),
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                brightness = B.getNumber().intValue();
-                contrast = C.getNumber().intValue();
+            if (option == 1) {
+                if(hasChanged){
+                    target.getImage().undo();
+                    target.repaint();
+                    target.getParent().revalidate();
+                    }
+            } 
+            if(option == -1){
+                target.getImage().undo();
+                target.repaint();
+                target.getParent().revalidate();
             }
-        
-            target.getImage().apply(new BrightnessAndContrast(brightness, contrast));
-            target.repaint();
-            target.getParent().revalidate();
+            
+            hasChanged = false;
+          
         }
 
     } 
