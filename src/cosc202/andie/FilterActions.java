@@ -2,7 +2,10 @@ package cosc202.andie;
 
 import java.util.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * <p>
@@ -22,7 +25,7 @@ import javax.swing.*;
  * @author Steven Mills
  * @version 1.0
  */
-public class FilterActions {
+public class FilterActions{
 
     SetLanguage language = SetLanguage.getInstance();
     
@@ -72,6 +75,7 @@ public class FilterActions {
      */
     public class MeanFilterAction extends ImageAction {
 
+        public boolean hasChanged = false;
         /**
          * <p>
          * Create a new mean-filter action.
@@ -101,27 +105,54 @@ public class FilterActions {
         public void actionPerformed(ActionEvent e) {
             SetLanguage language = SetLanguage.getInstance();
 
-            // Determine the radius - ask the user.
-            int radius = 1;
-
             Object[] options = {language.getTranslated("ok"), language.getTranslated("cancel")};
 
             // Pop-up dialog box to ask for the radius value.
+           
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
+          
             JSpinner radiusSpinner = new JSpinner(radiusModel);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            
+            //ChangeListener that is notified every time the value in the radiusspinner is updated by the user
+            radiusModel.addChangeListener(new ChangeListener() {
+                @Override
+                // is called when state changes, and updates image shown behind the SpinnerNumberModel
+                public void stateChanged(ChangeEvent e) {
+                    //if this is the first time number is altered, change to show it has been altered and then apply filter
+                    // if number has already changed, undo last operation and then apply filter
+                    if(!hasChanged){ hasChanged = true;
+                    } else {
+                        target.getImage().undo();
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
 
-            // Check the return value from the dialog box.
+                    SpinnerNumberModel spinner = (SpinnerNumberModel) e.getSource();
+                    int radius = spinner.getNumber().intValue();
+                    target.getImage().apply(new MeanFilter(radius));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }
+            });
+                
+            int option = JOptionPane.showOptionDialog(Andie.getJFrame(), radiusSpinner, language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            
+            // If the user cancels, undo last operation that was showing user effect of mean filter with given radius
             if (option == 1) {
-                return;
-            } else if (option == 0) {
-                radius = radiusModel.getNumber().intValue();
+                if(hasChanged){
+                target.getImage().undo();
+                target.repaint();
+                target.getParent().revalidate();
+                }
+            } 
+            if(option == -1){
+                target.getImage().undo();
+                target.repaint();
+                target.getParent().revalidate();
             }
-
-            // Create and apply the filter
-            target.getImage().apply(new MeanFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+            //sets hasChanged back to false for if filter is used again
+            hasChanged = false;
+            
         }
 
     }
@@ -173,6 +204,8 @@ public class FilterActions {
      */
     public class GaussianBlurAction extends ImageAction {
 
+        //boolean to keep track of whether this is first radius applied as gaussian blur
+        public boolean hasChanged = false;
         /**
          * <p>
          * Create a new Gaussian Blur Filter action.
@@ -198,14 +231,33 @@ public class FilterActions {
          */
         public void actionPerformed(ActionEvent e) {
 
-            // Default value for the raduis
-            int radius = 1;
-
             String[] options = { language.getTranslated("ok"), language.getTranslated("cancel") }; 
 
             // Pop-up dialog box to ask for the radius value.
             SpinnerNumberModel radiusModel = new SpinnerNumberModel(1, 1, 10, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel);
+
+            //ChangeListener that is notified every time the value in the radiusspinner is updated by the user
+            radiusModel.addChangeListener(new ChangeListener() {
+                @Override
+                // is called when state changes, and updates image shown behind the SpinnerNumberModel
+                public void stateChanged(ChangeEvent e) {
+                    //if this is the first time number is altered, change to show it has been altered and then apply filter
+                    // if number has already changed, undo last operation and then apply filter
+                    if(!hasChanged){ 
+                        hasChanged = true;
+                    } else {
+                        target.getImage().undo();
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
+
+                    SpinnerNumberModel spinner = (SpinnerNumberModel) e.getSource();
+                    int radius = spinner.getNumber().intValue();
+                    target.getImage().apply(new GaussianBlurFilter(radius));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }});
 
             int option = JOptionPane.showOptionDialog(
                 Andie.getJFrame(), 
@@ -218,22 +270,23 @@ public class FilterActions {
                 options[0]
             );
 
-            // Check the return value from the dialog box
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
+            // Checks if user cancelled- if so it undoes the previous action
+            if (option == 1) {
+                if(hasChanged){
+                    target.getImage().undo();
+                    target.repaint();
+                    target.getParent().revalidate();
+                    }
             }
-
-            // Otherwise, extract the radius value from the dialog box
-            else if (option == JOptionPane.OK_OPTION) {
-                radius = radiusModel.getNumber().intValue();
+            if(option == -1){
+                target.getImage().undo();
+                target.repaint();
+                target.getParent().revalidate();
             }
-
-            // Create and apply the filter
-            target.getImage().apply(new GaussianBlurFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+            //sets hasChanged back to false for if filter is used again
+            hasChanged = false;
         }
-
+            
     }
 
     /**
@@ -244,6 +297,8 @@ public class FilterActions {
      */
     public class MedianFilterAction extends ImageAction {
 
+        //boolean to keep track of whether this is first radius applied as median filter
+        public boolean hasChanged = false;
         /**
          * Create a new median-filter action
          * 
@@ -256,30 +311,65 @@ public class FilterActions {
             super(name, icon, desc, mnemonic);
         }
 
-        /** ??? */
+        /**
+         * <p>
+         * This method is called whenever the MedianFilterAction is triggered.
+         * It prompts the user for a filter radius, then applys an appropriately sized
+         * {@link MedianFilter} to the image.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         public void actionPerformed(ActionEvent e) {
             SetLanguage language = SetLanguage.getInstance();
-
-            // Determine radius - ask user
-            int radius = 1;
 
             Object[] options = { language.getTranslated("ok"), language.getTranslated("cancel") };
 
             SpinnerNumberModel radiusModel2 = new SpinnerNumberModel(1, 1, 10, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel2);
+
+            //ChangeListener that is notified every time the value in the radiusspinner is updated by the user
+            radiusModel2.addChangeListener(new ChangeListener() {
+                @Override
+                // is called when state changes, and updates image shown behind the SpinnerNumberModel
+                public void stateChanged(ChangeEvent e) {
+                    //if this is the first time number is altered, change to show it has been altered and then apply filter
+                    // if number has already changed, undo last operation and then apply filter
+                    if(!hasChanged){ 
+                        hasChanged = true;
+                    } else {
+                        target.getImage().undo();
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
+
+                    SpinnerNumberModel spinner = (SpinnerNumberModel) e.getSource();
+                    int radius = spinner.getNumber().intValue();
+                    target.getImage().apply(new MedianFilter(radius));
+                    target.repaint();
+                    target.getParent().revalidate();
+                }});
+
+
             int option = JOptionPane.showOptionDialog(null, radiusSpinner,
                     language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-            if (option == 1) {
-                return;
-            } else if (option == 0) {
-                radius = radiusModel2.getNumber().intValue();
-            }
-
-            target.getImage().apply(new MedianFilter(radius));
-            target.repaint();
-            target.getParent().revalidate();
+                // If the user cancels, undo last operation that was showing user effect of mean filter with given radius
+                    if (option == 1) {
+                        if(hasChanged){
+                            target.getImage().undo();
+                            target.repaint();
+                            target.getParent().revalidate();
+                            }
+                    }
+                    if(option == -1){
+                        target.getImage().undo();
+                        target.repaint();
+                        target.getParent().revalidate();
+                    }
+            //sets hasChanged back to false for if filter is used again
+            hasChanged = false;
         }
 
     }
@@ -303,7 +393,14 @@ public class FilterActions {
             super(name, icon, desc, mnemonic);
 
         }
-
+        /**
+         * <p>
+         * This method is called whenever the SharpenFilterAction is triggered.
+         * {@link SharpenFilter} is applied to the image.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
         public void actionPerformed(ActionEvent e) {
             // Create and apply the filter
             target.getImage().apply(new SharpenFilter());
