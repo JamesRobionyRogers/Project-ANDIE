@@ -1,5 +1,6 @@
-package cosc202.andie;
+package cosc202.andie.actions.filter;
 
+import cosc202.andie.ImageOperation;
 import java.awt.image.*;
 
 public class SoftBlurFilter implements ImageOperation, java.io.Serializable {
@@ -23,8 +24,8 @@ public class SoftBlurFilter implements ImageOperation, java.io.Serializable {
         // Creating a 3x3 filter Kernel from the array 
         Kernel kernal = new Kernel(3, 3, kernalArray); 
 
-        // Making the ConvolveOp from the Kernal  
-        ConvolveOp convOp = new ConvolveOp(kernal); 
+        // Making the ConvOpEdge from the Kernal  
+        ConvOpEdge convOp = new ConvOpEdge(kernal); 
 
         // Creating a copy of the input image to store the result of the filter 
         BufferedImage outputImg = new BufferedImage(inputImg.getColorModel(), 

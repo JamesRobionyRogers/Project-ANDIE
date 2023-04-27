@@ -1,5 +1,6 @@
-package cosc202.andie;
+package cosc202.andie.actions;
 
+import cosc202.andie.*;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -52,8 +53,12 @@ public class EditActions {
 
         for (Action action: actions) {
             editMenu.add(new JMenuItem(action));
+            
         }
-
+        if (ImageAction.getTarget().getImage().getCurrentImage() == null){
+            editMenu.setEnabled(false);
+        }
+        
         return editMenu;
     }
 

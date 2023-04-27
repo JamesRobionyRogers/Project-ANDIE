@@ -1,5 +1,6 @@
-package cosc202.andie;
+package cosc202.andie.actions.tool;
 
+import cosc202.andie.ImageOperation;
 import java.awt.Image;
 import java.awt.image.*;
 import java.awt.Graphics2D;
@@ -26,7 +27,7 @@ public class ResizeTool implements ImageOperation, java.io.Serializable {
      * 
      * @see ResizeTool(int)
      */
-    ResizeTool() {
+    public ResizeTool() {
         this(100);
     }
 
@@ -39,7 +40,7 @@ public class ResizeTool implements ImageOperation, java.io.Serializable {
      * 
      * @param scale How much to scale the image by as a percentage
      */
-    ResizeTool(int scale) {
+    public ResizeTool(int scale) {
         this.scale = scale;
     }
 

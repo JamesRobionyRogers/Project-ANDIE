@@ -1,5 +1,6 @@
-package cosc202.andie;
+package cosc202.andie.actions.filter;
 
+import cosc202.andie.ImageOperation;
 import java.awt.image.*;
 import java.util.*;
 
@@ -17,7 +18,7 @@ import java.util.*;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @see java.awt.image.ConvolveOp
+ * @see cosc202.andie.actions.filter.ConvOpEdge
  * @author Steven Mills
  * @version 1.0
  */
@@ -41,7 +42,7 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
      * 
      * @param radius The radius of the newly constructed MeanFilter
      */
-    MeanFilter(int radius) {
+    public MeanFilter(int radius) {
         this.radius = radius;    
     }
 
@@ -80,7 +81,7 @@ public class MeanFilter implements ImageOperation, java.io.Serializable {
         Arrays.fill(array, 1.0f/size);
 
         Kernel kernel = new Kernel(2*radius+1, 2*radius+1, array);
-        ConvolveOp convOp = new ConvolveOp(kernel);
+        ConvOpEdge convOp = new ConvOpEdge(kernel);
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         convOp.filter(input, output);
 

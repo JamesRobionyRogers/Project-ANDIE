@@ -1,4 +1,4 @@
-package cosc202.andie;
+package cosc202.andie.actions;
 
 import java.util.*;
 import java.awt.event.*;
@@ -8,28 +8,32 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import cosc202.andie.Andie;
+import cosc202.andie.ExceptionHandler;
+import cosc202.andie.SetLanguage;
+
 /**
  * <p>
  * Actions provided by the File menu.
  * </p>
  * 
  * <p>
- * The File menu is very common across applications, 
+ * The File menu is very common across applications,
  * and there are several items that the user will expect to find here.
  * Opening and saving files is an obvious one, but also exiting the program.
  * </p>
  * 
- * <p> 
- * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+ * <p>
+ * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+ * 4.0</a>
  * </p>
  * 
  * @author Steven Mills
  * @version 1.0
  */
 public class FileActions {
-
     SetLanguage language = SetLanguage.getInstance();
-    
+
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
 
@@ -41,11 +45,19 @@ public class FileActions {
     public FileActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction(language.getTranslated("open"), null, language.getTranslated("open_desc"), Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new FileSaveAction(language.getTranslated("save"), null, language.getTranslated("save_desc"), Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction(language.getTranslated("save_as"), null, language.getTranslated("save_as_desc"), Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new FileExportAction(language.getTranslated("export"), null, language.getTranslated("export_desc"), Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new FileExitAction(language.getTranslated("exit"), null, language.getTranslated("exit_desc"), Integer.valueOf(0)));
+        actions.add(new FileOpenAction(language.getTranslated("open"), null, language.getTranslated("open_desc"),
+                Integer.valueOf(KeyEvent.VK_O)));
+        actions.add(new FileSaveAction(language.getTranslated("save"), null, language.getTranslated("save_desc"),
+                Integer.valueOf(KeyEvent.VK_S)));
+        actions.add(new FileSaveAsAction(language.getTranslated("save_as"), null,
+                language.getTranslated("save_as_desc"), Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new FileExportAction(language.getTranslated("export"), null, language.getTranslated("export_desc"),
+                Integer.valueOf(KeyEvent.VK_A)));
+        actions.add(new ImportAction("Import", null, "Import an operations macro", null));
+        actions.add(new FileExitAction(language.getTranslated("exit"), null, language.getTranslated("exit_desc"),
+                Integer.valueOf(0)));
+        
+
     }
 
     /**
@@ -58,12 +70,16 @@ public class FileActions {
     public JMenu createMenu() {
         SetLanguage language = SetLanguage.getInstance();
         JMenu fileMenu = new JMenu(language.getTranslated("file"));
-        //JMenu fileMenu = new JMenu("file");
-
-        for(Action action: actions) {
-            fileMenu.add(new JMenuItem(action));
+        // JMenu fileMenu = new JMenu("file");
+        int count = 0;
+        for (Action action : actions) {
+            JMenuItem item = new JMenuItem(action);
+            if (count != 0 && count != 5 && ImageAction.getTarget().getImage().getCurrentImage() == null) {
+                item.setEnabled(false);
+            }
+            count++;
+            fileMenu.add(item);
         }
-
         return fileMenu;
     }
 
@@ -81,10 +97,10 @@ public class FileActions {
          * Create a new file-open action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         FileOpenAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -113,23 +129,37 @@ public class FileActions {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     target.getImage().open(imageFilepath);
-                } 
+                }
                 // Catching Input/Output exceptions associated with opening a file
                 catch (IOException ioException) {
                     ExceptionHandler.displayError(language.getTranslated("open_file_io_excepton"));
                 }
-                // Catching exceptions associated with opening a file Java doesn't have permission for 
+                // Catching exceptions associated with opening a file Java doesn't have
+                // permission for
                 catch (SecurityException exception) {
                     ExceptionHandler.displayError(language.getTranslated("security_exception"));
                 }
-                
+
                 catch (Exception ex) {
                     ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("open_file_io_excepton"));
                 }
             }
-
             target.repaint();
             target.getParent().revalidate();
+
+            //check if current image exists
+            if (ImageAction.getTarget().getImage().getCurrentImage() != null){
+                // go through each menu
+                JMenuBar menuBar = Andie.getMenuBar();
+                for (int i = 0; i < menuBar.getMenuCount(); i++){
+                    JMenu menu = menuBar.getMenu(i);
+                    menu.setEnabled(true);
+                    // go through each item
+                    for (int j = 0; j < menu.getItemCount(); j++){
+                        menu.getItem(j).setEnabled(true);
+                    }
+                }
+            }
         }
 
     }
@@ -148,10 +178,10 @@ public class FileActions {
          * Create a new file-save action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         FileSaveAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -171,7 +201,7 @@ public class FileActions {
          */
         public void actionPerformed(ActionEvent e) {
             try {
-                target.getImage().save();           
+                target.getImage().save();
             } catch (Exception ex) {
                 ExceptionHandler.displayError(language.getTranslated("general_error"));
                 ExceptionHandler.debugException(ex);
@@ -196,16 +226,16 @@ public class FileActions {
          * Create a new file-save-as action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         FileSaveAsAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
-         /**
+        /**
          * <p>
          * Callback for when the file-save-as action is triggered.
          * </p>
@@ -218,24 +248,38 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            // currently hardcoding the available file types, but need to change this
             JFileChooser fileChooser = new JFileChooser();
+
+            // Creating new file extentions
+            FileNameExtensionFilter jpg = new FileNameExtensionFilter("jpg", "jpg");
+            FileNameExtensionFilter png = new FileNameExtensionFilter("png", "png");
+            FileNameExtensionFilter jpeg = new FileNameExtensionFilter(".peg", "jpeg");
+            FileNameExtensionFilter tiff = new FileNameExtensionFilter("tiff", "tiff");
+            FileNameExtensionFilter gif = new FileNameExtensionFilter("gif", "gif");
+
+            // Adding the new extentions to the file chooser
+            fileChooser.addChoosableFileFilter(jpg);
+            fileChooser.addChoosableFileFilter(png);
+            fileChooser.addChoosableFileFilter(jpeg);
+            fileChooser.addChoosableFileFilter(gif);
+            fileChooser.addChoosableFileFilter(tiff);
+
+            // Hiding the "All Files" option
+            fileChooser.setAcceptAllFileFilterUsed(false);
+
+            // Setting the title of the dialog box
+            fileChooser.setDialogTitle("Save a file");
+
             int result = fileChooser.showSaveDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().saveAs(imageFilepath);
-                }
-                // Catching Input/Output exceptions associated with opening a file
-                catch (IOException ioException) {
-                    ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
-                }
-                // Catching exceptions associated with opening a file Java doesn't have permission for
-                catch (SecurityException exception) {
-                    ExceptionHandler.displayError(language.getTranslated("security_exception"));
-                }
-                
-                catch (Exception ex) {
+                    System.out.println(imageFilepath);
+                    target.getImage().saveAs(imageFilepath, fileChooser.getFileFilter().getDescription());
+
+                } catch (Exception ex) {
                     ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
                 }
             }
@@ -255,10 +299,10 @@ public class FileActions {
          * Create a new file-exit action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         FileExitAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon);
@@ -266,7 +310,7 @@ public class FileActions {
             putValue(MNEMONIC_KEY, mnemonic);
         }
 
-         /**
+        /**
          * <p>
          * Callback for when the file-exit action is triggered.
          * </p>
@@ -284,7 +328,6 @@ public class FileActions {
 
     }
 
-
     /**
      * <p>
      * Action to export image to a new file.
@@ -299,16 +342,16 @@ public class FileActions {
          * Create a new file-export action.
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
         FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
-         /**
+        /**
          * <p>
          * Callback for when the file-export action is triggered.
          * </p>
@@ -321,16 +364,16 @@ public class FileActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            // currently hardcoding the available file types, but need to change this 
+            // currently hardcoding the available file types, but need to change this
             JFileChooser fileChooser = new JFileChooser();
 
             // Creating new file extentions
-            FileNameExtensionFilter jpg = new FileNameExtensionFilter(".jpg", "jpg");
-            FileNameExtensionFilter png = new FileNameExtensionFilter(".png", "png");
-            FileNameExtensionFilter jpeg = new FileNameExtensionFilter(".jpeg", "jpeg");
-            FileNameExtensionFilter tiff = new FileNameExtensionFilter(".tiff", "tiff");
-            FileNameExtensionFilter gif = new FileNameExtensionFilter(".gif", "gif");
-            
+            FileNameExtensionFilter jpg = new FileNameExtensionFilter("jpg", "jpg");
+            FileNameExtensionFilter png = new FileNameExtensionFilter("png", "png");
+            FileNameExtensionFilter jpeg = new FileNameExtensionFilter("jpeg", "jpeg");
+            FileNameExtensionFilter tiff = new FileNameExtensionFilter("tiff", "tiff");
+            FileNameExtensionFilter gif = new FileNameExtensionFilter("gif", "gif");
+
             // Adding the new extentions to the file chooser
             fileChooser.addChoosableFileFilter(jpg);
             fileChooser.addChoosableFileFilter(png);
@@ -339,25 +382,103 @@ public class FileActions {
             fileChooser.addChoosableFileFilter(tiff);
 
             // Hiding the "All Files" option
-            fileChooser.setAcceptAllFileFilterUsed(false); 
+            fileChooser.setAcceptAllFileFilterUsed(false);
 
             // Setting the title of the dialog box
             fileChooser.setDialogTitle("Export a file");
 
-            
             int result = fileChooser.showSaveDialog(target);
-            
-
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                     System.out.println(imageFilepath);
                     target.getImage().export(imageFilepath, fileChooser.getFileFilter().getDescription());
-                    
+
                 } catch (Exception ex) {
                     ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
                 }
             }
+        }
+
+    }
+
+    /**
+     * <p>
+     * Action to open an operations macro file
+     * </p>
+     * 
+     * 
+     */
+    public class ImportAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new file-open action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        ImportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the file-open action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the FileOpenAction is triggered.
+         * It prompts the user to select a file and opens it as an image.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            // currently hardcoding the available file types, but need to change this
+            JFileChooser fileChooser = new JFileChooser();
+
+            // Creating new file extentions
+            FileNameExtensionFilter ops = new FileNameExtensionFilter(".ops", "ops");
+
+            // Adding the new extentions to the file chooser
+            fileChooser.addChoosableFileFilter(ops);
+
+            // Hiding the "All Files" option
+            fileChooser.setAcceptAllFileFilterUsed(false);
+
+            // Setting the title of the dialog box
+            fileChooser.setDialogTitle("Import a macro");
+
+            int result = fileChooser.showSaveDialog(target);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    target.getImage().importMacro(imageFilepath);
+                }
+                // Catching Input/Output exceptions associated with opening a file
+                catch (IOException ioException) {
+                    ExceptionHandler.displayError(language.getTranslated("open_file_io_excepton"));
+                }
+                // Catching exceptions associated with opening a file Java doesn't have
+                // permission for
+                catch (SecurityException exception) {
+                    ExceptionHandler.displayError(language.getTranslated("security_exception"));
+                }
+
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                    System.out.println("crashed here");
+                    System.exit(1);
+                }
+            }
+
+            target.repaint();
+            target.getParent().revalidate();
         }
 
     }
