@@ -1,5 +1,6 @@
-package cosc202.andie;
+package cosc202.andie.actions.filter;
 
+import cosc202.andie.ImageOperation;
 import java.awt.image.BufferedImage;
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -17,7 +18,7 @@ import java.util.Arrays;
  * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
  * </p>
  * 
- * @see java.awt.image.ConvolveOp
+ * @see cosc202.andie.actions.filter.ConvOpEdge
  * @author Sola Woodhouse
  * @version 1.0
  */
@@ -37,7 +38,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
      * 
      * @param radius The radius of the newly constructed MedianFilter
      */
-    MedianFilter(int radius){
+    public MedianFilter(int radius){
         this.radius = radius;
     }
 

@@ -1,13 +1,12 @@
-package cosc202.andie;
+package cosc202.andie.actions;
 
+import cosc202.andie.*;
+import cosc202.andie.actions.tool.*;
 import java.util.*;
 import java.awt.GridLayout;
 import java.awt.event.*;
-import java.lang.reflect.Executable;
-import java.nio.charset.Charset;
-
 import javax.swing.*;
-import java.awt.GridLayout;
+
 
 public class ToolActions {
     
@@ -26,9 +25,10 @@ public class ToolActions {
         SetLanguage language = SetLanguage.getInstance();
 
         actions.add(new ResizeToolAction(language.getTranslated("resize"), null, language.getTranslated("resize_desc"), null));
-        //actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
+        actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
         actions.add(new RotateToolAction(language.getTranslated("rotate"), null, language.getTranslated("rotate_desc"), null));
         actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), null));
+        actions.add(new CropAction("Crop", null, "Crop an image", null));
     }
 
     /**
@@ -44,8 +44,11 @@ public class ToolActions {
 
         for (Action action: actions) {
             toolMenu.add(new JMenuItem(action));
+            
         }
-
+        if (ImageAction.getTarget().getImage().getCurrentImage() == null){
+            toolMenu.setEnabled(false);
+        }
         return toolMenu;
     }
 
@@ -212,6 +215,53 @@ public class ToolActions {
         }
     
         PixelPeekToolAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+    }
+
+    public class CropAction extends ImageAction {
+
+        public void actionPerformed(ActionEvent e){
+            int x,y,width,height;
+            x = y = width = height = 0;
+    
+            SpinnerNumberModel B = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+            JSpinner xSpinner = new JSpinner(B);
+            SpinnerNumberModel C = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+            JSpinner ySpinner = new JSpinner(C);
+            SpinnerNumberModel D = new SpinnerNumberModel(100, 0, Integer.MAX_VALUE, 1);
+            JSpinner widthSpinner = new JSpinner(D);
+            SpinnerNumberModel E = new SpinnerNumberModel(100, 0, Integer.MAX_VALUE, 1);
+            JSpinner heightSpinner = new JSpinner(E);
+        
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(4, 2));
+            panel.add(new JLabel("x:"));
+            panel.add(xSpinner);
+            panel.add(new JLabel("y:"));
+            panel.add(ySpinner);
+            panel.add(new JLabel("width:"));
+            panel.add(widthSpinner);
+            panel.add(new JLabel("height:"));
+            panel.add(heightSpinner);
+
+            int option = JOptionPane.showOptionDialog(null, panel, "Crop the image [DNT]",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        
+            if (option == JOptionPane.CANCEL_OPTION) {
+                return;
+            } else if (option == JOptionPane.OK_OPTION) {
+                x = B.getNumber().intValue();
+                y = C.getNumber().intValue();
+                width = D.getNumber().intValue();
+                height = E.getNumber().intValue();
+            }
+            target.getImage().apply(new Crop(x,y,width,height));
+            target.repaint();
+            target.getParent().revalidate();
+        }
+    
+        CropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
     }

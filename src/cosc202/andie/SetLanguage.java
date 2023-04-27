@@ -73,30 +73,38 @@ public class SetLanguage {
      * @param code
      */
     public void setLanguage(int code) {
-        if (code == 0) {
-            language = "en";
-            country = "NZ";
-            //System.out.println("English");
-        } else if (code == 1) {
-            language = "es";
-            country = "ES";
-            //System.out.println("Spanish");
-        }else if (code==2){
-            language = "de";
-            country = "DE";
-            //System.out.println("German");
-        }else if (code==3){
-            language = "pt";
-            country = "BR";
-            //System.out.println("Portugese");
-        }else if (code==4){
-            language = "it";
-            country = "IT";
-            //System.out.println("Italian");
-        }else if (code==5){
-            language = "zh";
-            country = "CH";
-            //System.out.println("Chinese");
+        switch(code){
+            case 0: 
+                language = "en";
+                country = "NZ";
+                //System.out.println("English");
+                break;
+            case 1:
+                language = "es";
+                country = "ES";
+                //System.out.println("Spanish");
+                break;
+            case 2:
+                language = "de";
+                country = "DE";
+                //System.out.println("German");
+                break;
+            case 3:
+                language = "pt";
+                country = "BR";
+                //System.out.println("Portugese");
+                break;
+            case 4:
+                language = "it";
+                country = "IT";
+                //System.out.println("Italian");
+                break;
+            case 5:
+                language = "zh";
+                country = "CH";
+                //System.out.println("Chinese");
+                break;
+
         }
         prefs.put("language", language);
         prefs.put("country", country);

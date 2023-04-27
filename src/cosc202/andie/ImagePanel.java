@@ -90,11 +90,8 @@ public class ImagePanel extends JPanel {
      * @param zoomPercent The new zoom level as a percentage.
      */
     public void setZoom(double zoomPercent) {
-        if (zoomPercent < 50) {
-            zoomPercent = 50;
-        }
-        if (zoomPercent > 200) {
-            zoomPercent = 200;
+        if (zoomPercent < 10) {
+            zoomPercent = 10;
         }
         scale = zoomPercent / 100;
     }
