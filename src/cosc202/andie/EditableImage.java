@@ -84,7 +84,7 @@ public class EditableImage {
      * @return True if there is an image, false otherwise.
      */
     public boolean hasImage() {
-        return current != null;
+        return original != null;
     }
 
     /**
@@ -272,7 +272,7 @@ public class EditableImage {
     public void saveAs(String imageFilename, String extension) {
         try {
             // Write image file based on file extension
-            export(imageFilename, extension, original);
+            exportSave(imageFilename, extension);
 
             // save ops file
             this.imageFilename = imageFilename + "." + extension;
@@ -409,15 +409,14 @@ public class EditableImage {
      * @param ouput the image to write
      * @throws Exception If something goes wrong.
      */
-    private void export(String imageFilename, String extension, BufferedImage output) throws Exception {
+    private void exportSave(String imageFilename, String extension) throws Exception {
         
         String exportFilename = imageFilename + "." + extension;
         System.out.println(exportFilename);
-        if (output == null) return;
         try {
             String exten2 = extension.substring(1 + extension.lastIndexOf(".")).toLowerCase();
             if(!testWrite(imageFilename)) throw (new java.lang.IllegalArgumentException("Cant write file"));
-            ImageIO.write(output, exten2, new File(exportFilename));
+            ImageIO.write(original, exten2, new File(exportFilename));
         } catch (Exception ex) {
             ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
             return;
