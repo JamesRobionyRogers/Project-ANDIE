@@ -1,5 +1,6 @@
-package cosc202.andie;
+package cosc202.andie.actions;
 
+import cosc202.andie.SetLanguage;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -39,7 +40,7 @@ public class ViewActions {
         actions = new ArrayList<Action>();
         actions.add(new ZoomInAction(language.getTranslated("zoom_in"), null, language.getTranslated("zoom_in"), Integer.valueOf(KeyEvent.VK_PLUS)));
         actions.add(new ZoomOutAction(language.getTranslated("zoom_out"), null, language.getTranslated("zoom_out"), Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ZoomFullAction(language.getTranslated("zoom_full"), null, language.getTranslated("zoom_full"), Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ResetZoomAction(language.getTranslated("zoom_full"), null, language.getTranslated("zoom_full"), Integer.valueOf(KeyEvent.VK_1)));
     }
 
     /**
@@ -56,7 +57,9 @@ public class ViewActions {
         for (Action action: actions) {
             viewMenu.add(new JMenuItem(action));
         }
-
+        if (ImageAction.getTarget().getImage().getCurrentImage() == null){
+            viewMenu.setEnabled(false);
+        }
         return viewMenu;
     }
 
@@ -98,7 +101,7 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.setZoom(target.getZoom()+10);
+            target.setZoom(target.getZoom()*1.2);
             target.repaint();
             target.getParent().revalidate();
         }
@@ -143,7 +146,7 @@ public class ViewActions {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.setZoom(target.getZoom()-10);
+            target.setZoom(target.getZoom()*0.8);
             target.repaint();
             target.getParent().revalidate();
         }
@@ -159,7 +162,7 @@ public class ViewActions {
      * Note that this action only affects the way the image is displayed, not its actual contents.
      * </p>
      */
-    public class ZoomFullAction extends ImageAction {
+    public class ResetZoomAction extends ImageAction {
 
         /**
          * <p>
@@ -171,7 +174,7 @@ public class ViewActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ZoomFullAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ResetZoomAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -189,6 +192,7 @@ public class ViewActions {
          */
         public void actionPerformed(ActionEvent e) {
             target.setZoom(100);
+            target.repaint();
             target.revalidate();
             target.getParent().revalidate();
         }

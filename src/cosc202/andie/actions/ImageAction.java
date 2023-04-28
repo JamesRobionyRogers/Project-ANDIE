@@ -1,6 +1,9 @@
-package cosc202.andie;
+package cosc202.andie.actions;
 
+import cosc202.andie.ImagePanel;
 import javax.swing.*;
+
+
 
 /**
  * <p>
@@ -51,7 +54,7 @@ public abstract class ImageAction extends AbstractAction {
      * @param desc A brief description of the action  (ignored if null).
      * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
      */
-    ImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+    public ImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
         super(name, icon);
         if (desc != null) {
            putValue(SHORT_DESCRIPTION, desc);

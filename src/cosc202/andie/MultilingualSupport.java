@@ -1,9 +1,13 @@
 package cosc202.andie;
 
+import cosc202.andie.actions.ImageAction;
+
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 //import java.util.prefs.Preferences;
+
+
 
 /**
  * Actions provided by the languages menu

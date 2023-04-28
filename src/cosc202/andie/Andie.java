@@ -4,6 +4,9 @@ import java.awt.*;
 import java.io.IOException;
 
 import javax.swing.*;
+
+import cosc202.andie.actions.*;
+
 import javax.imageio.*;
 
 /**
@@ -42,6 +45,8 @@ public class Andie {
      */
     private static JFrame frame;
     private static boolean frameSet = false;
+    private static boolean firstRun = true;
+
     private static JMenuBar menuBar;
 
     private static void createAndShowGUI() {
@@ -147,7 +152,24 @@ public class Andie {
                     frame.setJMenuBar(menuBar);
                     frame.setTitle(language.getTranslated("andie"));
                     frame.revalidate();
-                    //System.out.println("revalidating");
+                    if (firstRun){
+                        // hack to find open action
+                        for (Component comp : menuBar.getComponents()){
+                            JMenu test = (JMenu)comp;
+                            for (Component comp2 : test.getMenuComponents()){
+                                JMenuItem test2 = (JMenuItem)comp2; 
+                                if (test2.getAction().getClass().getName().equals("cosc202.andie.actions.FileActions$FileOpenAction")){
+                                    // trigger open
+                                    test2.doClick();
+                                }
+                            }
+                            
+                        }
+                        //System.out.println(ImageAction.getTarget().getImage().getCurrentImage());
+                        //if (ImageAction.getTarget().getImage().getCurrentImage() != null) firstRun = false;
+                    }
+                    firstRun = false;
+                    
                 } catch (Exception e) {
                     ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("general_error"));
                 }
@@ -164,4 +186,12 @@ public class Andie {
         return frame;
     }
 
+    /**
+     * Returns ANDIE's JMenuBar. Inteded for use in the @see ExceptionHandler class.
+     * 
+     * @return ANDIE's JMenuBar
+     */
+    public static JMenuBar getMenuBar() {
+        return menuBar;
+    }
 }

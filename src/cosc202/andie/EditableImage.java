@@ -38,7 +38,7 @@ import javax.imageio.*;
  * @author Steven Mills
  * @version 1.0
  */
-class EditableImage {
+public class EditableImage {
 
     private SetLanguage language = SetLanguage.getInstance();
 
@@ -129,8 +129,8 @@ class EditableImage {
      * @param bi The BufferedImage to copy.
      * @return A deep copy of the input.
      */
-    private static BufferedImage deepCopy(BufferedImage bi) throws java.lang.NullPointerException{
-        if (bi==null) {
+    private static BufferedImage deepCopy(BufferedImage bi) throws java.lang.NullPointerException {
+        if (bi == null) {
             throw new java.lang.NullPointerException("Argument was null");
         }
         ColorModel cm = bi.getColorModel();
@@ -155,26 +155,37 @@ class EditableImage {
      * 
      * @param filePath The file to open the image from.
      */
-    public void open(String filePath){
-        try{
-        imageFilename = filePath;
-        opsFilename = imageFilename + ".ops";
-        File imageFile = new File(imageFilename);
-        original = ImageIO.read(imageFile);
-        } catch(IOException e) {
+    public void open(String filePath) {
+        String imageFilename;
+        String opsFilename;
+        BufferedImage original;
+        BufferedImage current;
+        try {
+            imageFilename = filePath;
+            opsFilename = imageFilename + ".ops";
+            File imageFile = new File(imageFilename);
+            original = ImageIO.read(imageFile);
+        } catch (IOException e) {
             ExceptionHandler.displayError(language.getTranslated("open_file_io_exception"));
+            return;
         }
 
-        try{
+        try {
             current = deepCopy(original);
-        } catch(java.lang.NullPointerException e) {
+        } catch (java.lang.NullPointerException e) {
             // file wasn't an image
             ExceptionHandler.displayError(language.getTranslated("non_image_file"));
             return;
         }
+        // image is correct
+        this.imageFilename = imageFilename;
+        this.opsFilename = opsFilename;
+        this.original = original;
+        this.current = current;
+
         try {
             FileInputStream fileIn = new FileInputStream(this.opsFilename);
-            
+
             ObjectInputStream objIn = new ObjectInputStream(fileIn);
 
             // Silence the Java compiler warning about type casting.
@@ -184,19 +195,21 @@ class EditableImage {
             // produce code that fails at this point in all cases in
             // which there is actually a type mismatch for one of the
             // elements within the Stack, i.e., a non-ImageOperation.
-            
+
             @SuppressWarnings("unchecked")
             Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
-            
+
             ops = opsFromFile;
-            redoOps.clear();
             objIn.close();
             fileIn.close();
-        } catch (Exception e ) {
+        } catch (Exception e) {
             // ops file didn't exist, image still loaded so clear application stack
-            redoOps.clear();
             ops.clear();
+
             // Could be no file or something else. Carry on for now.
+        } finally {
+            // clear redo either way
+            redoOps.clear();
         }
 
         this.refresh();
@@ -217,22 +230,23 @@ class EditableImage {
      * </p>
      * 
      */
-    public void save(){
+    public void save() {
         try {
             if (this.opsFilename == null) {
                 this.opsFilename = this.imageFilename + ".ops";
             }
-            if (original == null) return;
-            // Write image file based on file extension
-            String extension = imageFilename.substring(1+imageFilename.lastIndexOf(".")).toLowerCase();
-            ImageIO.write(original, extension, new File(imageFilename));
+
+            // just for testing
+            if (!this.opsFilename.equals(this.imageFilename + ".ops")){
+                System.out.println("OPS FILE IS INCORRECT FOR IMAGE FILE");
+            }
             // Write operations file
             FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
             ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
             objOut.writeObject(this.ops);
             objOut.close();
             fileOut.close();
-        }  catch (FileNotFoundException fileException) {
+        } catch (FileNotFoundException fileException) {
             ExceptionHandler.displayError(language.getTranslated("file_not_found_exception"));
 
         } catch (IOException a) {
@@ -255,37 +269,20 @@ class EditableImage {
      * 
      * @param imageFilename The file location to save the image to.
      */
-    public void saveAs(String imageFilename){
-        String oldFile = this.imageFilename;
-        String oldOps = this.opsFilename;
-        
+    public void saveAs(String imageFilename, String extension) {
         try {
-            // test that files can be written
-            if (!testWrite(imageFilename)) throw (new IllegalArgumentException("cant write file")); 
+            // Write image file based on file extension
+            exportSave(imageFilename, extension);
 
-            this.imageFilename = imageFilename;
-            this.opsFilename = imageFilename + ".jpg.ops";
-            
-            // create image and save
-            exportSave(imageFilename,".jpg");
+            // save ops file
+            this.imageFilename = imageFilename + "." + extension;
+            this.opsFilename = this.imageFilename + ".ops";
             save();
-        } 
-        catch(IOException ex){
-            this.imageFilename = oldFile;
-            this.opsFilename = oldOps;
-            ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
-            return;
         }
-        catch(IllegalArgumentException ex){
-            ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
-            return;
-        }
-        // Not sure when this would catch anything as exceptions should come from save() method 
-        catch(Exception e) {
-            this.imageFilename = oldFile;
-            this.opsFilename = oldOps;
-            ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
-            return;
+        // Not sure when this would catch anything as exceptions should come from save()
+        // method
+        catch (Exception e) {
+            ExceptionHandler.displayError(language.getTranslated("save_as_exception"));
         }
         
     }
@@ -299,7 +296,8 @@ class EditableImage {
      */
     public void apply(ImageOperation op) {
         // image isn't loaded
-        if (current==null) return;
+        if (current == null)
+            return;
 
         current = op.apply(current);
         ops.add(op);
@@ -312,7 +310,7 @@ class EditableImage {
      * </p>
      */
     public void undo() {
-        if (ops.size() != 0){
+        if (ops.size() != 0) {
             redoOps.push(ops.pop());
             refresh();
         }
@@ -323,8 +321,8 @@ class EditableImage {
      * Reapply the most recently {@link undo}ne {@link ImageOperation} to the image.
      * </p>
      */
-    public void redo()  {
-        if (redoOps.size() != 0){
+    public void redo() {
+        if (redoOps.size() != 0) {
             current = redoOps.peek().apply(current);
             ops.add(redoOps.pop());
         }
@@ -381,13 +379,12 @@ class EditableImage {
      */
     public void export(String imageFilename, String extension) throws Exception {
         
-        String exportFilename = imageFilename + extension;
+        String exportFilename = imageFilename + "." + extension;
         System.out.println(exportFilename);
         if (original == null) return;
         try {
-            String exten2 = extension.substring(1 + extension.lastIndexOf(".")).toLowerCase();
             if(!testWrite(imageFilename)) throw (new java.lang.IllegalArgumentException("Cant write file"));
-            ImageIO.write(current, exten2, new File(exportFilename));
+            ImageIO.write(this.current, extension, new File(exportFilename));
         } catch (Exception ex) {
             ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
             return;
@@ -408,13 +405,14 @@ class EditableImage {
      * </p>
      * 
      * @param imageFilename The file location to export the image to.
+     * @param extension the image file extension
+     * @param ouput the image to write
      * @throws Exception If something goes wrong.
      */
-    public void exportSave(String imageFilename, String extension) throws Exception {
+    private void exportSave(String imageFilename, String extension) throws Exception {
         
-        String exportFilename = imageFilename + extension;
+        String exportFilename = imageFilename + "." + extension;
         System.out.println(exportFilename);
-        
         try {
             String exten2 = extension.substring(1 + extension.lastIndexOf(".")).toLowerCase();
             if(!testWrite(imageFilename)) throw (new java.lang.IllegalArgumentException("Cant write file"));
@@ -423,6 +421,40 @@ class EditableImage {
             ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
             return;
         }
+    }
+
+
+    public void importMacro(String filePath) {
+
+        if (current == null) return;
+        
+        try {
+            File macroFile = new File(filePath);
+            FileInputStream fileIn = new FileInputStream(macroFile);
+
+            ObjectInputStream objIn = new ObjectInputStream(fileIn);
+
+            // Silence the Java compiler warning about type casting.
+            // Understanding the cause of the warning is way beyond
+            // the scope of COSC202, but if you're interested, it has
+            // to do with "type erasure" in Java: the compiler cannot
+            // produce code that fails at this point in all cases in
+            // which there is actually a type mismatch for one of the
+            // elements within the Stack, i.e., a non-ImageOperation.
+
+            @SuppressWarnings("unchecked")
+            Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
+
+            ops.addAll(0, opsFromFile);
+            redoOps.clear();
+            objIn.close();
+            fileIn.close();
+
+            this.refresh();
+        } catch (Exception e) {
+            // wasn't an ops file
+        }
+
     }
 
 

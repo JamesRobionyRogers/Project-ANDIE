@@ -1,7 +1,5 @@
 package cosc202.andie;
 
-import java.awt.Font;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -11,16 +9,6 @@ public class ExceptionHandler {
     /** The parent frame for the error messages to apperar inside of */
     private static JFrame parentFrame = Andie.getJFrame(); 
 
-    /**
-     * <p>
-     * Creates a new ExceptionHandler object with a given parent JFrame 
-     * </p>
-     * 
-     * @param parentFrame The parent frame for the error messages to apperar inside of
-     */
-    public ExceptionHandler(JFrame parentFrame) {
-        parentFrame = parentFrame;
-    }
     
     /**
      * <p>
@@ -28,7 +16,6 @@ public class ExceptionHandler {
      * </p>
      */
     public ExceptionHandler() {
-        this(Andie.getJFrame()); 
     }
 
     /**

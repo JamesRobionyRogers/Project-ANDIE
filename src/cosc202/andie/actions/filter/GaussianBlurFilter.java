@@ -1,7 +1,9 @@
-package cosc202.andie;
+package cosc202.andie.actions.filter;
 
+import cosc202.andie.ImageOperation;
 import java.awt.image.*;
-import java.util.*;
+
+
 
 /**
  * <p>
@@ -13,7 +15,7 @@ import java.util.*;
  * pixels in a surrounding neighbourhood, and is implemented by a convoloution.
  * </p>
  * 
- * @see java.awt.image.ConvolveOp
+ * @see cosc202.andie.actions.filter.ConvOpEdge
  * @author James Robiony-Rogers
  * @version 1.0
  */
@@ -81,16 +83,16 @@ public class GaussianBlurFilter implements ImageOperation, java.io.Serializable 
         // Creating a Kernel from the gaussianKernalArray
         Kernel kernel = new Kernel((2 * this.radius + 1), (2 * this.radius + 1), gaussianKernalArray);
 
-        // Creating a ConvolveOp from the Kernel
-        ConvolveOp convOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        // Creating a ConvOpEdge from the Kernel
+        ConvOpEdge convOp = new ConvOpEdge(kernel);
 
         // Creating a copy of the input image to store the result of the filter
         // BufferedImage output = new BufferedImage(input.getColorModel(),
             // input.copyData(null), input.isAlphaPremultiplied(), null);
         
         // Applying the filter to the image and storing it in the result
-        BufferedImage output = convOp.filter(input, null);
         
+        BufferedImage output = convOp.filter(input, null);
         return output;
     }
 

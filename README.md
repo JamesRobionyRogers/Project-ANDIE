@@ -13,9 +13,14 @@
 ANDIE is a Java-based image processing and editing application that leverages the Swing library. It adopts a non-destructive approach to image editing by preserving the original data and a sequence of operations performed. By applying the operations to a copy of the original image, ANDIE ensures that no information is lost. This approach allows us to implement undo and redo operations easily.
 
 ## File Structure 
-- `src/cosc202/andie` - Contains all the source files associated with ANDIE
+- `src/cosc202/andie` - Contains all the high level files ANDIE
 - `src/cosc202/andie/LanguageBundles` - Contains all the translated files of localised strings in the ANDIE GUI 
+- `src/cosc202/andie/actions` - Contains all the action classes used in ANDIE's menu bar
+- `src/cosc202/andie/colour` - Contains all the colour filter classes found under the colour menu
+- `src/cosc202/andie/filter` - Contains all the filter classes found under the filter menu
+- `src/cosc202/andie/tool` - Contains all the image manipulation classes found under the tools menu
 - `src/test/cosc202/andie` - Contains all the JUnit tests for ANDIE 
+- `src/icons` - Contains all the icon files used in ANDIE
 - `lib` - JUnit Unit Testing Library
 
 

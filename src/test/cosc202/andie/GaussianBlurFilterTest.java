@@ -1,12 +1,14 @@
 package test.cosc202.andie;
 
 import org.junit.*;
+
+import cosc202.andie.actions.filter.GaussianBlurFilter;
+
 import static org.junit.Assert.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
-import cosc202.andie.GaussianBlurFilter; 
 
 public class GaussianBlurFilterTest {
 

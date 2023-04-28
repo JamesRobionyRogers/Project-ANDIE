@@ -1,4 +1,6 @@
-package cosc202.andie;
+package cosc202.andie.actions.tool;
+
+import cosc202.andie.ImageOperation;
 
 import java.awt.image.*;
 
@@ -15,7 +17,7 @@ import java.awt.image.*;
 * <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
 * </p>
 * 
-* @see java.awt.image.ConvolveOp
+* @see cosc202.andie.actions.filter.ConvOpEdge
 * @version 1.0
 */
 public class RotateTool implements ImageOperation, java.io.Serializable {
@@ -28,7 +30,7 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
     /** Default rotate constructor 
      * rotates by 90 degrees by default
     */
-    RotateTool() {
+    public RotateTool() {
         this(90);
     }
     /** Rotate tool constructor
@@ -36,7 +38,7 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
      * @param deg value of rotation
      * 
      */
-    RotateTool(int deg) {
+    public RotateTool(int deg) {
         // any rotation above 360 is unnesesary
 
         // 3 = 270
@@ -103,7 +105,7 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
 
         }
 
-        BufferedImage output = new BufferedImage(translate.width, translate.height, input.getType());
+        BufferedImage output = new BufferedImage(translate.getWidth(), translate.getHeight(), input.getType());
 
         // loop over every x
         for (int x = 0; x < input.getWidth(); x++) {
@@ -117,62 +119,5 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
         }
 
         return output;
-    }
-
-
-    
-    /** Handels (x,y) point rotation accourding to matrix
-     * | a  b |
-     * | c  d |
-     * also stores heigh and width new image should be
-     */
-    private class Translation {
-        int a, b, c, d, xOff, yOff, height, width;
-        
-        /**
-         * Translation constructor with points 
-         * | a  b |
-         * | c  d |
-         * 
-         * 
-         * @param a value 'a'
-         * @param b value 'b'
-         * @param c value 'c'
-         * @param d value 'd'
-         * @param xOffset amount to offset any x movement by caused by matrix
-         * @param yOffset amount to offset any y moveemen by caused by matrix
-         * @param width width of image after matrix has been applied
-         * @param height heigh of image after matrix has been applied
-         */
-        Translation(int a, int b, int c, int d, int xOffset, int yOffset, int width, int height) {
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.d = d;
-            this.xOff = xOffset;
-            this.yOff = yOffset;
-            this.height = height;
-            this.width = width;
-        }
-
-
-        /** Gets x coord after applying matrix to point x, y
-         * @param x current x coord
-         * @param y current y coord
-         * @return x coord after matrix application
-         */
-        int getX(int x, int y) {
-            return x * a + y * b + xOff;
-        }
-
-        /** Gets y coord after applying matrix to point x, y
-         * @param x current x coord
-         * @param y current y coord
-         * @return y coord after matrix application
-         */
-        int getY(int x, int y) {
-            return x * c + y * d + yOff;
-        }
-
     }
 }
