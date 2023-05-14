@@ -49,7 +49,7 @@ public class ConvertToGrey implements ImageOperation, java.io.Serializable {
      * @return The resulting greyscale image.
      */
     public BufferedImage apply(BufferedImage input) {
-  
+        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
                 int argb = input.getRGB(x, y);
@@ -61,11 +61,11 @@ public class ConvertToGrey implements ImageOperation, java.io.Serializable {
                 int grey = (int) Math.round(0.3*r + 0.6*g + 0.1*b);
 
                 argb = (a << 24) | (grey << 16) | (grey << 8) | grey;
-                input.setRGB(x, y, argb);
+                output.setRGB(x, y, argb);
             }
         }
         
-        return input;
+        return output;
     }
     
 }

@@ -60,15 +60,15 @@ public class BrightnessAndContrast implements ImageOperation, java.io.Serializab
      */
 
     public BufferedImage apply(BufferedImage input) {
-
+        BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         // loop over each pixels
         for (int y = 0; y < input.getHeight(); ++y) {
             for (int x = 0; x < input.getWidth(); ++x) {
                 // set rgb at x, y
-                input.setRGB(x, y, getARGB(x, y, input));
+                output.setRGB(x, y, getARGB(x, y, input));
             }
         }
-        return input;
+        return output;
     }
 
     private int getARGB(int x, int y, BufferedImage input) {
