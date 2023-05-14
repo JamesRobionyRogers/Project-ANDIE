@@ -50,8 +50,10 @@ public class EditableImage {
     private BufferedImage current;
     /** The sequence of operations currently applied to the image. */
     private Stack<ImageOperation> ops;
+    private loopStack<BufferedImage> undoImages;
     /** A memory of 'undone' operations to support 'redo'. */
     private Stack<ImageOperation> redoOps;
+    private loopStack<BufferedImage> redoImages;
     /** The file where the original image is stored/ */
     private String imageFilename;
     /** The file where the operation sequence is stored. */
@@ -71,7 +73,9 @@ public class EditableImage {
         original = null;
         current = null;
         ops = new Stack<ImageOperation>();
+        undoImages = new loopStack<BufferedImage>();
         redoOps = new Stack<ImageOperation>();
+        redoImages = new loopStack<BufferedImage>();
         imageFilename = null;
         opsFilename = null;
     }
@@ -87,6 +91,21 @@ public class EditableImage {
         return original != null;
     }
 
+    private class loopStack<T> extends Stack<T> {
+        private final int MAX_SIZE = 3;
+        loopStack(){
+            super();
+        }
+
+        public T push(T item){
+
+            super.push(item);
+            if (super.size() > MAX_SIZE){
+                super.remove(0);
+            }
+            return item;
+        }
+    }
     /**
      * <p>
      * Make a 'deep' copy of a BufferedImage.
@@ -295,13 +314,15 @@ public class EditableImage {
      * @param op The operation to apply.
      */
     public void apply(ImageOperation op) {
+        undoImages.push(current);
         // image isn't loaded
         if (current == null)
             return;
 
         current = op.apply(current);
-        ops.add(op);
+        ops.push(op);
         redoOps.clear();
+        redoImages.clear();
     }
 
     /**
@@ -310,9 +331,20 @@ public class EditableImage {
      * </p>
      */
     public void undo() {
-        if (ops.size() != 0) {
+        //System.out.println("triggered undo");
+        if (!ops.isEmpty()) {
+            //System.out.println("undo isn't empty");
             redoOps.push(ops.pop());
-            refresh();
+            if (!undoImages.isEmpty()){
+                //System.out.println("Image stack isn't empty");
+                //System.out.println(current);
+                redoImages.push(current);
+                current =  undoImages.pop();
+                //System.out.println(current);
+            } else {
+                redoImages.push(current);
+                refresh();
+            }
         }
     }
 
@@ -322,9 +354,23 @@ public class EditableImage {
      * </p>
      */
     public void redo() {
-        if (redoOps.size() != 0) {
-            current = redoOps.peek().apply(current);
+        //System.out.println("redo triggered");
+        if (!redoOps.isEmpty()) {
+            //System.out.println("redo isn't empty");
+            
+            if (!redoImages.isEmpty()){
+                //System.out.println("image stack isn't empty");
+                //System.out.println(current);
+                undoImages.push(current);
+                current = redoImages.pop();
+                //System.out.println(current);
+            } else {
+                undoImages.push(current);
+                current = redoOps.peek().apply(current);
+            }
             ops.add(redoOps.pop());
+            
+            
         }
     }
 
@@ -357,6 +403,7 @@ public class EditableImage {
     private void refresh() {
         current = deepCopy(original);
         for (ImageOperation op : ops) {
+            undoImages.push(current);
             current = op.apply(current);
         }
     }
