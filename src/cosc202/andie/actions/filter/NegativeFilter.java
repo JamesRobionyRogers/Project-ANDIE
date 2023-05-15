@@ -118,7 +118,9 @@ public class NegativeFilter implements ImageOperation, java.io.Serializable {
         horizontalOps.parallelStream().forEach(x -> {
             verticalOps.parallelStream().forEach(y -> {
                 // do a thing
-                output.setRGB(x, y, setARGB(x, y, positiveBuffer, negativeBuffer));
+                
+
+                output.setRGB(x, y, (input.getRGB(x, y) & 0xFF000000) | setARGB(x, y, positiveBuffer, negativeBuffer));
             });
         });
         return output;
@@ -172,7 +174,7 @@ public class NegativeFilter implements ImageOperation, java.io.Serializable {
      * @return all the values as an argb value
      */
     private int recompose(int r, int g, int b){
-        int argb = (-1 << 24) | (r << 16) | (g << 8) | b;
+        int argb = (r << 16) | (g << 8) | b;
         return argb;
     }
 

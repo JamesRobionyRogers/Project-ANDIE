@@ -65,7 +65,7 @@ public class ResizeTool implements ImageOperation, java.io.Serializable {
         Image scaled = input.getScaledInstance(width, height, 0);
 
         // create output slate
-        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage output = new BufferedImage(width, height, input.getType());
         Graphics2D g2d = output.createGraphics();
 
         // draw onto slate

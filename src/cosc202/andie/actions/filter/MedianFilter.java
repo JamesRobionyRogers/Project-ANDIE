@@ -105,6 +105,7 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
         int middle = areaSize/2;
 
         // bytes for fast sorting
+        byte[] aArr = new byte[areaSize];
         byte[] rArr = new byte[areaSize];
         byte[] gArr = new byte[areaSize];
         byte[] bArr = new byte[areaSize];
@@ -119,35 +120,34 @@ public class MedianFilter implements ImageOperation, java.io.Serializable {
                     if(j>=0 && j<input.getHeight()){
                         int argb = input.getRGB(i, j);
                         // Unsign
+                        aArr[counter] = (byte)(((argb & 0xFF000000) >>> 24)-128);
                         rArr[counter] = (byte)(((argb & 0x00FF0000) >> 16)-128);
                         gArr[counter] = (byte)(((argb & 0x0000FF00) >> 8)-128);
-                        bArr[counter] = (byte)((argb & 0x000000FF)-128);
-                        counter ++;
+                        bArr[counter++] = (byte)((argb & 0x000000FF)-128);
                         
                     }
                 }
             }
         }
 
-        int a = -1;
+        Arrays.sort(aArr);
         Arrays.sort(rArr);
         Arrays.sort(gArr);
         Arrays.sort(bArr);
-        int r=0;
-        int g=0;
-        int b=0;
+        int a, r, g, b;
         if(areaSize%2==0){
+            a = (aArr[middle -1] + aArr[middle])/2+128;
             r = (rArr[middle -1] + rArr[middle])/2+128;
             g = (gArr[middle -1] + gArr[middle])/2+128;
             b = (bArr[middle -1] + bArr[middle])/2+128;
 
         }else{
+            a = aArr[middle]+128;
             r = rArr[middle]+128;
             g = gArr[middle]+128;
             b = bArr[middle]+128;
         }
-        int argb1 = (a<<24) | (r<<16) | (g<<8) | b;
-        return argb1;
+        return (a<<24) | (r<<16) | (g<<8) | b;
     } 
 
 }

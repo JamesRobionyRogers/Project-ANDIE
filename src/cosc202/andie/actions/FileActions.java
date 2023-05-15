@@ -254,16 +254,19 @@ public class FileActions {
             // Creating new file extentions
             FileNameExtensionFilter jpg = new FileNameExtensionFilter("jpg", "jpg");
             FileNameExtensionFilter png = new FileNameExtensionFilter("png", "png");
-            FileNameExtensionFilter jpeg = new FileNameExtensionFilter(".peg", "jpeg");
+            FileNameExtensionFilter jpeg = new FileNameExtensionFilter("jpeg", "jpeg");
             FileNameExtensionFilter tiff = new FileNameExtensionFilter("tiff", "tiff");
             FileNameExtensionFilter gif = new FileNameExtensionFilter("gif", "gif");
 
             // Adding the new extentions to the file chooser
-            fileChooser.addChoosableFileFilter(jpg);
+            if (!target.getImage().hasAlpha()){
+                fileChooser.addChoosableFileFilter(jpeg);
+                fileChooser.addChoosableFileFilter(gif);
+                fileChooser.addChoosableFileFilter(tiff);
+                fileChooser.addChoosableFileFilter(jpg);
+            }
             fileChooser.addChoosableFileFilter(png);
-            fileChooser.addChoosableFileFilter(jpeg);
-            fileChooser.addChoosableFileFilter(gif);
-            fileChooser.addChoosableFileFilter(tiff);
+
 
             // Hiding the "All Files" option
             fileChooser.setAcceptAllFileFilterUsed(false);
@@ -383,11 +386,13 @@ public class FileActions {
             FileNameExtensionFilter gif = new FileNameExtensionFilter("gif", "gif");
 
             // Adding the new extentions to the file chooser
-            fileChooser.addChoosableFileFilter(jpg);
+            if (!target.getImage().hasAlpha()){
+                fileChooser.addChoosableFileFilter(jpg);
+                fileChooser.addChoosableFileFilter(jpeg);
+                fileChooser.addChoosableFileFilter(gif);
+                fileChooser.addChoosableFileFilter(tiff);
+            }
             fileChooser.addChoosableFileFilter(png);
-            fileChooser.addChoosableFileFilter(jpeg);
-            fileChooser.addChoosableFileFilter(gif);
-            fileChooser.addChoosableFileFilter(tiff);
 
             // Hiding the "All Files" option
             fileChooser.setAcceptAllFileFilterUsed(false);
