@@ -91,6 +91,37 @@ public class EditableImage {
         return original != null;
     }
 
+    public boolean hasAlpha(){
+
+        /*
+         * A wrapper for the hasAlpha boolean
+         */
+        final class Alpha {
+            public static boolean hasAlpha = false;
+        }
+
+        /* looping over each pixel rather than getting the whole argbArray 
+         * if it has alpha it'll probably be present early rather than late.
+         * For images without alpha unlucky
+        */
+        ArrayDeque<Integer> horizontalOps = new ArrayDeque<Integer>(current.getWidth());
+        for (int i = 0; i < current.getWidth(); horizontalOps.add(i++));
+
+        ArrayDeque<Integer> verticalOps = new ArrayDeque<Integer>(current.getHeight());
+        for (int i = 0; i < current.getHeight(); verticalOps.add(i++));
+
+        // calculate if it has an alpha channel
+        horizontalOps.parallelStream().takeWhile(i -> (!Alpha.hasAlpha)).forEach(x -> {
+            verticalOps.parallelStream().takeWhile(i -> (!Alpha.hasAlpha)).forEach(y -> {
+                if ((((current.getRGB(x, y) & 0xFF000000) >>> 24) != 255)){
+                    Alpha.hasAlpha = true;            
+                }
+            });
+        });
+
+        return Alpha.hasAlpha;
+    }
+
     private class loopStack<T> extends Stack<T> {
         private final int MAX_SIZE = 3;
         loopStack(){

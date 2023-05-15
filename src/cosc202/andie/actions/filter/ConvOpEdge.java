@@ -124,8 +124,8 @@ public class ConvOpEdge{
         int counter = 0;
         
         // r,g,b values of pixels
-        float r, g, b;
-        r = g = b = 0;
+        float r, g, b, totalA;
+        totalA = r = g = b = 0;
         int argb;
 
         // step over each relevant pixel and apply kernel to it
@@ -137,7 +137,9 @@ public class ConvOpEdge{
                         // get colour of image
                         argb = input.getRGB(j, i);
 
+                        
                         // assign to store total
+                        totalA += ((argb & 0xFF000000) >>> 24) * flatKer[counter];
                         r += ((argb & 0x00FF0000) >> 16) * flatKer[counter];
                         g += ((argb & 0x0000FF00) >> 8) * flatKer[counter];
                         b += (argb & 0x000000FF) * flatKer[counter];
@@ -152,17 +154,17 @@ public class ConvOpEdge{
         }
 
         // sets alpha not 100% sure this is the correct value for us
-        int totalA = -1;
 
         // applies normalisation
 
         // if norm is 0 then r,g,b will also necessarily be 0 so this gives 0.0f/0.0f which will give NaN
+        totalA /= norm;
         r /= norm;
         g /= norm;
         b /= norm;
 
         // casting NaN to int will give 0 should this be 0?
-        int out = (totalA << 24) | (cast(r) << 16) | (cast(g) << 8) | cast(b) << 0;
+        int out = (cast(totalA) << 24) | (cast(r) << 16) | (cast(g) << 8) | cast(b) << 0;
         return out;
     }
 
