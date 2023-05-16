@@ -168,8 +168,6 @@ public class ColourActions {
      */
     public class ChangeBrightnessAndContrast extends ImageAction {
 
-        boolean hasChanged = false;
-
         /**
          * <p>
          * Create a ChangeBrightnessAndContrast action.
@@ -231,19 +229,9 @@ public class ColourActions {
                         return;
                     // if this is the first time number is altered, change to show it has been
                     // altered and then apply filter
-                    // if number has already changed, undo last operation and then apply filter
-                    if (!hasChanged) {
-                        hasChanged = true;
-
-                    } else {
-
-                        target.getImage().undo();
-                        target.repaint();
-                        target.getParent().revalidate();
-                    }
 
                     target.getImage()
-                            .apply(new BrightnessAndContrast(brightnessSlider.getValue(), contrastSlider.getValue()));
+                            .applyTemp(new BrightnessAndContrast(brightnessSlider.getValue(), contrastSlider.getValue()));
                     target.repaint();
                     target.getParent().revalidate();
                 }
@@ -261,16 +249,9 @@ public class ColourActions {
                     // if this is the first time number is altered, change to show it has been
                     // altered and then apply filter
                     // if number has already changed, undo last operation and then apply filter
-                    if (!hasChanged) {
-                        hasChanged = true;
-                    } else {
-                        target.getImage().undo();
-                        target.repaint();
-                        target.getParent().revalidate();
-                    }
 
                     target.getImage()
-                            .apply(new BrightnessAndContrast(brightnessSlider.getValue(), contrastSlider.getValue()));
+                            .applyTemp(new BrightnessAndContrast(brightnessSlider.getValue(), contrastSlider.getValue()));
                     target.repaint();
                     target.getParent().revalidate();
                 }
@@ -280,20 +261,12 @@ public class ColourActions {
             int option = JOptionPane.showOptionDialog(null, panel, language.getTranslated("b_c_question"),
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-            if (option == 1) {
-                if (hasChanged) {
-                    target.getImage().undo();
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
+            target.getImage().revert();
+            if (option == 0){
+                target.getImage().apply(new BrightnessAndContrast(brightnessSlider.getValue(), contrastSlider.getValue()));
             }
-            if (option == -1) {
-                target.getImage().undo();
-                target.repaint();
-                target.getParent().revalidate();
-            }
-
-            hasChanged = false;
+            target.repaint();
+            target.getParent().revalidate();
 
         }
 

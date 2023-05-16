@@ -94,8 +94,6 @@ public class FilterActions {
      */
     public class MeanFilterAction extends ImageAction {
 
-        public boolean hasChanged = false;
-
         /**
          * <p>
          * Create a new mean-filter action.
@@ -146,17 +144,10 @@ public class FilterActions {
                     // if this is the first time number is altered, change to show it has been
                     // altered and then apply filter
                     // if number has already changed, undo last operation and then apply filter
-                    if (!hasChanged) {
-                        hasChanged = true;
-                    } else {
-                        target.getImage().undo();
-                        target.repaint();
-                        target.getParent().revalidate();
-                    }
 
                     SpinnerNumberModel spinner = (SpinnerNumberModel) e.getSource();
                     int radius = spinner.getNumber().intValue();
-                    target.getImage().apply(new MeanFilter(radius));
+                    target.getImage().applyTemp(new MeanFilter(radius));
                     target.repaint();
                     target.getParent().revalidate();
                 }
@@ -168,21 +159,12 @@ public class FilterActions {
 
             // If the user cancels, undo last operation that was showing user effect of mean
             // filter with given radius
-            if (option == 1) {
-                if (hasChanged) {
-                    target.getImage().undo();
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
+            target.getImage().revert();
+            if (option == 0){
+                target.getImage().apply(new MeanFilter(radiusModel.getNumber().intValue()));
             }
-            if (option == -1) {
-                target.getImage().undo();
-                target.repaint();
-                target.getParent().revalidate();
-            }
-            // sets hasChanged back to false for if filter is used again
-            hasChanged = false;
-
+            target.repaint();
+            target.getParent().revalidate();
         }
 
     }
@@ -234,9 +216,6 @@ public class FilterActions {
      */
     public class GaussianBlurAction extends ImageAction {
 
-        // boolean to keep track of whether this is first radius applied as gaussian
-        // blur
-        public boolean hasChanged = false;
 
         /**
          * <p>
@@ -279,17 +258,10 @@ public class FilterActions {
                     // if this is the first time number is altered, change to show it has been
                     // altered and then apply filter
                     // if number has already changed, undo last operation and then apply filter
-                    if (!hasChanged) {
-                        hasChanged = true;
-                    } else {
-                        target.getImage().undo();
-                        target.repaint();
-                        target.getParent().revalidate();
-                    }
 
                     SpinnerNumberModel spinner = (SpinnerNumberModel) e.getSource();
                     int radius = spinner.getNumber().intValue();
-                    target.getImage().apply(new GaussianBlurFilter(radius));
+                    target.getImage().applyTemp(new GaussianBlurFilter(radius));
                     target.repaint();
                     target.getParent().revalidate();
                 }
@@ -304,22 +276,13 @@ public class FilterActions {
                     null,
                     options,
                     options[0]);
-
+            target.getImage().revert();
             // Checks if user cancelled- if so it undoes the previous action
-            if (option == 1) {
-                if (hasChanged) {
-                    target.getImage().undo();
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
+            if (option == 0) {
+                target.getImage().apply(new GaussianBlurFilter(radiusModel.getNumber().intValue()));
             }
-            if (option == -1) {
-                target.getImage().undo();
-                target.repaint();
-                target.getParent().revalidate();
-            }
-            // sets hasChanged back to false for if filter is used again
-            hasChanged = false;
+            target.repaint();
+            target.getParent().revalidate();
         }
 
     }
@@ -331,10 +294,6 @@ public class FilterActions {
      * 
      */
     public class MedianFilterAction extends ImageAction {
-
-        // boolean to keep track of whether this is first radius applied as median
-        // filter
-        public boolean hasChanged = false;
 
         /**
          * Create a new median-filter action
@@ -375,17 +334,10 @@ public class FilterActions {
                     // if this is the first time number is altered, change to show it has been
                     // altered and then apply filter
                     // if number has already changed, undo last operation and then apply filter
-                    if (!hasChanged) {
-                        hasChanged = true;
-                    } else {
-                        target.getImage().undo();
-                        target.repaint();
-                        target.getParent().revalidate();
-                    }
 
                     SpinnerNumberModel spinner = (SpinnerNumberModel) e.getSource();
                     int radius = spinner.getNumber().intValue();
-                    target.getImage().apply(new MedianFilter(radius));
+                    target.getImage().applyTemp(new MedianFilter(radius));
                     target.repaint();
                     target.getParent().revalidate();
                 }
@@ -397,20 +349,14 @@ public class FilterActions {
 
             // If the user cancels, undo last operation that was showing user effect of mean
             // filter with given radius
-            if (option == 1) {
-                if (hasChanged) {
-                    target.getImage().undo();
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
+            target.getImage().revert();
+            if (option == 0){
+                int radius = radiusModel2.getNumber().intValue();
+                target.getImage().apply(new MedianFilter(radius));
+
             }
-            if (option == -1) {
-                target.getImage().undo();
-                target.repaint();
-                target.getParent().revalidate();
-            }
-            // sets hasChanged back to false for if filter is used again
-            hasChanged = false;
+            target.repaint();
+            target.getParent().revalidate();
         }
 
     }
@@ -458,7 +404,6 @@ public class FilterActions {
      * 
      */
     public class EmbossFilterAction extends ImageAction {
-        private boolean hasChanged = false;
         private String[] options = { "Left emboss", "Top-left emboss", "Top emboss",
                 "Top-right emboss", "Right emboss", "Bottom-right emboss", "Bottom emboss",
                 "Bottom-left emboss" };
@@ -496,51 +441,28 @@ public class FilterActions {
                     // if this is the first time number is altered, change to show it has been
                     // altered and then apply filter
                     // if number has already changed, undo last operation and then apply filter
-                    if (!hasChanged) {
-                        hasChanged = true;
-
-                    } else {
-
-                        target.getImage().undo();
-                        target.repaint();
-                        target.getParent().revalidate();
-                    }
-                    String sChoice = (String) jbox.getSelectedItem();
-                    System.out.println(sChoice);
-                    if (sChoice == null)
-                        return;
-                    int choice = 0;
-                    while (choice <= options.length) {
-                        if (sChoice.equals(options[choice]))
-                            break;
-                        choice++;
-                    }
-                    target.getImage().apply(new NegativeFilter(choice));
+                    int choice = jbox.getSelectedIndex();
+                    target.getImage().applyTemp(new NegativeFilter(choice));
                     target.repaint();
                     target.getParent().revalidate();
                 }
             });
 
-            // ChangeListener that is notified every time the value in the jslider is
-            // updated by the user
-
+            // apply first selected option of emboss
+            target.getImage().applyTemp(new NegativeFilter(0));
+            target.repaint();
+            target.getParent().revalidate();
+            
             int option = JOptionPane.showOptionDialog(null, panel, "EMBOSS QUESTION CHANGE ME [TRANSLATE ME]",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, okClose, options[0]);
+            target.getImage().revert();
 
-            if (option == 1) {
-                if (hasChanged) {
-                    target.getImage().undo();
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
-            }
-            if (option == -1) {
-                target.getImage().undo();
-                target.repaint();
-                target.getParent().revalidate();
-            }
 
-            hasChanged = false;
+            if (option == 0){
+                target.getImage().apply(new NegativeFilter(jbox.getSelectedIndex()));
+            }
+            target.repaint();
+            target.getParent().revalidate();
         }
     }
 
@@ -551,7 +473,6 @@ public class FilterActions {
      * 
      */
     public class EdgeDetectionAction extends ImageAction {
-        private boolean hasChanged = false;
         private String[] options = { "Horizontal edge", "Vertical edge" };
 
         /**
@@ -587,51 +508,29 @@ public class FilterActions {
                     // if this is the first time number is altered, change to show it has been
                     // altered and then apply filter
                     // if number has already changed, undo last operation and then apply filter
-                    if (!hasChanged) {
-                        hasChanged = true;
 
-                    } else {
-
-                        target.getImage().undo();
-                        target.repaint();
-                        target.getParent().revalidate();
-                    }
-                    String sChoice = (String) jbox.getSelectedItem();
-                    System.out.println(sChoice);
-                    if (sChoice == null)
-                        return;
-                    int choice = 0;
-                    while (choice <= options.length) {
-                        if (sChoice.equals(options[choice]))
-                            break;
-                        choice++;
-                    }
-                    target.getImage().apply(new NegativeFilter(8 + choice));
+                    int choice = jbox.getSelectedIndex() + 8;
+                    target.getImage().applyTemp(new NegativeFilter(choice));
                     target.repaint();
                     target.getParent().revalidate();
                 }
             });
 
-            // ChangeListener that is notified every time the value in the jslider is
-            // updated by the user
+            // apply the first selected option of edge detection
+            target.getImage().applyTemp(new NegativeFilter(8));
+            target.repaint();
+            target.getParent().revalidate();
 
             int option = JOptionPane.showOptionDialog(null, panel, "EDGE DETECTION QUESTION CHANGE ME [TRANSLATE ME]",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, okClose, options[0]);
+            target.getImage().revert();
 
-            if (option == 1) {
-                if (hasChanged) {
-                    target.getImage().undo();
-                    target.repaint();
-                    target.getParent().revalidate();
-                }
-            }
-            if (option == -1) {
-                target.getImage().undo();
-                target.repaint();
-                target.getParent().revalidate();
+            if (option == 0){
+                target.getImage().apply(new NegativeFilter(jbox.getSelectedIndex() + 8));
             }
 
-            hasChanged = false;
+            target.repaint();
+            target.getParent().revalidate();
         }
     }
 }
