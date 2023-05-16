@@ -48,6 +48,10 @@ public class EditableImage {
      * The current image, the result of applying {@link ops} to {@link original}.
      */
     private BufferedImage current;
+    
+    // a temporary buffered image for when dealing with visual changes
+    private BufferedImage tempStore;
+    private boolean editing;
     /** The sequence of operations currently applied to the image. */
     private Stack<ImageOperation> ops;
     private loopStack<BufferedImage> undoImages;
@@ -255,11 +259,13 @@ public class EditableImage {
         } catch (Exception e) {
             // ops file didn't exist, image still loaded so clear application stack
             ops.clear();
+            undoImages.clear();
 
             // Could be no file or something else. Carry on for now.
         } finally {
             // clear redo either way
             redoOps.clear();
+            redoImages.clear();
         }
 
         this.refresh();
@@ -349,12 +355,31 @@ public class EditableImage {
         // image isn't loaded
         if (current == null)
             return;
-
+        if (editing){
+            revert();
+        }
         current = op.apply(current);
         ops.push(op);
         redoOps.clear();
         redoImages.clear();
     }
+
+    public void applyTemp(ImageOperation op){
+        if (current == null) return;
+        if (!editing){
+            tempStore = current;
+            editing = true;
+        }
+        current = op.apply(tempStore);
+    }
+
+    public void revert(){
+        if (editing){
+            current = tempStore;
+            editing = false;
+        }
+    }
+
 
     /**
      * <p>
@@ -525,6 +550,7 @@ public class EditableImage {
 
             ops.addAll(0, opsFromFile);
             redoOps.clear();
+            redoImages.clear();
             objIn.close();
             fileIn.close();
 
