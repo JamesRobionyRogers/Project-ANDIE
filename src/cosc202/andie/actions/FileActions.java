@@ -10,6 +10,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import cosc202.andie.Andie;
 import cosc202.andie.ExceptionHandler;
+import cosc202.andie.KeyboardShortcut;
 import cosc202.andie.SetLanguage;
 
 /**
@@ -45,17 +46,12 @@ public class FileActions {
     public FileActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction(language.getTranslated("open"), null, language.getTranslated("open_desc"),
-                Integer.valueOf(KeyEvent.VK_O)));
-        actions.add(new FileSaveAction(language.getTranslated("save"), null, language.getTranslated("save_desc"),
-                Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new FileSaveAsAction(language.getTranslated("save_as"), null,
-                language.getTranslated("save_as_desc"), Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new FileExportAction(language.getTranslated("export"), null, language.getTranslated("export_desc"),
-                Integer.valueOf(KeyEvent.VK_A)));
-        actions.add(new ImportAction("Import", null, "Import an operations macro", null));
-        actions.add(new FileExitAction(language.getTranslated("exit"), null, language.getTranslated("exit_desc"),
-                Integer.valueOf(0)));
+        actions.add(new FileOpenAction(language.getTranslated("open"), null, language.getTranslated("open_desc"), KeyboardShortcut.FILE_OPEN));
+        actions.add(new FileSaveAction(language.getTranslated("save"), null, language.getTranslated("save_desc"), KeyboardShortcut.FILE_SAVE));
+        actions.add(new FileSaveAsAction(language.getTranslated("save_as"), null, language.getTranslated("save_as_desc"), KeyboardShortcut.FILE_SAVE_AS));
+        actions.add(new FileExportAction(language.getTranslated("export"), null, language.getTranslated("export_desc"), KeyboardShortcut.FILE_EXPORT));
+        actions.add(new ImportAction("Import", null, "Import an operations macro", KeyboardShortcut.FILE_IMPORT));
+        actions.add(new FileExitAction(language.getTranslated("exit"), null, language.getTranslated("exit_desc"), KeyboardShortcut.FILE_EXIT));
         
 
     }
@@ -102,7 +98,7 @@ public class FileActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileOpenAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        FileOpenAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -183,7 +179,7 @@ public class FileActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileSaveAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        FileSaveAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -231,7 +227,7 @@ public class FileActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileSaveAsAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        FileSaveAsAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -295,7 +291,7 @@ public class FileActions {
      * Action to quit the ANDIE application.
      * </p>
      */
-    public class FileExitAction extends AbstractAction {
+    public class FileExitAction extends ImageAction {
 
         /**
          * <p>
@@ -307,10 +303,8 @@ public class FileActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileExitAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-            super(name, icon);
-            putValue(SHORT_DESCRIPTION, desc);
-            putValue(MNEMONIC_KEY, mnemonic);
+        FileExitAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+            super(name, icon, desc, mnemonic);
         }
 
         /**
@@ -350,7 +344,7 @@ public class FileActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileExportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        FileExportAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -434,7 +428,7 @@ public class FileActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        ImportAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ImportAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 

@@ -70,6 +70,7 @@ public class Andie {
         
         frame.setJMenuBar(menuBar);
         frame.pack();
+        frame.setLocationRelativeTo(null);      // Centering the ANDIE window on screen
         frame.setVisible(true); 
     }
 

@@ -24,11 +24,12 @@ public class ToolActions {
         actions = new ArrayList<Action>();
         SetLanguage language = SetLanguage.getInstance();
 
-        actions.add(new ResizeToolAction(language.getTranslated("resize"), null, language.getTranslated("resize_desc"), null));
+        actions.add(new ResizeToolAction(language.getTranslated("resize"), null, language.getTranslated("resize_desc"), KeyboardShortcut.TOOLS_RESIZE));
+        actions.add(new RotateToolAction(language.getTranslated("rotate"), null, language.getTranslated("rotate_desc"), KeyboardShortcut.TOOLS_ROTATE));
+        actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), KeyboardShortcut.TOOLS_FLIP));
+        actions.add(new CropAction("Crop", null, "Crop an image", KeyboardShortcut.TOOLS_CROP));
+
         actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
-        actions.add(new RotateToolAction(language.getTranslated("rotate"), null, language.getTranslated("rotate_desc"), null));
-        actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), null));
-        actions.add(new CropAction("Crop", null, "Crop an image", null));
     }
 
     /**
@@ -72,7 +73,7 @@ public class ToolActions {
 
              //0 is true - horizontal
              //1 is false - vertical
-            FlipImageActions(String name, ImageIcon icon, String desc, Integer mnemonic){
+            FlipImageActions(String name, ImageIcon icon, String desc, KeyStroke mnemonic){
                 super(name, icon, desc, mnemonic);
             }
     
@@ -145,7 +146,7 @@ public class ToolActions {
             target.repaint();
             target.getParent().revalidate();
         }
-        ResizeToolAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ResizeToolAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
     }
@@ -178,7 +179,7 @@ public class ToolActions {
         }
 
         RotateToolAction(String name, ImageIcon icon,
-        String desc, Integer mnemonic) {
+        String desc, KeyStroke mnemonic) {
         super(name, icon, desc, mnemonic);
         }
 
@@ -214,7 +215,7 @@ public class ToolActions {
             PixelPeek.pixelPeek(x,y,target.getImage().getCurrentImage());
         }
     
-        PixelPeekToolAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        PixelPeekToolAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
     }
@@ -261,7 +262,7 @@ public class ToolActions {
             target.getParent().revalidate();
         }
     
-        CropAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        CropAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
     }

@@ -44,11 +44,9 @@ public class ColourActions {
     public ColourActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), null,
-                language.getTranslated("greyscale_desc"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeBrightnessAndContrast(language.getTranslated("brightness_contrast"), null,
-                language.getTranslated("brightness_contrast_desc"), Integer.valueOf(KeyEvent.VK_B)));
-        actions.add(new InvertColourAction("[TRANSLATE] Invert", null, "[TRANSLATE] Invert the colour of an image", null));
+        actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), null, language.getTranslated("greyscale_desc"), null));
+        actions.add(new ChangeBrightnessAndContrast(language.getTranslated("brightness_contrast"), null, language.getTranslated("brightness_contrast_desc"), KeyboardShortcut.COLOUR_BRIGHTNESS_CONTRAST));
+        actions.add(new InvertColourAction("[TRANSLATE] Invert", null, "[TRANSLATE] Invert the colour of an image", KeyboardShortcut.COLOUR_INVERT));
 
     }
 
@@ -92,7 +90,7 @@ public class ColourActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        ConvertToGreyAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ConvertToGreyAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -135,7 +133,7 @@ public class ColourActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        InvertColourAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        InvertColourAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -179,7 +177,7 @@ public class ColourActions {
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
 
-        ChangeBrightnessAndContrast(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ChangeBrightnessAndContrast(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 

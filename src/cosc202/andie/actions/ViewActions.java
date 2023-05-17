@@ -1,5 +1,6 @@
 package cosc202.andie.actions;
 
+import cosc202.andie.KeyboardShortcut;
 import cosc202.andie.SetLanguage;
 import java.util.*;
 import java.awt.event.*;
@@ -38,9 +39,9 @@ public class ViewActions {
         SetLanguage language = SetLanguage.getInstance();
 
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(language.getTranslated("zoom_in"), null, language.getTranslated("zoom_in"), Integer.valueOf(KeyEvent.VK_PLUS)));
-        actions.add(new ZoomOutAction(language.getTranslated("zoom_out"), null, language.getTranslated("zoom_out"), Integer.valueOf(KeyEvent.VK_MINUS)));
-        actions.add(new ResetZoomAction(language.getTranslated("zoom_full"), null, language.getTranslated("zoom_full"), Integer.valueOf(KeyEvent.VK_1)));
+        actions.add(new ZoomInAction(language.getTranslated("zoom_in"), null, language.getTranslated("zoom_in"), KeyboardShortcut.VIEW_ZOOM_IN));
+        actions.add(new ZoomOutAction(language.getTranslated("zoom_out"), null, language.getTranslated("zoom_out"), KeyboardShortcut.VIEW_ZOOM_OUT));
+        actions.add(new ResetZoomAction(language.getTranslated("zoom_full"), null, language.getTranslated("zoom_full"), KeyboardShortcut.VIEW_ZOOM_FULL));
     }
 
     /**
@@ -84,7 +85,7 @@ public class ViewActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ZoomInAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ZoomInAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -129,7 +130,7 @@ public class ViewActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ZoomOutAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ZoomOutAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -174,7 +175,7 @@ public class ViewActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ResetZoomAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ResetZoomAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 

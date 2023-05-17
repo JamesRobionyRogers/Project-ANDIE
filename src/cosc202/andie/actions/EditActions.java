@@ -36,8 +36,8 @@ public class EditActions {
     public EditActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new UndoAction(language.getTranslated("undo"), null, language.getTranslated("undo"), Integer.valueOf(KeyEvent.VK_Z)));
-        actions.add(new RedoAction(language.getTranslated("redo"), null, language.getTranslated("redo"), Integer.valueOf(KeyEvent.VK_Y)));
+        actions.add(new UndoAction(language.getTranslated("undo"), null, language.getTranslated("undo"), KeyboardShortcut.EDIT_UNDO));
+        actions.add(new RedoAction(language.getTranslated("redo"), null, language.getTranslated("redo"), KeyboardShortcut.EDIT_REDO));
     }
 
     /**
@@ -81,7 +81,7 @@ public class EditActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        UndoAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        UndoAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -123,7 +123,7 @@ public class EditActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        RedoAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        RedoAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
