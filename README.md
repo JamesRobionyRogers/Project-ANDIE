@@ -159,6 +159,13 @@ Below is a collapsible section documenting how each member of our group contribu
 - **Access:** Located under the `File` menu
 - **Testing:**
 - **Limitations:** 
+---
+### Alpha Mask
+- **Contributors:** Xavier Nuttall
+- **Description:** The `Alpha Mask` option under the `Colour` menu allows the user to pick an image to use as an alpha mask, that will them be applied to the main image.
+- **Access:** Located under the `Colour` menu.
+- **Testing:** Used `PixelPeek` to check the correct alpha values were bing applied. The `PixelPeek` was first used on the mask then the applied image. When testing if the mask was being scaled correctly the mask was returned instead of the main image.
+- **Limitations:** When saving operations to file, a copy of the pixel values as an argb array is used because BufferedImages aren't serializable. This leads to large ops files. An alternative is to create a relative link to the mask file and throw errors if/when they're not present.
 
 
 </details>

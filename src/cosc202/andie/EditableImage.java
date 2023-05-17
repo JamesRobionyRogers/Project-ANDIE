@@ -306,6 +306,7 @@ public class EditableImage {
             ExceptionHandler.displayError(language.getTranslated("file_not_found_exception"));
 
         } catch (IOException a) {
+            System.out.println(a);
             ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
         }
     }
