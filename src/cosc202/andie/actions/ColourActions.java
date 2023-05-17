@@ -44,9 +44,10 @@ public class ColourActions {
     public ColourActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), null, language.getTranslated("greyscale_desc"), null));
-        actions.add(new ChangeBrightnessAndContrast(language.getTranslated("brightness_contrast"), null, language.getTranslated("brightness_contrast_desc"), KeyboardShortcut.COLOUR_BRIGHTNESS_CONTRAST));
-        actions.add(new InvertColourAction("[TRANSLATE] Invert", null, "[TRANSLATE] Invert the colour of an image", KeyboardShortcut.COLOUR_INVERT));
+        actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), Icons.COLOUR_GREYSCALE, language.getTranslated("greyscale_desc"), null));
+        actions.add(new ChangeBrightnessAndContrast(language.getTranslated("brightness_contrast"), Icons.COLOUR_ADJUSTMENTS, language.getTranslated("brightness_contrast_desc"), KeyboardShortcut.COLOUR_BRIGHTNESS_CONTRAST));
+        actions.add(new InvertColourAction("[TRANSLATE] Invert", Icons.COLOUR_INVERT, "[TRANSLATE] Invert the colour of an image", KeyboardShortcut.COLOUR_INVERT));
+
 
     }
 
@@ -256,8 +257,16 @@ public class ColourActions {
 
             });
 
-            int option = JOptionPane.showOptionDialog(null, panel, language.getTranslated("b_c_question"),
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            int option = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                panel, 
+                language.getTranslated("b_c_question"),
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                Icons.COLOUR_ADJUSTMENTS_WINDOW, 
+                options, 
+                options[0]
+            );
 
             target.getImage().revert();
             if (option == 0){

@@ -47,13 +47,13 @@ public class FilterActions {
     public FilterActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new MeanFilterAction(language.getTranslated("mean_filter"), null, language.getTranslated("mean_filter_desc"), KeyboardShortcut.FILTER_MEAN_BLUR));
-        actions.add(new MedianFilterAction(language.getTranslated("median_filter"), null, language.getTranslated("median_filter_desc"), null));
-        actions.add(new SharpenFilterAction(language.getTranslated("sharpen_filter"), null, language.getTranslated("sharpen_filter_desc"), KeyboardShortcut.FILTER_SHARPEN));
-        actions.add(new SoftBlurAction(language.getTranslated("soft_blur_filter"), null, language.getTranslated("soft_blur_filter_desc"), null));
-        actions.add(new GaussianBlurAction(language.getTranslated("gaussian_blur_filter"), null, language.getTranslated("gaussian_blur_filter_desc"), KeyboardShortcut.FILTER_GAUSSIAN_BLUR));
-        actions.add(new EmbossFilterAction("Emboss Filter", null, "EMBOSS FILTER DESCRIPTION", KeyboardShortcut.FILTER_EMBOSS));
-        actions.add(new EdgeDetectionAction("Edge Filter", null, "EDGE DETECTION FILTER DESCRIPTION", null));
+        actions.add(new MeanFilterAction(language.getTranslated("mean_filter"), Icons.FILTER_BLUR, language.getTranslated("mean_filter_desc"), KeyboardShortcut.FILTER_MEAN_BLUR));
+        actions.add(new MedianFilterAction(language.getTranslated("median_filter"), Icons.FILTER_BLUR, language.getTranslated("median_filter_desc"), null));
+        actions.add(new SharpenFilterAction(language.getTranslated("sharpen_filter"), Icons.FILTER_SHARPEN, language.getTranslated("sharpen_filter_desc"), KeyboardShortcut.FILTER_SHARPEN));
+        actions.add(new SoftBlurAction(language.getTranslated("soft_blur_filter"), Icons.FILTER_CIRCLE_BLUR, language.getTranslated("soft_blur_filter_desc"), null));
+        actions.add(new GaussianBlurAction(language.getTranslated("gaussian_blur_filter"), Icons.FILTER_BLUR, language.getTranslated("gaussian_blur_filter_desc"), KeyboardShortcut.FILTER_GAUSSIAN_BLUR));
+        actions.add(new EmbossFilterAction("Emboss Filter", Icons.FILTER_EMBOSS, "EMBOSS FILTER DESCRIPTION", KeyboardShortcut.FILTER_EMBOSS));
+        actions.add(new EdgeDetectionAction("Edge Filter", Icons.FILTER_EDGE_DETECTION, "EDGE DETECTION FILTER DESCRIPTION", null));
 
     }
 
@@ -147,9 +147,16 @@ public class FilterActions {
                 }
             });
 
-            int option = JOptionPane.showOptionDialog(Andie.getJFrame(), radiusSpinner,
-                    language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            int option = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                radiusSpinner,
+                language.getTranslated("enter_filter_radius"), 
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE, 
+                Icons.FILTER_BLUR_WINDOW, 
+                options, 
+                options[0]
+            );
 
             // If the user cancels, undo last operation that was showing user effect of mean
             // filter with given radius
@@ -262,14 +269,15 @@ public class FilterActions {
             });
 
             int option = JOptionPane.showOptionDialog(
-                    Andie.getJFrame(),
-                    radiusSpinner,
-                    language.getTranslated("enter_filter_radius"),
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
+                Andie.getJFrame(),
+                radiusSpinner,
+                language.getTranslated("enter_filter_radius"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                Icons.FILTER_BLUR_WINDOW,
+                options,
+                options[0]
+            );
             target.getImage().revert();
             // Checks if user cancelled- if so it undoes the previous action
             if (option == 0) {
@@ -337,9 +345,16 @@ public class FilterActions {
                 }
             });
 
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner,
-                    language.getTranslated("enter_filter_radius"), JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            int option = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                radiusSpinner,
+                language.getTranslated("enter_filter_radius"), 
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE, 
+                Icons.FILTER_BLUR_WINDOW, 
+                options, 
+                options[0]
+                );
 
             // If the user cancels, undo last operation that was showing user effect of mean
             // filter with given radius
@@ -447,8 +462,16 @@ public class FilterActions {
             target.repaint();
             target.getParent().revalidate();
             
-            int option = JOptionPane.showOptionDialog(null, panel, "EMBOSS QUESTION CHANGE ME [TRANSLATE ME]",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, okClose, options[0]);
+            int option = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                panel, 
+                "EMBOSS QUESTION CHANGE ME [TRANSLATE ME]",
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                Icons.FILTER_EMBOSS_WINDOW, 
+                okClose, 
+                options[0]
+            ); 
             target.getImage().revert();
 
 
@@ -515,8 +538,16 @@ public class FilterActions {
             target.repaint();
             target.getParent().revalidate();
 
-            int option = JOptionPane.showOptionDialog(null, panel, "EDGE DETECTION QUESTION CHANGE ME [TRANSLATE ME]",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, okClose, options[0]);
+            int option = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                panel, 
+                "EDGE DETECTION QUESTION CHANGE ME [TRANSLATE ME]",
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                Icons.FILTER_EDGE_DETECTION_WINDOW, 
+                okClose, 
+                options[0]
+            );
             target.getImage().revert();
 
             if (option == 0){

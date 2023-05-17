@@ -24,10 +24,10 @@ public class ToolActions {
         actions = new ArrayList<Action>();
         SetLanguage language = SetLanguage.getInstance();
 
-        actions.add(new ResizeToolAction(language.getTranslated("resize"), null, language.getTranslated("resize_desc"), KeyboardShortcut.TOOLS_RESIZE));
-        actions.add(new RotateToolAction(language.getTranslated("rotate"), null, language.getTranslated("rotate_desc"), KeyboardShortcut.TOOLS_ROTATE));
-        actions.add(new FlipImageActions(language.getTranslated("flip_image"), null, language.getTranslated("flip_image_desc"), KeyboardShortcut.TOOLS_FLIP));
-        actions.add(new CropAction("Crop", null, "Crop an image", KeyboardShortcut.TOOLS_CROP));
+        actions.add(new ResizeToolAction(language.getTranslated("resize"), Icons.TOOLS_RESIZE, language.getTranslated("resize_desc"), KeyboardShortcut.TOOLS_RESIZE));
+        actions.add(new RotateToolAction(language.getTranslated("rotate"), Icons.TOOLS_ROTATE, language.getTranslated("rotate_desc"), KeyboardShortcut.TOOLS_ROTATE));
+        actions.add(new FlipImageActions(language.getTranslated("flip_image"), Icons.TOOLS_FLIP_HORIZONTAL, language.getTranslated("flip_image_desc"), KeyboardShortcut.TOOLS_FLIP));
+        actions.add(new CropAction("Crop", Icons.TOOLS_CROP, "Crop an image", KeyboardShortcut.TOOLS_CROP));
 
         actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
     }
@@ -80,15 +80,18 @@ public class ToolActions {
         public void actionPerformed(ActionEvent e){
             SetLanguage language = SetLanguage.getInstance();
             int option; 
-            Object[] flip = {language.getTranslated("horizontal"),
-                    language.getTranslated("vertical")};
-            option = JOptionPane.showOptionDialog(null, language.getTranslated("flip_image_question"),
-            language.getTranslated("flip"),
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            flip,
-            flip[1]);
+            Object[] flip = { language.getTranslated("horizontal"), language.getTranslated("vertical") };
+            
+            option = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                language.getTranslated("flip_image_question"),
+                language.getTranslated("flip"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                Icons.TOOLS_FLIP_HORIZONTAL_WINDOW,
+                flip,
+                flip[1]
+            );
 
             if (option == 0){
                 target.getImage().apply(new ImageFlip(true));
@@ -115,7 +118,16 @@ public class ToolActions {
 
             SpinnerNumberModel radiusModel3 = new SpinnerNumberModel(100, 1, 65535, 1);
             JSpinner radiusSpinner = new JSpinner(radiusModel3);
-            int option = JOptionPane.showOptionDialog(null, radiusSpinner, language.getTranslated("resize_question"), JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            int option = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                radiusSpinner, 
+                language.getTranslated("resize_question"), 
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                Icons.TOOLS_RESIZE_WINDOW, 
+                options, 
+                options[0]
+            );
             
             if (option == 1){
                 return;
@@ -133,7 +145,7 @@ public class ToolActions {
                 // Image larger than max image size
                 int size = Math.multiplyExact(width,height);
                 
-                if (size == 0) throw(new ArithmeticException("Area was 0"));
+                if (size == 0) throw (new ArithmeticException("Area was 0"));
                 if (width > 65535) throw (new ArithmeticException("Width too large"));
                 if (height > 65535) throw (new ArithmeticException("Height too large"));
             } catch (ArithmeticException ex){
@@ -156,16 +168,22 @@ public class ToolActions {
             int deg;
 
             //Custom button text
-            Object[] options = {language.getTranslated("rotate_270_-90"),
-                                language.getTranslated("rotate_180_-180"),
-                                language.getTranslated("rotate_90_-270")};
-            deg = JOptionPane.showOptionDialog(null, language.getTranslated("rotate_image_question"),
-            language.getTranslated("rotate"),
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            options,
-            options[2]);
+            Object[] options = {
+                language.getTranslated("rotate_270_-90"),
+                language.getTranslated("rotate_180_-180"),
+                language.getTranslated("rotate_90_-270")
+            };
+
+            deg = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                language.getTranslated("rotate_image_question"),
+                language.getTranslated("rotate"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                Icons.TOOLS_ROTATE_WINDOW,
+                options,
+                options[2]
+            );
 
             // -1 is cancel code for dialog option
             if (deg == -1) return;
@@ -246,8 +264,16 @@ public class ToolActions {
             panel.add(new JLabel("height:"));
             panel.add(heightSpinner);
 
-            int option = JOptionPane.showOptionDialog(null, panel, "Crop the image [DNT]",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                panel, 
+                "Crop the image [DNT]",
+                JOptionPane.OK_CANCEL_OPTION, 
+                JOptionPane.QUESTION_MESSAGE, 
+                Icons.TOOLS_CROP_WINDOW, 
+                null, 
+                null
+            );
         
             if (option == JOptionPane.CANCEL_OPTION) {
                 return;

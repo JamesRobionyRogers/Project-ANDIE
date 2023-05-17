@@ -5,6 +5,8 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import cosc202.andie.*;
+
  /**
  * <p>
  * Actions provided by the Edit menu.
@@ -36,8 +38,8 @@ public class EditActions {
     public EditActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new UndoAction(language.getTranslated("undo"), null, language.getTranslated("undo"), KeyboardShortcut.EDIT_UNDO));
-        actions.add(new RedoAction(language.getTranslated("redo"), null, language.getTranslated("redo"), KeyboardShortcut.EDIT_REDO));
+        actions.add(new UndoAction(language.getTranslated("undo"), Icons.EDIT_UNDO, language.getTranslated("undo"), KeyboardShortcut.EDIT_UNDO));
+        actions.add(new RedoAction(language.getTranslated("redo"), Icons.EDIT_REDO, language.getTranslated("redo"), KeyboardShortcut.EDIT_REDO));
     }
 
     /**
