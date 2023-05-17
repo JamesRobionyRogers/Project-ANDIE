@@ -6,6 +6,8 @@ import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import cosc202.andie.Icons;
+import cosc202.andie.SetLanguage;
 /**
  * <p>
  * Actions provided by the View menu.
@@ -39,9 +41,10 @@ public class ViewActions {
         SetLanguage language = SetLanguage.getInstance();
 
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(language.getTranslated("zoom_in"), null, language.getTranslated("zoom_in"), KeyboardShortcut.VIEW_ZOOM_IN));
-        actions.add(new ZoomOutAction(language.getTranslated("zoom_out"), null, language.getTranslated("zoom_out"), KeyboardShortcut.VIEW_ZOOM_OUT));
-        actions.add(new ResetZoomAction(language.getTranslated("zoom_full"), null, language.getTranslated("zoom_full"), KeyboardShortcut.VIEW_ZOOM_FULL));
+        actions.add(new ZoomInAction(language.getTranslated("zoom_in"), Icons.VIEW_ZOOM_IN, language.getTranslated("zoom_in"), KeyboardShortcut.VIEW_ZOOM_IN));
+        actions.add(new ZoomOutAction(language.getTranslated("zoom_out"), Icons.VIEW_ZOOM_OUT, language.getTranslated("zoom_out"), KeyboardShortcut.VIEW_ZOOM_OUT));
+        actions.add(new ResetZoomAction(language.getTranslated("zoom_full"), Icons.VIEW_ZOOM_RESET, language.getTranslated("zoom_full"), KeyboardShortcut.VIEW_ZOOM_FULL));
+
     }
 
     /**

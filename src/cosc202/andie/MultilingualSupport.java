@@ -27,12 +27,12 @@ public class MultilingualSupport {
     public MultilingualSupport() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new ChangeEnglish(language.getTranslated("english"), null,language.getTranslated("change_english"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeSpanish(language.getTranslated("spanish"), null,language.getTranslated("change_spanish"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeGerman(language.getTranslated("german"), null,language.getTranslated("change_german"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangePortuguese(language.getTranslated("portuguese"), null,language.getTranslated("change_portuguese"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeItalian(language.getTranslated("italian"), null,language.getTranslated("change_italian"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeChinese(language.getTranslated("chinese"), null,language.getTranslated("change_chinese"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeEnglish(language.getTranslated("english"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_english"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeSpanish(language.getTranslated("spanish"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_spanish"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeGerman(language.getTranslated("german"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_german"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangePortuguese(language.getTranslated("portuguese"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_portuguese"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeItalian(language.getTranslated("italian"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_italian"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeChinese(language.getTranslated("chinese"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_chinese"), Integer.valueOf(KeyEvent.VK_G)));
     }
 
     public JMenu createMenu() {
