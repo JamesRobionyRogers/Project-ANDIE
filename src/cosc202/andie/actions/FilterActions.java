@@ -5,6 +5,7 @@ import cosc202.andie.actions.filter.*;
 
 import java.util.*;
 import java.awt.GridLayout;
+import java.awt.RenderingHints.Key;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -46,20 +47,13 @@ public class FilterActions {
     public FilterActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new MeanFilterAction(language.getTranslated("mean_filter"), null,
-                language.getTranslated("mean_filter_desc"), Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new MedianFilterAction(language.getTranslated("median_filter"), null,
-                language.getTranslated("median_filter_desc"), Integer.valueOf(KeyEvent.VK_M)));
-        actions.add(new SharpenFilterAction(language.getTranslated("sharpen_filter"), null,
-                language.getTranslated("sharpen_filter_desc"), Integer.valueOf(KeyEvent.VK_B)));
-        actions.add(new SoftBlurAction(language.getTranslated("soft_blur_filter"), null,
-                language.getTranslated("soft_blur_filter_desc"), Integer.valueOf(KeyEvent.VK_S)));
-        actions.add(new GaussianBlurAction(language.getTranslated("gaussian_blur_filter"), null,
-                language.getTranslated("gaussian_blur_filter_desc"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new EmbossFilterAction("Emboss Filter", null, "EMBOSS FILTER DESCRIPTION",
-                Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new EdgeDetectionAction("Edge Filter", null, "EDGE DETECTION FILTER DESCRIPTION",
-                Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new MeanFilterAction(language.getTranslated("mean_filter"), null, language.getTranslated("mean_filter_desc"), KeyboardShortcut.FILTER_MEAN_BLUR));
+        actions.add(new MedianFilterAction(language.getTranslated("median_filter"), null, language.getTranslated("median_filter_desc"), null));
+        actions.add(new SharpenFilterAction(language.getTranslated("sharpen_filter"), null, language.getTranslated("sharpen_filter_desc"), KeyboardShortcut.FILTER_SHARPEN));
+        actions.add(new SoftBlurAction(language.getTranslated("soft_blur_filter"), null, language.getTranslated("soft_blur_filter_desc"), null));
+        actions.add(new GaussianBlurAction(language.getTranslated("gaussian_blur_filter"), null, language.getTranslated("gaussian_blur_filter_desc"), KeyboardShortcut.FILTER_GAUSSIAN_BLUR));
+        actions.add(new EmbossFilterAction("Emboss Filter", null, "EMBOSS FILTER DESCRIPTION", KeyboardShortcut.FILTER_EMBOSS));
+        actions.add(new EdgeDetectionAction("Edge Filter", null, "EDGE DETECTION FILTER DESCRIPTION", null));
 
     }
 
@@ -104,7 +98,7 @@ public class FilterActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        MeanFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        MeanFilterAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -188,7 +182,7 @@ public class FilterActions {
          * @param desc     action description
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        SoftBlurAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        SoftBlurAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -227,7 +221,7 @@ public class FilterActions {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        GaussianBlurAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        GaussianBlurAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -303,7 +297,7 @@ public class FilterActions {
          * @param desc     A brief description of the action
          * @param mnemonic A mnemonic key to use as a shortcut
          */
-        MedianFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        MedianFilterAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -376,7 +370,7 @@ public class FilterActions {
          * @param desc     A brief description of the action
          * @param mnemonic A mnemonic key to use as a shortcut
          */
-        SharpenFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        SharpenFilterAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
 
         }
@@ -416,7 +410,7 @@ public class FilterActions {
          * @param desc     A brief description of the action
          * @param mnemonic A mnemonic key to use as a shortcut
          */
-        EmbossFilterAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        EmbossFilterAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
 
         }
@@ -483,7 +477,7 @@ public class FilterActions {
          * @param desc     A brief description of the action
          * @param mnemonic A mnemonic key to use as a shortcut
          */
-        EdgeDetectionAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        EdgeDetectionAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
 
         }

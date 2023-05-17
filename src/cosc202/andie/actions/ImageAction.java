@@ -1,6 +1,10 @@
 package cosc202.andie.actions;
 
 import cosc202.andie.ImagePanel;
+import cosc202.andie.KeyboardShortcut;
+
+import java.awt.event.KeyEvent;
+
 import javax.swing.*;
 
 
@@ -28,6 +32,7 @@ import javax.swing.*;
  * </p>
  * 
  * @author Steven Mills
+ * @author James Robiony-Rogers
  * @version 1.0
  */
 public abstract class ImageAction extends AbstractAction {
@@ -37,6 +42,36 @@ public abstract class ImageAction extends AbstractAction {
      * This is common to all ImageActions.
      */
     protected static ImagePanel target;
+
+    /**
+     * <p>
+     * Constructor for ImageActions.
+     * </p>
+     * 
+     * <p>
+     * To construct an ImageAction you provide the information needed to integrate
+     * it with the interface.
+     * Note that the target is not specified per-action, but via the static member
+     * {@link target}
+     * via {@link setTarget}.
+     * </p>
+     * 
+     * @param name     The name of the action (ignored if null).
+     * @param icon     An icon to use to represent the action (ignored if null).
+     * @param desc     A brief description of the action (ignored if null).
+     * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+     */
+    public ImageAction(String name, ImageIcon icon, String desc, KeyStroke keyboardShortcut) {
+        super(name, icon);
+        if (desc != null) {
+            putValue(SHORT_DESCRIPTION, desc);
+        }
+
+        // Adding the keyboard shortcut to the action
+        if (keyboardShortcut != null) {
+            this.putValue(ACCELERATOR_KEY, keyboardShortcut);
+        }
+    }
 
     /**
      * <p>
@@ -55,13 +90,7 @@ public abstract class ImageAction extends AbstractAction {
      * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
      */
     public ImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
-        super(name, icon);
-        if (desc != null) {
-           putValue(SHORT_DESCRIPTION, desc);
-        }
-        if (mnemonic != null) {
-            putValue(MNEMONIC_KEY, mnemonic);
-        }
+        this(name, icon, desc, KeyboardShortcut.noShortcut()); 
     }
 
     /**
