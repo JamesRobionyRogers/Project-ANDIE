@@ -26,6 +26,12 @@ ANDIE is a Java-based image processing and editing application that leverages th
 
 ## Running it Locally 
 
+#### Running the `.jar` file 
+1. [Download]() the `ANDIE.jar` file from the root directory of this repository 
+2. Double click the `ANDIE.jar` file to run it
+
+#### Cloning the repository  
+
 1. Clone the repo using Git
 ```sh
 git clone https://altitude.otago.ac.nz/team/project-andie.git
@@ -43,7 +49,7 @@ code .
 ## Project Contribution 
 Below is a collapsible section documenting how each member of our group contributed to ANDIE over the course tof the project.
 
-<details open>
+<details>
     <summary>ANDIE: Part One</summary>
 
 ---
@@ -141,7 +147,7 @@ Below is a collapsible section documenting how each member of our group contribu
 </details>
 
 
-<details>
+<details open>
     <summary>ANDIE: Part Two</summary>
 
 ---
@@ -151,8 +157,8 @@ Below is a collapsible section documenting how each member of our group contribu
 - **Access:** 
 - **Testing:**
 - **Limitations:** 
-
 ---
+
 ### Image Export
 - **Contributors:** Jess Tyrrell, Xavier Nuttall
 - **Description:** The `Export` option under the `File` menu allows the user to pick a new filename and filetype when saving the current edited image.
@@ -166,6 +172,17 @@ Below is a collapsible section documenting how each member of our group contribu
 - **Access:** Located under the `Colour` menu.
 - **Testing:** Used `PixelPeek` to check the correct alpha values were bing applied. The `PixelPeek` was first used on the mask then the applied image. When testing if the mask was being scaled correctly the mask was returned instead of the main image.
 - **Limitations:** When saving operations to file, a copy of the pixel values as an argb array is used because BufferedImages aren't serializable. This leads to large ops files. An alternative is to create a relative link to the mask file and throw errors if/when they're not present.
+---
+### ToolBar 
+- **Contributors:** James Robiony-Rogers
+- **Description:**  ANDIE now has a repositionable toolbar for common operations. You can drag the toolbar to any side of the window as well as pop it out of the window entirely. Simply drag it using the double lines at the top of the toolbar.
+- **Access:** Located on the left side of the ANDIE window
+- **Testing:** Below are the test cases used to test the toolbar:
+  - ***Repositioning:*** Drag the toolbar using the double lines at the top.
+  - ***Disabled Buttons:*** Exit out the open image window and try using the buttons
+  - ***Enabled Buttons:*** Open an image and try using some of the common operations
+- **Limitations:** 
+---
 
 
 </details>

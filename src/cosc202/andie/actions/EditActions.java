@@ -25,7 +25,7 @@ import cosc202.andie.*;
  * @author Steven Mills
  * @version 1.0
  */
-public class EditActions {
+public class EditActions implements ActionCollection {
     
     /** A list of actions for the Edit menu. */
     protected ArrayList<Action> actions;
@@ -62,6 +62,16 @@ public class EditActions {
         }
         
         return editMenu;
+    }
+
+    @Override
+    public ArrayList<Action> getToolbarActions() {
+        ArrayList<Action> toolbarActions = new ArrayList<Action>();
+
+        toolbarActions.add(actions.get(0));
+        toolbarActions.add(actions.get(1));
+
+        return toolbarActions;
     }
 
     /**

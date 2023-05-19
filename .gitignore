@@ -3,4 +3,6 @@ bin
 doc
 
 # Ignore VSCode settings
-.vscode/settings.json
+.vscode
+# .vscode/settings.json
+# .vscode/launch.json

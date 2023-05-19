@@ -48,6 +48,7 @@ public class Andie {
     private static boolean firstRun = true;
 
     private static JMenuBar menuBar;
+    private static Toolbar toolbar;
 
     private static void createAndShowGUI() {
         SetLanguage language = SetLanguage.getInstance();
@@ -66,7 +67,6 @@ public class Andie {
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
-        setBar();
         
         frame.setJMenuBar(menuBar);
         frame.pack();
@@ -91,7 +91,7 @@ public class Andie {
      * @param args
      */
 
-     public static void setBar(){
+     public static void setMenuBar(){
                 // Add in menus for various types of action the user may perform.
                 menuBar = new JMenuBar();
 
@@ -122,11 +122,25 @@ public class Andie {
                 //Actions to add multilingual support
                 MultilingualSupport multilingual = new MultilingualSupport();
                 menuBar.add(multilingual.createMenu());
+    }
 
-                //System.out.println("setting up gui");
-                
-        
-     }
+    /**
+     * Make the toolbar and add it to the frame 
+     * @see Toolbar
+     */
+    public static void setToolbar() {
+        // Check if there is a image 
+        boolean enableButtons = ImageAction.getTarget().getImage().getCurrentImage() == null ? false : true;
+
+        // Create a new toolbar if it doesn't exist, or update the existing toolbar
+        if (toolbar == null) {
+            toolbar = new Toolbar(enableButtons);
+            frame.add(toolbar, BorderLayout.WEST);
+        } else {
+            toolbar.updateToolbar(enableButtons);
+        }
+    }
+
     /**
      * <p>
      * Main entry point to the ANDIE program.
@@ -148,7 +162,8 @@ public class Andie {
                         createAndShowGUI();
                         frameSet = true;
                     }
-                    setBar();
+                    setMenuBar();
+                    setToolbar(); 
                     SetLanguage language = SetLanguage.getInstance();
                     frame.setJMenuBar(menuBar);
                     frame.setTitle(language.getTranslated("andie"));
@@ -172,7 +187,8 @@ public class Andie {
                     firstRun = false;
                     
                 } catch (Exception e) {
-                    ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("general_error"));
+                    // ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("general_error"));
+                    ExceptionHandler.debugException(e);
                 }
             }
         });
@@ -188,11 +204,20 @@ public class Andie {
     }
 
     /**
-     * Returns ANDIE's JMenuBar. Inteded for use in the @see ExceptionHandler class.
+     * Returns ANDIE's JMenuBar. 
      * 
      * @return ANDIE's JMenuBar
      */
     public static JMenuBar getMenuBar() {
         return menuBar;
+    }
+
+    /**
+     * Returns ANDIE's Toolbar.
+     * 
+     * @return ANDIE's Toolbar
+     */
+    public static Toolbar getToolbar () {
+        return toolbar;
     }
 }
