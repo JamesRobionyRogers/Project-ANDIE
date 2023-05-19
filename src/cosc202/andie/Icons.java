@@ -36,12 +36,14 @@ public final class Icons {
 
     /** The path to the folder containing all the icons */
     private static String pathToIconsFolder = "./src/icons/"; 
-    /** The dimensions for icons that are appear in the pop-up boxes */
+    /** The dimensions for icons that appear in the pop-up boxes */
     private static int windowIconWidth = 40, windowIconHeight = 40;
-    /** The dimensions for icons that are appear as options under the menu bar */
+    /** The dimensions for icons that appear as options under the menu bar */
     private static int menuIconWidth = 15, menuIconHeight = 15;   
+    /** The dimensions for icons that appear in the toolbar */
+    private static int toolbarIconWidth = 20, toolbarIconHeight = 20;
     /** Used to describe where the icon will used: menubar / window */
-    private enum type { menu, window }; 
+    public static enum type { menu, window, toolbar }; 
     
     // File menu icons see 
     public static final ImageIcon FILE_OPEN_MENU = assign("File-OpenFile.png", type.menu);
@@ -79,7 +81,6 @@ public final class Icons {
     public static final ImageIcon COLOUR_ADJUSTMENTS = assign("Colour-Adjustments.png", type.menu);
     public static final ImageIcon COLOUR_ADJUSTMENTS_WINDOW = assign("Colour-Adjustments.png", type.window);
     public static final ImageIcon COLOUR_INVERT = assign("Colour-Invert.png", type.menu);
-    public static final ImageIcon COLOUR_MASK = assign("Colour-Mask.png", type.menu);
 
     // Tools menu icons
     public static final ImageIcon TOOLS_FLIP_HORIZONTAL = assign("Tools-FlipHorizontal.png", type.menu);
@@ -99,26 +100,28 @@ public final class Icons {
 
     /**
      * <p>
-     * Takes in a file name and a type (either <code>type.menu</code> or <code>type.window</code>) 
-     * and returns an <code>ImageIcon</code> object. It loads the image file from 
-     * the specified path, scales it to the appropriate size based on the type, 
-     * and returns a new <code>ImageIcon</code> object with the scaled image. 
+     * Takes in a file name and a type (either {@code type.menu} or
+     * {@code type.window})
+     * and returns an {@code ImageIcon} object. It loads the image file from
+     * the specified path, scales it to the appropriate size based on the type,
+     * and returns a new {@code ImageIcon} object with the scaled image.
      * </p>
      * 
      * <p>
-     * If there is an exception while loading the image, it returns <code>null</code>. 
+     * If there is an exception while loading the image, it returns
+     * {@code null}.
      * </p>
      * 
      * <p>
-     * This method is used to assign the appropriate icons to the various menu items in the application.
+     * This method is used to assign the appropriate icons to the various menu
+     * items in the application. Solely used within the {@code Icons} class.
      * </p>
      * 
      * @param fileName The name of the file to be loaded
-     * @param type The type of icon to be loaded: <code>type.menu</code>, <code>type.window</code>
+     * @param type     The type of icon to be loaded: {@code type.menu},
+     *                 {@code type.window}
      */
     private static ImageIcon assign(String fileName, type type) {
-        // DEBUGGING: 
-        // System.out.println(pathToIconsFolder + fileName);
 
         try {   
             // Loading high quality image in  
@@ -135,7 +138,12 @@ public final class Icons {
                 case window: 
                     // Transforming the image in a smooth fasion 
                     newImage = iconImage.getImage().getScaledInstance(windowIconWidth, windowIconHeight, java.awt.Image.SCALE_SMOOTH); 
-                    break; 
+                    break;
+
+                case toolbar:
+                    // Transforming the image in a smooth fasion 
+                    newImage = iconImage.getImage().getScaledInstance(toolbarIconWidth, toolbarIconHeight, java.awt.Image.SCALE_SMOOTH); 
+                    break;
             }
 
             // Reassigning the transformed image
@@ -146,6 +154,52 @@ public final class Icons {
         } catch (Exception e) {
             return null; 
         }
+    }
+
+    /**
+     * <p>
+     * Takes in an {@code ImageIcon} object and a type (either {@code type.menu}, 
+     * {@code type.window} or {@code type.toolbar}) and returns an {@code ImageIcon}
+     * object. 
+     * </p><p>
+     * The method scales the image to the appropriate size based on the type and
+     * returns a new {@code ImageIcon} object with the scaled image.
+     * </p>
+     * 
+     * <p>
+     * This method is used to assign the appropriate icons to the various menu items in the application.
+     * </p>
+     * 
+     * 
+     * @param iconImage An IconImage object to be scaled
+     * @param type The type of icon to be loaded: {@code type.menu}, {@code type.window} or {@code type.toolbar}
+     * @return An ImageIcon object scaled to the given type (size)
+     */
+    public static ImageIcon setIconSize(ImageIcon iconImage, type type) {
+        Image newImage = null; 
+        // Scaling the image to the correct size based on the type of icon
+        switch (type) {
+            case menu: 
+                // Transforming the image in a smooth fasion 
+                newImage = iconImage.getImage().getScaledInstance(menuIconWidth, menuIconHeight, java.awt.Image.SCALE_SMOOTH); 
+                break; 
+
+            case window: 
+                // Transforming the image in a smooth fasion 
+                newImage = iconImage.getImage().getScaledInstance(windowIconWidth, windowIconHeight, java.awt.Image.SCALE_SMOOTH); 
+                break; 
+
+            case toolbar:
+                // Transforming the image in a smooth fasion 
+                newImage = iconImage.getImage().getScaledInstance(toolbarIconWidth, toolbarIconHeight, java.awt.Image.SCALE_SMOOTH); 
+                break;
+        }
+
+        // Reassigning the transformed image
+        iconImage = new ImageIcon(newImage); 
+
+
+        return iconImage;
     }
 
     /**

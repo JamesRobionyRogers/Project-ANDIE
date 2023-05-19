@@ -1,13 +1,12 @@
 package cosc202.andie.actions;
 
-import cosc202.andie.KeyboardShortcut;
-import cosc202.andie.SetLanguage;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 import cosc202.andie.Icons;
 import cosc202.andie.SetLanguage;
+import cosc202.andie.KeyboardShortcut;
 /**
  * <p>
  * Actions provided by the View menu.
@@ -25,7 +24,7 @@ import cosc202.andie.SetLanguage;
  * @author Steven Mills
  * @version 1.0
  */
-public class ViewActions {
+public class ViewActions implements ActionCollection {
     
     /**
      * A list of actions for the View menu.
@@ -44,7 +43,6 @@ public class ViewActions {
         actions.add(new ZoomInAction(language.getTranslated("zoom_in"), Icons.VIEW_ZOOM_IN, language.getTranslated("zoom_in"), KeyboardShortcut.VIEW_ZOOM_IN));
         actions.add(new ZoomOutAction(language.getTranslated("zoom_out"), Icons.VIEW_ZOOM_OUT, language.getTranslated("zoom_out"), KeyboardShortcut.VIEW_ZOOM_OUT));
         actions.add(new ResetZoomAction(language.getTranslated("zoom_full"), Icons.VIEW_ZOOM_RESET, language.getTranslated("zoom_full"), KeyboardShortcut.VIEW_ZOOM_FULL));
-
     }
 
     /**
@@ -65,6 +63,17 @@ public class ViewActions {
             viewMenu.setEnabled(false);
         }
         return viewMenu;
+    }
+
+    @Override
+    public ArrayList<Action> getToolbarActions() {
+        ArrayList<Action> toolbarActions = new ArrayList<Action>();
+
+        toolbarActions.add(actions.get(0));
+        toolbarActions.add(actions.get(1));
+        toolbarActions.add(actions.get(2));
+
+        return toolbarActions;
     }
 
     /**

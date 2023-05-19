@@ -32,7 +32,7 @@ import javax.swing.event.ChangeListener;
  * @author Steven Mills
  * @version 1.0
  */
-public class FilterActions {
+public class FilterActions implements ActionCollection {
 
     SetLanguage language = SetLanguage.getInstance();
 
@@ -77,6 +77,15 @@ public class FilterActions {
         }
 
         return fileMenu;
+    }
+
+    @Override
+    public ArrayList<Action> getToolbarActions() {
+        ArrayList<Action> toolbarActions = new ArrayList<Action>();
+
+        toolbarActions.add(actions.get(4));     // Gaussian Blur
+
+        return toolbarActions;
     }
 
     /**

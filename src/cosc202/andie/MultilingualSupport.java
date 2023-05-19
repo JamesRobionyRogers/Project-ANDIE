@@ -1,5 +1,6 @@
 package cosc202.andie;
 
+import cosc202.andie.actions.ActionCollection;
 import cosc202.andie.actions.ImageAction;
 
 import java.util.*;
@@ -19,7 +20,7 @@ import javax.swing.*;
  * @version 1.0
  */
 
-public class MultilingualSupport {
+public class MultilingualSupport implements ActionCollection {
     
     protected ArrayList<Action> actions;
 
@@ -45,6 +46,9 @@ public class MultilingualSupport {
 
         return fileMenu;
     }
+
+    @Override
+    public ArrayList<Action> getToolbarActions() { return null; }
 
     public class ChangeEnglish extends ImageAction{
 

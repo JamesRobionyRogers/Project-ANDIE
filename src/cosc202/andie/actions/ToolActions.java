@@ -8,7 +8,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class ToolActions {
+public class ToolActions implements ActionCollection {
     
     /**
      * A list of actions for the Tool menu.
@@ -28,7 +28,8 @@ public class ToolActions {
         actions.add(new RotateToolAction(language.getTranslated("rotate"), Icons.TOOLS_ROTATE, language.getTranslated("rotate_desc"), KeyboardShortcut.TOOLS_ROTATE));
         actions.add(new FlipImageActions(language.getTranslated("flip_image"), Icons.TOOLS_FLIP_HORIZONTAL, language.getTranslated("flip_image_desc"), KeyboardShortcut.TOOLS_FLIP));
         actions.add(new CropAction("Crop", Icons.TOOLS_CROP, "Crop an image", KeyboardShortcut.TOOLS_CROP));
-
+        
+        // Testing feature - not for production
         actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
     }
 
@@ -51,6 +52,18 @@ public class ToolActions {
             toolMenu.setEnabled(false);
         }
         return toolMenu;
+    }
+
+    @Override
+    public ArrayList<Action> getToolbarActions() {
+        ArrayList<Action> toolbarActions = new ArrayList<Action>();
+
+        // Adding Crop, Rotate, Resize 
+        toolbarActions.add(actions.get(3));
+        toolbarActions.add(actions.get(0));
+        toolbarActions.add(actions.get(2));
+
+        return toolbarActions;
     }
 
             /**

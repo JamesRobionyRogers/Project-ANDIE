@@ -33,7 +33,8 @@ import cosc202.andie.Icons;
  * @author Steven Mills
  * @version 1.0
  */
-public class FileActions {
+public class FileActions implements ActionCollection {
+
     SetLanguage language = SetLanguage.getInstance();
 
     /** A list of actions for the File menu. */
@@ -48,15 +49,11 @@ public class FileActions {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
         actions.add(new FileOpenAction(language.getTranslated("open"), Icons.FILE_OPEN_MENU, language.getTranslated("open_desc"), KeyboardShortcut.FILE_OPEN));
-        actions.add(new FileSaveAction(language.getTranslated("save"), Icons.FILE_SAVE_AS_MENU, language.getTranslated("save_desc"), KeyboardShortcut.FILE_SAVE));
+        actions.add(new FileSaveAction(language.getTranslated("save"), Icons.FILE_SAVE_MENU, language.getTranslated("save_desc"), KeyboardShortcut.FILE_SAVE));
         actions.add(new FileSaveAsAction(language.getTranslated("save_as"), Icons.FILE_SAVE_AS_MENU, language.getTranslated("save_as_desc"), KeyboardShortcut.FILE_SAVE_AS));
         actions.add(new FileExportAction(language.getTranslated("export"), Icons.FILE_EXPORT_MENU, language.getTranslated("export_desc"), KeyboardShortcut.FILE_EXPORT));
         actions.add(new ImportAction("Import", Icons.FILE_IMPORT_MENU, "Import an operations macro", KeyboardShortcut.FILE_IMPORT));
         actions.add(new FileExitAction(language.getTranslated("exit"), Icons.FILE_EXIT_MENU, language.getTranslated("exit_desc"), KeyboardShortcut.FILE_EXIT));
-
-
-        
-
     }
 
     /**
@@ -81,6 +78,24 @@ public class FileActions {
         }
         return fileMenu;
     }
+
+    /**
+     * <p>
+     * Returns an <code>ArrayList&lt;Action></code> contianing a list of File
+     * actions to be used in the toolbar.
+     * </p>
+     * 
+     * @return The File toolbar actions.
+     */
+    public ArrayList<Action> getToolbarActions() {
+        ArrayList<Action> toolbarActions = new ArrayList<Action>();
+
+        toolbarActions.add(actions.get(0));     // Open 
+        toolbarActions.add(actions.get(1));     // Save
+
+        return toolbarActions;
+    }
+
 
     /**
      * <p>
@@ -147,6 +162,8 @@ public class FileActions {
             target.getParent().revalidate();
 
             //check if current image exists
+
+            // Enabling the Menu Items if there is an image
             if (ImageAction.getTarget().getImage().getCurrentImage() != null){
                 // go through each menu
                 JMenuBar menuBar = Andie.getMenuBar();
@@ -158,6 +175,9 @@ public class FileActions {
                         menu.getItem(j).setEnabled(true);
                     }
                 }
+
+                // Enabling the Toolbar Items if there is an image
+                Andie.getToolbar().updateToolbar(true);
             }
         }
 

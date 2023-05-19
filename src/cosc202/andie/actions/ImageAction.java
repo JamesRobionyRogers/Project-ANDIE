@@ -1,12 +1,9 @@
 package cosc202.andie.actions;
 
-import cosc202.andie.ImagePanel;
-import cosc202.andie.KeyboardShortcut;
-
-import java.awt.event.KeyEvent;
-
 import javax.swing.*;
 
+import cosc202.andie.ImagePanel;
+import cosc202.andie.KeyboardShortcut;
 
 
 /**
