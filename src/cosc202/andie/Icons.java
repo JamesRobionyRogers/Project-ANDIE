@@ -81,6 +81,7 @@ public final class Icons {
     public static final ImageIcon COLOUR_ADJUSTMENTS = assign("Colour-Adjustments.png", type.menu);
     public static final ImageIcon COLOUR_ADJUSTMENTS_WINDOW = assign("Colour-Adjustments.png", type.window);
     public static final ImageIcon COLOUR_INVERT = assign("Colour-Invert.png", type.menu);
+    public static final ImageIcon COLOUR_MASK = assign("Colour-Mask.png", type.menu);
 
     // Tools menu icons
     public static final ImageIcon TOOLS_FLIP_HORIZONTAL = assign("Tools-FlipHorizontal.png", type.menu);

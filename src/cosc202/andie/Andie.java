@@ -67,6 +67,13 @@ public class Andie {
         ImageAction.setTarget(imagePanel);
         JScrollPane scrollPane = new JScrollPane(imagePanel);
         frame.add(scrollPane, BorderLayout.CENTER);
+
+        ClickListener.setTarget(imagePanel);
+        ClickListener cl = ClickListener.getInstance();
+        imagePanel.addMouseListener(cl);
+        imagePanel.addMouseMotionListener(cl);
+        
+        //setBar();
         
         frame.setJMenuBar(menuBar);
         frame.pack();

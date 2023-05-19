@@ -359,13 +359,16 @@ public class EditableImage {
      * @param op The operation to apply.
      */
     public void apply(ImageOperation op) {
-        undoImages.push(current);
+        
         // image isn't loaded
         if (current == null)
             return;
         if (editing){
             revert();
         }
+
+        undoImages.push(current);
+        
         current = op.apply(current);
         ops.add(op);
         if(recording) recordedOps.add(op);
@@ -607,6 +610,13 @@ public class EditableImage {
         return test.matches();
     }
 
+    public int getHeight(){
+        return current.getHeight();
+    }
+
+    public int getWidth(){
+        return current.getWidth();
+    }
     /**
      * <p>
      * Method that is called when the user starts recording operations

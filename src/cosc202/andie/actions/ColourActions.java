@@ -56,6 +56,7 @@ public class ColourActions implements ActionCollection {
         actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), Icons.COLOUR_GREYSCALE, language.getTranslated("greyscale_desc"), null));
         actions.add(new ChangeBrightnessAndContrast(language.getTranslated("brightness_contrast"), Icons.COLOUR_ADJUSTMENTS, language.getTranslated("brightness_contrast_desc"), KeyboardShortcut.COLOUR_BRIGHTNESS_CONTRAST));
         actions.add(new InvertColourAction("[TRANSLATE] Invert", Icons.COLOUR_INVERT, "[TRANSLATE] Invert the colour of an image", KeyboardShortcut.COLOUR_INVERT));
+        actions.add(new AlphaMaskAction("[TRANSLATE] Alpha Mask", Icons.COLOUR_MASK, "[TRANSLATE] Apply an alpha mask to the image",null));
 
     }
 
@@ -294,6 +295,70 @@ public class ColourActions implements ActionCollection {
             target.getParent().revalidate();
 
         }
+
+    }
+
+
+/**
+     * <p>
+     * Changes the alpha of the image following a users mask.
+     * </p>
+     * 
+     * @see AlphaMask
+     */
+    public class AlphaMaskAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new alpha-mask action.
+         * </p>
+         * 
+         * @param name     The name of the action (ignored if null).
+         * @param icon     An icon to use to represent the action (ignored if null).
+         * @param desc     A brief description of the action (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+         */
+        AlphaMaskAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        /**
+         * <p>
+         * Callback for when the alpha-mask action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the AlphaMaskAction is triggered.
+         * It changes the images alpha channel following a mask.
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent evt) {
+
+            BufferedImage mask = null;
+            JFileChooser fileChooser = new JFileChooser();
+            FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+            fileChooser.setFileFilter(imageFilter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int result = fileChooser.showOpenDialog(Andie.getJFrame());
+
+            if (result != JFileChooser.APPROVE_OPTION)
+                return;
+
+            try {
+                mask = ImageIO.read(fileChooser.getSelectedFile());
+
+                target.getImage().apply(new AlphaMask(mask));
+                target.repaint();
+                target.getParent().revalidate();
+
+            } catch (Exception ex) {
+                ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
+            }
+
+        }
+        
 
     }
 
