@@ -1,8 +1,10 @@
 package cosc202.andie.actions;
 
 import cosc202.andie.*;
+import cosc202.andie.actions.colour.AlphaMask;
 import cosc202.andie.actions.tool.*;
 import java.util.*;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
@@ -28,7 +30,8 @@ public class ToolActions implements ActionCollection {
         actions.add(new RotateToolAction(language.getTranslated("rotate"), Icons.TOOLS_ROTATE, language.getTranslated("rotate_desc"), KeyboardShortcut.TOOLS_ROTATE));
         actions.add(new FlipImageActions(language.getTranslated("flip_image"), Icons.TOOLS_FLIP_HORIZONTAL, language.getTranslated("flip_image_desc"), KeyboardShortcut.TOOLS_FLIP));
         actions.add(new CropAction("Crop", Icons.TOOLS_CROP, "Crop an image", KeyboardShortcut.TOOLS_CROP));
-        
+        actions.add(new DrawShapeAction(language.getTranslated("draw"), null, language.getTranslated("draw_shape"), null));
+        //actions.add(new AlphaMaskAction());
         // Testing feature - not for production
         actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));
     }
@@ -305,4 +308,90 @@ public class ToolActions implements ActionCollection {
             super(name, icon, desc, mnemonic);
         }
     }
+
+
+public class DrawShapeAction extends ImageAction{
+
+        
+    boolean fill =  false;
+    Color colour = Color.BLUE;
+
+    DrawShapeAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+    }
+
+        public void actionPerformed(ActionEvent e) {
+
+            int shape;
+            SetLanguage language = SetLanguage.getInstance();
+            
+                JButton colourPicker = new JButton(language.getTranslated("choose_colour"));
+                colourPicker.setBounds(200, 250, 100, 30);
+                colourPicker.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource()==colourPicker){
+                            colour = JColorChooser.showDialog(null, language.getTranslated("choose_colour"), colour);
+                        }
+                    }
+                });
+
+                JRadioButton panel = new JRadioButton(language.getTranslated("fill_shape"));
+                panel.addItemListener(new ItemListener(){
+
+                    @Override
+                    public void itemStateChanged(ItemEvent e) {
+                        Object source = e.getItemSelectable();
+
+                        if (source == panel){
+                            fill = true;
+                        }
+                        if(e.getStateChange() == ItemEvent.DESELECTED){
+                            fill = false;
+                        }
+                    }
+                });
+                //Custom button text
+                Object[] options = {panel, colourPicker, language.getTranslated("rectangle"),
+                                    language.getTranslated("oval"),
+                                    language.getTranslated("line")};
+                shape = JOptionPane.showOptionDialog(null, language.getTranslated("draw_question") ,
+                language.getTranslated("draw"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[4]);
+
+    
+                // -1 is cancel code for dialog option
+                if (shape == -1) {
+                    fill = false;
+                    return;
+                }
+                if(fill){
+                    if (shape == 2){
+                        ClickListener.activate(new RegionSelector("rectangle", colour,true));
+                    }else if (shape == 3){
+                        ClickListener.activate(new RegionSelector("oval", colour, true));
+                    } else if (shape == 4){
+                        ClickListener.activate(new RegionSelector("line", colour, true));
+                    }
+                }else{
+                    if (shape == 2){
+                    ClickListener.activate(new RegionSelector("rectangle", colour));
+                }else if (shape == 3){
+                    ClickListener.activate(new RegionSelector("oval", colour));
+                } else if (shape == 4){
+                    ClickListener.activate(new RegionSelector("line", colour));
+                }
+            }
+            fill = false;
+        }
+
+    
+
+}
+
 }
