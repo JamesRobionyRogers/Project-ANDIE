@@ -190,5 +190,12 @@ Below is a collapsible section documenting how each member of our group contribu
 ## Further Development  
 Throughout the project we have been tracking features, bugs and further development using Jira. Here are some of the features we thought of to further develop ANDIE:
 
-- [ ] Feature 1... 
+- ### Roll  
+- **Contributors:** Jess Tyrrell
+- **Description:** This feature will open the user'd default broswer and take them to a fun link. It support use on mac, 
+windows and linus.
+- **Access:** Located under the `Fun` menu
+- **Testing:** Attempted to click the roll button on all operating systems. 
+- **Limitations:** 
+
 - [ ] Feature 2...
