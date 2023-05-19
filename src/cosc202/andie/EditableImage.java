@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import java.io.*;
 import java.awt.image.*;
 import javax.imageio.*;
+
 /**
  * <p>
  * An image with a set of operations applied to it.
@@ -62,6 +63,10 @@ public class EditableImage {
     private String imageFilename;
     /** The file where the operation sequence is stored. */
     private String opsFilename;
+
+    private boolean recording;
+
+    private Stack<ImageOperation> recordedOps = new Stack<ImageOperation>();
 
     /**
      * <p>
@@ -263,8 +268,10 @@ public class EditableImage {
 
             // Could be no file or something else. Carry on for now.
         } finally {
-            // clear redo either way
+            // clear redo, recordingops and turn off recording either way
             redoOps.clear();
+            recordedOps.clear();
+            recording = false;
             redoImages.clear();
         }
 
@@ -360,7 +367,9 @@ public class EditableImage {
             revert();
         }
         current = op.apply(current);
-        ops.push(op);
+        ops.add(op);
+        if(recording) recordedOps.add(op);
+        
         redoOps.clear();
         redoImages.clear();
     }
@@ -403,6 +412,7 @@ public class EditableImage {
                 refresh();
             }
         }
+        if(recording && recordedOps.size() !=0) recordedOps.pop();
     }
 
     /**
@@ -425,10 +435,13 @@ public class EditableImage {
                 undoImages.push(current);
                 current = redoOps.peek().apply(current);
             }
+            
             ops.add(redoOps.pop());
-            
-            
+            if (recording){
+                recordedOps.add(ops.peek());
+            }
         }
+
     }
 
     /**
@@ -527,6 +540,20 @@ public class EditableImage {
         }
     }
 
+   /**
+     * <p>
+     * Imports a .ops file that contains a series of operations 
+     * </p>
+     * 
+     * <p>
+     * Applies these operations to the currect image (ie adds them to the .ops stack)
+     * </p>
+     * 
+     * 
+     * @param filepath
+     * @throws Exception If user attempts to open a file that isnt a .ops
+     */
+
 
     public void importMacro(String filePath) {
 
@@ -549,9 +576,10 @@ public class EditableImage {
             @SuppressWarnings("unchecked")
             Stack<ImageOperation> opsFromFile = (Stack<ImageOperation>) objIn.readObject();
 
-            ops.addAll(0, opsFromFile);
-            redoOps.clear();
-            redoImages.clear();
+            for (ImageOperation op : opsFromFile){
+                apply(op);
+            }
+
             objIn.close();
             fileIn.close();
 
@@ -577,5 +605,64 @@ public class EditableImage {
         Matcher test = fileNames.matcher(f.getName());
         // return result
         return test.matches();
+    }
+
+    /**
+     * <p>
+     * Method that is called when the user starts recording operations
+     * <p>
+     * 
+     * <p>
+     * Sets the tracking variable 'recording' to true 
+     * <p>
+     */
+
+    public void record(){
+        recording = true;
+    }
+
+     /**
+     * <p>
+     * Exports a series of recorded image operation to new .ops file with specified file name.
+     * </p>
+     * 
+     * <p>
+     * Saves image operations to new file with file name provided as a parameter.
+     * 
+     * 
+     * 
+     * @param imageFilename The file location to export the image to.
+     * @param extension the image file extension
+     * @param ouput the ops file to write
+     * @throws Exception If something goes wrong.
+     */
+
+
+    public void stoprecord(String filepath, String extension){
+        recording = false;
+        try{
+        FileOutputStream fileOut = new FileOutputStream(filepath + "." + extension);
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+            objOut.writeObject(this.recordedOps);
+            objOut.close();
+            fileOut.close();
+            recordedOps.clear();
+        }
+        catch (IOException a) {
+            ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
+        }
+    }
+/**
+ * Method to se if the user is currently recording operations
+ * 
+ * Used in EditActions to stop fileChooser appearing if user clicks stop recording, but was
+ * not recording 
+ * 
+ * 
+ * @return if the user is recording operations
+ */
+    
+    public boolean isRecording() {
+        return recording;
     }
 }

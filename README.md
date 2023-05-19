@@ -151,11 +151,11 @@ Below is a collapsible section documenting how each member of our group contribu
     <summary>ANDIE: Part Two</summary>
 
 ---
-### Feature Title
-- **Contributors:** 
-- **Description:**
-- **Access:** 
-- **Testing:**
+### Macros for record and replay
+- **Contributors:** Jess Tyrrell
+- **Description:** The `Record` option under `Edit` menu allows the user the record a series of operations, and export them in a .ops file. The `Import` option under the  `File` menu then allows the user to import the ops file to apply the same operations again. 
+- **Access:** Located under the `Edit` menu (for recording) and the `File` menu (for importing .ops)
+- **Testing:** 
 - **Limitations:** 
 ---
 
