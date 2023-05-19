@@ -4,6 +4,7 @@ import cosc202.andie.*;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import cosc202.andie.*;
 
@@ -38,8 +39,13 @@ public class EditActions implements ActionCollection {
     public EditActions() {
         SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
+
         actions.add(new UndoAction(language.getTranslated("undo"), Icons.EDIT_UNDO, language.getTranslated("undo"), KeyboardShortcut.EDIT_UNDO));
         actions.add(new RedoAction(language.getTranslated("redo"), Icons.EDIT_REDO, language.getTranslated("redo"), KeyboardShortcut.EDIT_REDO));
+        actions.add(new RecordAction(language.getTranslated("record"), null/*Add an icon */, language.getTranslated("record"), null/*add shorcut if you want*/));
+        actions.add(new StopRecordAction(language.getTranslated("stop_record"), null/*Add an icon */, language.getTranslated("stop_record"), null/*add shorcut if you want*/));
+
+
     }
 
     /**
@@ -159,4 +165,112 @@ public class EditActions implements ActionCollection {
         }
     }
 
+
+
+    /**
+     * <p>
+     * Action to record a series of {@link ImageOperation}.
+     * </p>
+     * 
+     * @see EditableImage#record()
+     */   
+    public class RecordAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new record action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        RecordAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        
+        /**
+         * <p>
+         * Callback for when the record action is triggered.
+         * </p>
+         * 
+         * <p>
+         * This method is called whenever the RecordAction is triggered.
+         * It begins recording the following operations
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+           target.getImage().record(); 
+           
+        }
+    }
+    /**
+     * <p>
+     * Action to stop recording {@link ImageOperation}.
+     * </p>
+     * 
+     * @see EditableImage#stoprecord()
+     */   
+    public class StopRecordAction extends ImageAction {
+
+        /**
+         * <p>
+         * Create a new stop record action.
+         * </p>
+         * 
+         * @param name The name of the action (ignored if null).
+         * @param icon An icon to use to represent the action (ignored if null).
+         * @param desc A brief description of the action  (ignored if null).
+         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
+         */
+        StopRecordAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+            super(name, icon, desc, mnemonic);
+        }
+
+        
+        /**
+         * <p>
+         * Callback for when the stop recording action is triggered.
+         * </p>
+         * 
+         * 
+         * 
+         * <p>
+         * This method is called whenever the StopRecordAction is triggered.
+         * It stops recording the operations
+         * </p>
+         * 
+         * @param e The event triggering this callback.
+         */
+        public void actionPerformed(ActionEvent e) {
+            if(target.getImage().isRecording()){
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter ops = new FileNameExtensionFilter("ops", ".ops");
+            fileChooser.addChoosableFileFilter(ops);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            fileChooser.setDialogTitle("Export operations");
+            int result = fileChooser.showSaveDialog(target);
+    
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
+                    System.out.println(imageFilepath);
+                    target.getImage().stoprecord(imageFilepath, fileChooser.getFileFilter().getDescription());
+    
+                } catch (Exception ex) {
+                    ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
+                }
+            }}
+          
+           
+        }
+    }
+
+
 }
+
+

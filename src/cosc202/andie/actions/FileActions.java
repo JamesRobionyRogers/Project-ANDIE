@@ -135,6 +135,7 @@ public class FileActions implements ActionCollection {
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
             FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+            
             fileChooser.setFileFilter(imageFilter);
             fileChooser.setAcceptAllFileFilterUsed(false);
             int result = fileChooser.showOpenDialog(target);
@@ -468,14 +469,15 @@ public class FileActions implements ActionCollection {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            
             // currently hardcoding the available file types, but need to change this
             JFileChooser fileChooser = new JFileChooser();
 
             // Creating new file extentions
-            FileNameExtensionFilter ops = new FileNameExtensionFilter(".ops", "ops");
-
+            FileFilter ops = new FileNameExtensionFilter(".ops", "ops");
+            
             // Adding the new extentions to the file chooser
-            fileChooser.addChoosableFileFilter(ops);
+            fileChooser.setFileFilter(ops);
 
             // Hiding the "All Files" option
             fileChooser.setAcceptAllFileFilterUsed(false);
@@ -483,7 +485,7 @@ public class FileActions implements ActionCollection {
             // Setting the title of the dialog box
             fileChooser.setDialogTitle("Import a macro");
 
-            int result = fileChooser.showSaveDialog(target);
+            int result = fileChooser.showOpenDialog(target);
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
