@@ -318,7 +318,7 @@ public class FileActions implements ActionCollection {
             FileNameExtensionFilter gif = new FileNameExtensionFilter("gif", "gif");
 
             // Adding the new extentions to the file chooser
-            if (!target.getImage().hasAlpha()){
+            if (!target.getImage().hasAlpha(true)){
                 fileChooser.addChoosableFileFilter(jpeg);
                 fileChooser.addChoosableFileFilter(gif);
                 fileChooser.addChoosableFileFilter(tiff);
@@ -443,7 +443,7 @@ public class FileActions implements ActionCollection {
             FileNameExtensionFilter gif = new FileNameExtensionFilter("gif", "gif");
 
             // Adding the new extentions to the file chooser
-            if (!target.getImage().hasAlpha()){
+            if (!target.getImage().hasAlpha(false)){
                 fileChooser.addChoosableFileFilter(jpg);
                 fileChooser.addChoosableFileFilter(jpeg);
                 fileChooser.addChoosableFileFilter(gif);
