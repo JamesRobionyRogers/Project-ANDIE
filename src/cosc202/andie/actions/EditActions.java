@@ -41,8 +41,8 @@ public class EditActions implements ActionCollection {
 
         actions.add(new UndoAction(language.getTranslated("undo"), Icons.EDIT_UNDO, language.getTranslated("undo"), KeyboardShortcut.EDIT_UNDO));
         actions.add(new RedoAction(language.getTranslated("redo"), Icons.EDIT_REDO, language.getTranslated("redo"), KeyboardShortcut.EDIT_REDO));
-        actions.add(new RecordAction(language.getTranslated("record"), null/*Add an icon */, language.getTranslated("record"), null/*add shorcut if you want*/));
-        actions.add(new StopRecordAction(language.getTranslated("stop_record"), null/*Add an icon */, language.getTranslated("stop_record"), null/*add shorcut if you want*/));
+        actions.add(new RecordAction(language.getTranslated("record"), Icons.EDIT_RECORD, language.getTranslated("record"), KeyboardShortcut.EDIT_RECORD));
+        actions.add(new StopRecordAction(language.getTranslated("stop_record"), Icons.EDIT_STOP_RECORD, language.getTranslated("stop_record"), KeyboardShortcut.EDIT_STOP_RECORD));
 
 
     }
@@ -185,7 +185,7 @@ public class EditActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        RecordAction(String name, String icon, String desc, Integer mnemonic) {
+        RecordAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -226,11 +226,11 @@ public class EditActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        StopRecordAction(String name, String icon, String desc, Integer mnemonic) {
+        StopRecordAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
-        
+
         /**
          * <p>
          * Callback for when the stop recording action is triggered.
