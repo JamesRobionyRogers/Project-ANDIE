@@ -1,6 +1,9 @@
 package cosc202.andie.actions;
 
 import java.util.*;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -39,6 +42,13 @@ public class FileActions implements ActionCollection {
 
     /** A list of actions for the File menu. */
     protected ArrayList<Action> actions;
+
+    /** Min and max widths for image size on open */
+    private double minWidth = 300;
+    private double minHeight = 300;
+    private double maxWidth = (new Dimension(Toolkit.getDefaultToolkit().getScreenSize()).getWidth());
+    private double maxHeight = (new Dimension(Toolkit.getDefaultToolkit().getScreenSize()).getHeight());
+    
 
     /**
      * <p>
@@ -133,17 +143,17 @@ public class FileActions implements ActionCollection {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
+            double scale = 1;
             JFileChooser fileChooser = new JFileChooser();
             FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
             
             fileChooser.setFileFilter(imageFilter);
             fileChooser.setAcceptAllFileFilterUsed(false);
             int result = fileChooser.showOpenDialog(target);
-
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    target.getImage().open(imageFilepath);
+                     target.getImage().open(imageFilepath);
                 }
                 // Catching Input/Output exceptions associated with opening a file
                 catch (IOException ioException) {
@@ -158,9 +168,34 @@ public class FileActions implements ActionCollection {
                 catch (Exception ex) {
                     ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("open_file_io_excepton"));
                 }
+
+                // gets dimensions of opened image
+                double width = target.getImage().getWidth();
+                double height = target.getImage().getHeight();
+                
+           // while the width and height are both below the minimum, scale the size of the image up 
+            while(width < minWidth && height < minHeight){
+                width = width*1.5;
+                height = height*1.5;
+                scale*=1.5;
             }
+            // while either the width or height is greater than maximum, scale size down
+                while(width > maxWidth || height > maxHeight){
+                    width = width/1.5;
+                    height = height/1.5;
+                    scale/=1.5;
+                }
+
+
+
+            }
+            target.setZoom(scale*100);
             target.repaint();
             target.getParent().revalidate();
+
+            // packs frame to size of image plus all components
+            Andie.getJFrame().pack();
+            Andie.getJFrame().setLocationRelativeTo(null);      // Centering the ANDIE window on screen
 
             //check if current image exists
 
