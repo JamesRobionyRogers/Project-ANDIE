@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.*;
+import java.awt.Graphics2D;
 import java.awt.image.*;
 import javax.imageio.*;
 
@@ -100,35 +101,44 @@ public class EditableImage {
         return original != null;
     }
 
-    public boolean hasAlpha(){
 
+
+    /**
+     * @param b True to check if the original image had an alpha channel, false for current.
+     * @return True if the image has an alpha channel
+     */
+    public boolean hasAlpha(boolean b){
         /*
          * A wrapper for the hasAlpha boolean
          */
         final class Alpha {
-            public static boolean hasAlpha = false;
+            public boolean hasAlpha = false;
         }
+        Alpha alpha = new Alpha();
+        // make it pick either current or original
+        BufferedImage image = b ? original : current;
 
         /* looping over each pixel rather than getting the whole argbArray 
          * if it has alpha it'll probably be present early rather than late.
          * For images without alpha unlucky
         */
-        ArrayDeque<Integer> horizontalOps = new ArrayDeque<Integer>(current.getWidth());
-        for (int i = 0; i < current.getWidth(); horizontalOps.add(i++));
+        ArrayDeque<Integer> horizontalOps = new ArrayDeque<Integer>(image.getWidth());
+        for (int i = 0; i < image.getWidth(); horizontalOps.add(i++));
 
-        ArrayDeque<Integer> verticalOps = new ArrayDeque<Integer>(current.getHeight());
-        for (int i = 0; i < current.getHeight(); verticalOps.add(i++));
+        ArrayDeque<Integer> verticalOps = new ArrayDeque<Integer>(image.getHeight());
+        for (int i = 0; i < image.getHeight(); verticalOps.add(i++));
 
         // calculate if it has an alpha channel
-        horizontalOps.parallelStream().takeWhile(i -> (!Alpha.hasAlpha)).forEach(x -> {
-            verticalOps.parallelStream().takeWhile(i -> (!Alpha.hasAlpha)).forEach(y -> {
-                if ((((current.getRGB(x, y) & 0xFF000000) >>> 24) != 255)){
-                    Alpha.hasAlpha = true;            
+        horizontalOps.stream().takeWhile(i -> (!alpha.hasAlpha)).forEach(x -> {
+            verticalOps.stream().takeWhile(i -> (!alpha.hasAlpha)).forEach(y -> {
+                if ((((image.getRGB(x, y) & 0xFF000000) >>> 24) != 255)){
+                    alpha.hasAlpha = true;
+                    System.out.println("does this print?");
                 }
             });
         });
 
-        return Alpha.hasAlpha;
+        return alpha.hasAlpha;
     }
 
     private class loopStack<T> extends Stack<T> {
@@ -502,9 +512,20 @@ public class EditableImage {
         String exportFilename = imageFilename + "." + extension;
         System.out.println(exportFilename);
         if (original == null) return;
+        BufferedImage writeImage;
+
+        if (!extension.equals("png")){
+            writeImage = new BufferedImage(current.getWidth(), current.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D gfx = writeImage.createGraphics();
+            gfx.drawImage(current,0,0,null);
+            gfx.dispose();
+        } else {
+            writeImage = current;
+        }
+
         try {
             if(!testWrite(imageFilename)) throw (new java.lang.IllegalArgumentException("Cant write file"));
-            ImageIO.write(this.current, extension, new File(exportFilename));
+            ImageIO.write(writeImage, extension, new File(exportFilename));
         } catch (Exception ex) {
             ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
             return;
@@ -533,10 +554,22 @@ public class EditableImage {
         
         String exportFilename = imageFilename + "." + extension;
         System.out.println(exportFilename);
+
+        BufferedImage writeImage;
+        
+        if (!extension.equals("png")){
+            writeImage = new BufferedImage(original.getWidth(), original.getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D gfx = writeImage.createGraphics();
+            gfx.drawImage(original,0,0,null);
+            gfx.dispose();
+        } else {
+            writeImage = original;
+        }
+
         try {
             String exten2 = extension.substring(1 + extension.lastIndexOf(".")).toLowerCase();
             if(!testWrite(imageFilename)) throw (new java.lang.IllegalArgumentException("Cant write file"));
-            ImageIO.write(original, exten2, new File(exportFilename));
+            ImageIO.write(writeImage, exten2, new File(exportFilename));
         } catch (Exception ex) {
             ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("save_file_io_excepton"));
             return;
