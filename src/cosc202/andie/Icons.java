@@ -94,6 +94,7 @@ public final class Icons {
     public static final String TOOLS_ROTATE = "Tools-Rotate.png";
     public static final String TOOLS_RESIZE = "Tools-Resize.png";
     public static final String TOOLS_CROP = "Tools-Crop.png";
+    public static final String TOOLS_DRAW = "Tools-Draw.png";
 
     public static final String TOOLS_FLIP_HORIZONTAL_WINDOW = "Tools-FlipHorizontal.png";
     public static final String TOOLS_ROTATE_WINDOW = "Tools-Rotate.png";
