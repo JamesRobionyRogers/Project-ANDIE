@@ -49,6 +49,8 @@ public class KeyboardShortcut {
     // Edit Menu Shortcuts
     public static final KeyStroke EDIT_UNDO = assignCtrlCmd(KeyEvent.VK_Z);
     public static final KeyStroke EDIT_REDO = assignShift(KeyEvent.VK_Z); 
+    public static final KeyStroke EDIT_RECORD = assignCtrlCmd(KeyEvent.VK_R);
+    public static final KeyStroke EDIT_STOP_RECORD = assignShift(KeyEvent.VK_R);
 
     // View Menu Shortcuts
     public static final KeyStroke VIEW_ZOOM_IN = assignCtrlCmd(KeyEvent.VK_EQUALS);
