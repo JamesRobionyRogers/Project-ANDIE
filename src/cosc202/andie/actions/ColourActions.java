@@ -6,11 +6,8 @@ import java.util.*;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.SourceDataLine;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 //import javax.swing.plaf.OptionPaneUI;
@@ -110,7 +107,7 @@ public class ColourActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        ConvertToGreyAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        ConvertToGreyAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -153,7 +150,7 @@ public class ColourActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        InvertColourAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        InvertColourAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -197,7 +194,7 @@ public class ColourActions implements ActionCollection {
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
 
-        ChangeBrightnessAndContrast(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        ChangeBrightnessAndContrast(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -282,7 +279,7 @@ public class ColourActions implements ActionCollection {
                 language.getTranslated("b_c_question"),
                 JOptionPane.DEFAULT_OPTION, 
                 JOptionPane.QUESTION_MESSAGE, 
-                Icons.COLOUR_ADJUSTMENTS_WINDOW, 
+                (Icon) this.getValue("WindowIcon"),
                 options, 
                 options[0]
             );
@@ -318,7 +315,7 @@ public class ColourActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        AlphaMaskAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        AlphaMaskAction(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 

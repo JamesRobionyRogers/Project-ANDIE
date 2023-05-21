@@ -89,7 +89,7 @@ public class ToolActions implements ActionCollection {
 
              //0 is true - horizontal
              //1 is false - vertical
-            FlipImageActions(String name, ImageIcon icon, String desc, KeyStroke mnemonic){
+            FlipImageActions(String name, String icon, String desc, KeyStroke mnemonic){
                 super(name, icon, desc, mnemonic);
             }
     
@@ -104,7 +104,7 @@ public class ToolActions implements ActionCollection {
                 language.getTranslated("flip"),
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
-                Icons.TOOLS_FLIP_HORIZONTAL_WINDOW,
+                (Icon) this.getValue("WindowIcon"),
                 flip,
                 flip[1]
             );
@@ -140,7 +140,7 @@ public class ToolActions implements ActionCollection {
                 language.getTranslated("resize_question"), 
                 JOptionPane.DEFAULT_OPTION, 
                 JOptionPane.QUESTION_MESSAGE, 
-                Icons.TOOLS_RESIZE_WINDOW, 
+                (Icon) this.getValue("WindowIcon"),
                 options, 
                 options[0]
             );
@@ -174,7 +174,7 @@ public class ToolActions implements ActionCollection {
             target.repaint();
             target.getParent().revalidate();
         }
-        ResizeToolAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        ResizeToolAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
     }
@@ -196,7 +196,7 @@ public class ToolActions implements ActionCollection {
                 language.getTranslated("rotate"),
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
-                Icons.TOOLS_ROTATE_WINDOW,
+                (Icon) this.getValue("WindowIcon"),
                 options,
                 options[2]
             );
@@ -212,7 +212,7 @@ public class ToolActions implements ActionCollection {
 
         }
 
-        RotateToolAction(String name, ImageIcon icon,
+        RotateToolAction(String name, String icon,
         String desc, KeyStroke mnemonic) {
         super(name, icon, desc, mnemonic);
         }
@@ -249,7 +249,7 @@ public class ToolActions implements ActionCollection {
             PixelPeek.pixelPeek(x,y,target.getImage().getCurrentImage());
         }
     
-        PixelPeekToolAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        PixelPeekToolAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
     }
@@ -286,7 +286,7 @@ public class ToolActions implements ActionCollection {
                 "Crop the image [DNT]",
                 JOptionPane.OK_CANCEL_OPTION, 
                 JOptionPane.QUESTION_MESSAGE, 
-                Icons.TOOLS_CROP_WINDOW, 
+                (Icon) this.getValue("WindowIcon"),
                 null, 
                 null
             );
@@ -304,7 +304,7 @@ public class ToolActions implements ActionCollection {
             target.getParent().revalidate();
         }
     
-        CropAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        CropAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
     }
@@ -316,7 +316,7 @@ public class DrawShapeAction extends ImageAction{
     boolean fill =  false;
     Color colour = Color.BLUE;
 
-    DrawShapeAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+    DrawShapeAction(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
     }
 

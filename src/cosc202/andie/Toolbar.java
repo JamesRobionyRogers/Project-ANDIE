@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.Action;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
@@ -67,8 +67,8 @@ public class Toolbar extends JToolBar {
 
             // Getting the current actions icon 
             // Setting the toolbar action icon 
-            ImageIcon actionIcon = (ImageIcon) action.getValue(Action.SMALL_ICON);
-            action.putValue(Action.SMALL_ICON, Icons.setIconSize(actionIcon, Icons.type.toolbar));
+            // ImageIcon actionIcon = (ImageIcon) action.getValue(Action.SMALL_ICON);
+            // action.putValue(Action.SMALL_ICON, Icons.setIconSize(actionIcon, Icons.type.toolbar));
 
             // Checking if the current instance outter class is different to the previous instance's outter class 
             // If so, add a separator to the toolbar
@@ -81,6 +81,7 @@ public class Toolbar extends JToolBar {
             toolbarItem.setEnabled(enableButtons);
             toolbarItem.setFocusPainted(false); 
             toolbarItem.setBorderPainted(false);
+            toolbarItem.setIcon( (Icon) action.getValue("ToolbarIcon") );
 
 
             addSpacingBetweenToolbarItems();

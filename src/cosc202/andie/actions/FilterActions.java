@@ -5,7 +5,6 @@ import cosc202.andie.actions.filter.*;
 
 import java.util.*;
 import java.awt.GridLayout;
-import java.awt.RenderingHints.Key;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -107,7 +106,7 @@ public class FilterActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        MeanFilterAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        MeanFilterAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -162,7 +161,7 @@ public class FilterActions implements ActionCollection {
                 language.getTranslated("enter_filter_radius"), 
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE, 
-                Icons.FILTER_BLUR_WINDOW, 
+                (Icon) this.getValue("WindowIcon"), 
                 options, 
                 options[0]
             );
@@ -198,7 +197,7 @@ public class FilterActions implements ActionCollection {
          * @param desc     action description
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        SoftBlurAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        SoftBlurAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -237,7 +236,7 @@ public class FilterActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        GaussianBlurAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        GaussianBlurAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -283,7 +282,7 @@ public class FilterActions implements ActionCollection {
                 language.getTranslated("enter_filter_radius"),
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
-                Icons.FILTER_BLUR_WINDOW,
+                (Icon) this.getValue("WindowIcon"),
                 options,
                 options[0]
             );
@@ -314,7 +313,7 @@ public class FilterActions implements ActionCollection {
          * @param desc     A brief description of the action
          * @param mnemonic A mnemonic key to use as a shortcut
          */
-        MedianFilterAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        MedianFilterAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -360,7 +359,7 @@ public class FilterActions implements ActionCollection {
                 language.getTranslated("enter_filter_radius"), 
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE, 
-                Icons.FILTER_BLUR_WINDOW, 
+                (Icon) this.getValue("WindowIcon"),
                 options, 
                 options[0]
                 );
@@ -394,7 +393,7 @@ public class FilterActions implements ActionCollection {
          * @param desc     A brief description of the action
          * @param mnemonic A mnemonic key to use as a shortcut
          */
-        SharpenFilterAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        SharpenFilterAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
 
         }
@@ -434,7 +433,7 @@ public class FilterActions implements ActionCollection {
          * @param desc     A brief description of the action
          * @param mnemonic A mnemonic key to use as a shortcut
          */
-        EmbossFilterAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        EmbossFilterAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
 
         }
@@ -477,7 +476,7 @@ public class FilterActions implements ActionCollection {
                 "EMBOSS QUESTION CHANGE ME [TRANSLATE ME]",
                 JOptionPane.DEFAULT_OPTION, 
                 JOptionPane.QUESTION_MESSAGE, 
-                Icons.FILTER_EMBOSS_WINDOW, 
+                (Icon) this.getValue("WindowIcon"),
                 okClose, 
                 options[0]
             ); 
@@ -509,7 +508,7 @@ public class FilterActions implements ActionCollection {
          * @param desc     A brief description of the action
          * @param mnemonic A mnemonic key to use as a shortcut
          */
-        EdgeDetectionAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        EdgeDetectionAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
 
         }
@@ -553,7 +552,7 @@ public class FilterActions implements ActionCollection {
                 "EDGE DETECTION QUESTION CHANGE ME [TRANSLATE ME]",
                 JOptionPane.DEFAULT_OPTION, 
                 JOptionPane.QUESTION_MESSAGE, 
-                Icons.FILTER_EDGE_DETECTION_WINDOW, 
+                (Icon) this.getValue("WindowIcon"), 
                 okClose, 
                 options[0]
             );

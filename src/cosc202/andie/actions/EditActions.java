@@ -1,6 +1,5 @@
 package cosc202.andie.actions;
 
-import cosc202.andie.*;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -99,7 +98,7 @@ public class EditActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        UndoAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        UndoAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -141,7 +140,7 @@ public class EditActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        RedoAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        RedoAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -186,7 +185,7 @@ public class EditActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        RecordAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        RecordAction(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -227,7 +226,7 @@ public class EditActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        StopRecordAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        StopRecordAction(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
