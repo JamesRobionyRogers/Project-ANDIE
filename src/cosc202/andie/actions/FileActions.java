@@ -15,6 +15,7 @@ import cosc202.andie.Andie;
 import cosc202.andie.ExceptionHandler;
 import cosc202.andie.KeyboardShortcut;
 import cosc202.andie.SetLanguage;
+import cosc202.andie.actions.ViewActions.ResetZoomAction;
 import cosc202.andie.Icons;
 
 /**
@@ -189,7 +190,10 @@ public class FileActions implements ActionCollection {
 
 
             }
-            target.setZoom(scale*100);
+            double zoomScale = scale*100; 
+            ResetZoomAction.setResetZoom(zoomScale); 
+
+            target.setZoom(zoomScale);
             target.repaint();
             target.getParent().revalidate();
 

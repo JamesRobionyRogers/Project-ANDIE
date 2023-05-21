@@ -177,6 +177,8 @@ public class ViewActions implements ActionCollection {
      */
     public class ResetZoomAction extends ImageAction {
 
+        private static double resetZoom = 100d; 
+
         /**
          * <p>
          * Create a new zoom-full action.
@@ -189,6 +191,10 @@ public class ViewActions implements ActionCollection {
          */
         ResetZoomAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
+        }
+
+        public static void setResetZoom(double resetZoomValue) {
+            resetZoom = (int) resetZoomValue;
         }
 
         /**
@@ -204,7 +210,9 @@ public class ViewActions implements ActionCollection {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.setZoom(100);
+
+
+            target.setZoom(resetZoom);
             target.repaint();
             target.revalidate();
             target.getParent().revalidate();
