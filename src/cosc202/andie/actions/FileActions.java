@@ -62,7 +62,7 @@ public class FileActions implements ActionCollection {
         actions.add(new FileSaveAction("save", Icons.FILE_SAVE_MENU, "save_desc", KeyboardShortcut.FILE_SAVE));
         actions.add(new FileSaveAsAction("save_as", Icons.FILE_SAVE_AS_MENU, "save_as_desc", KeyboardShortcut.FILE_SAVE_AS));
         actions.add(new FileExportAction("export", Icons.FILE_EXPORT_MENU, "export_desc", KeyboardShortcut.FILE_EXPORT));
-        actions.add(new ImportAction("Import", Icons.FILE_IMPORT_MENU, "Import an operations macro", KeyboardShortcut.FILE_IMPORT));
+        actions.add(new ImportAction("import", Icons.FILE_IMPORT_MENU, "import_desc", KeyboardShortcut.FILE_IMPORT));
         actions.add(new FileExitAction("exit", Icons.FILE_EXIT_MENU, "exit_desc", KeyboardShortcut.FILE_EXIT));
     }
 
