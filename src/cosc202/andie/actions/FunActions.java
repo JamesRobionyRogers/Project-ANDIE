@@ -34,9 +34,8 @@ public class FunActions {
      * </p>
      */
     public FunActions() {
-        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new RollAction(language.getTranslated("roll"), null, language.getTranslated("roll_desc"), Integer.valueOf(KeyEvent.VK_M)));
+        actions.add(new RollAction("roll", null, "roll_desc", Integer.valueOf(KeyEvent.VK_M)));
     }
     
     /**

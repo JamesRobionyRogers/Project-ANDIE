@@ -26,14 +26,13 @@ public class MultilingualSupport implements ActionCollection {
 
 
     public MultilingualSupport() {
-        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new ChangeEnglish(language.getTranslated("english"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_english"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeSpanish(language.getTranslated("spanish"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_spanish"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeGerman(language.getTranslated("german"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_german"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangePortuguese(language.getTranslated("portuguese"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_portuguese"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeItalian(language.getTranslated("italian"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_italian"), Integer.valueOf(KeyEvent.VK_G)));
-        actions.add(new ChangeChinese(language.getTranslated("chinese"), Icons.LANGUAGE_GLOBAL,language.getTranslated("change_chinese"), Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeEnglish("english", Icons.LANGUAGE_GLOBAL,"change_english", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeSpanish("spanish", Icons.LANGUAGE_GLOBAL,"change_spanish", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeGerman("german", Icons.LANGUAGE_GLOBAL,"change_german", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangePortuguese("portuguese", Icons.LANGUAGE_GLOBAL,"change_portuguese", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeItalian("italian", Icons.LANGUAGE_GLOBAL,"change_italian", Integer.valueOf(KeyEvent.VK_G)));
+        actions.add(new ChangeChinese("chinese", Icons.LANGUAGE_GLOBAL,"change_chinese", Integer.valueOf(KeyEvent.VK_G)));
     }
 
     public JMenu createMenu() {

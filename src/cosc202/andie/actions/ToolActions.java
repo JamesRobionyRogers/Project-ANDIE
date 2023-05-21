@@ -24,13 +24,12 @@ public class ToolActions implements ActionCollection {
      */
     public ToolActions() {
         actions = new ArrayList<Action>();
-        SetLanguage language = SetLanguage.getInstance();
 
-        actions.add(new ResizeToolAction(language.getTranslated("resize"), Icons.TOOLS_RESIZE, language.getTranslated("resize_desc"), KeyboardShortcut.TOOLS_RESIZE));
-        actions.add(new RotateToolAction(language.getTranslated("rotate"), Icons.TOOLS_ROTATE, language.getTranslated("rotate_desc"), KeyboardShortcut.TOOLS_ROTATE));
-        actions.add(new FlipImageActions(language.getTranslated("flip_image"), Icons.TOOLS_FLIP_HORIZONTAL, language.getTranslated("flip_image_desc"), KeyboardShortcut.TOOLS_FLIP));
+        actions.add(new ResizeToolAction("resize", Icons.TOOLS_RESIZE, "resize_desc", KeyboardShortcut.TOOLS_RESIZE));
+        actions.add(new RotateToolAction("rotate", Icons.TOOLS_ROTATE, "rotate_desc", KeyboardShortcut.TOOLS_ROTATE));
+        actions.add(new FlipImageActions("flip_image", Icons.TOOLS_FLIP_HORIZONTAL, "flip_image_desc", KeyboardShortcut.TOOLS_FLIP));
         actions.add(new CropAction("Crop", Icons.TOOLS_CROP, "Crop an image", KeyboardShortcut.TOOLS_CROP));
-        actions.add(new DrawShapeAction(language.getTranslated("draw"), null, language.getTranslated("draw_shape"), null));
+        actions.add(new DrawShapeAction("draw", null, "draw_shape", null));
         //actions.add(new AlphaMaskAction());
         // Testing feature - not for production
         actions.add(new PixelPeekToolAction("Peek [DNT]", null, "Peek the Pixel [DNT]", null));

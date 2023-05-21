@@ -37,12 +37,10 @@ public class ViewActions implements ActionCollection {
      * </p>
      */
     public ViewActions() {
-        SetLanguage language = SetLanguage.getInstance();
-
         actions = new ArrayList<Action>();
-        actions.add(new ZoomInAction(language.getTranslated("zoom_in"), Icons.VIEW_ZOOM_IN, language.getTranslated("zoom_in"), KeyboardShortcut.VIEW_ZOOM_IN));
-        actions.add(new ZoomOutAction(language.getTranslated("zoom_out"), Icons.VIEW_ZOOM_OUT, language.getTranslated("zoom_out"), KeyboardShortcut.VIEW_ZOOM_OUT));
-        actions.add(new ResetZoomAction(language.getTranslated("zoom_full"), Icons.VIEW_ZOOM_RESET, language.getTranslated("zoom_full"), KeyboardShortcut.VIEW_ZOOM_FULL));
+        actions.add(new ZoomInAction("zoom_in", Icons.VIEW_ZOOM_IN, "zoom_in", KeyboardShortcut.VIEW_ZOOM_IN));
+        actions.add(new ZoomOutAction("zoom_out", Icons.VIEW_ZOOM_OUT, "zoom_out", KeyboardShortcut.VIEW_ZOOM_OUT));
+        actions.add(new ResetZoomAction("zoom_full", Icons.VIEW_ZOOM_RESET, "zoom_full", KeyboardShortcut.VIEW_ZOOM_FULL));
     }
 
     /**
