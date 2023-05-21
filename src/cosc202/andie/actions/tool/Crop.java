@@ -4,22 +4,30 @@ import java.awt.image.BufferedImage;
 
 import cosc202.andie.ImageOperation;
 
-public class Crop implements ImageOperation{
-    private int xStart, yStart, width, height;
+/**
+ * Crop Tool
+ * 
+ * Crops the image by a given area
+ * 
+ * @author Jack McDonnell
+ * @version 1.0
+ */
 
-    public Crop(int xStart, int yStart, int width, int height) {
-        this.xStart = xStart;
-        this.yStart = yStart;
+
+public class Crop implements ImageOperation {
+    private int x, y, width, height;
+
+    public Crop(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
     }
 
     public BufferedImage apply(BufferedImage input){
-
-        //BufferedImage output = new BufferedImage(width, height, input.getType(), input.getColorModel());
         BufferedImage output = new BufferedImage(width, height, input.getType());
-        int[] rgbaArray = input.getRGB(xStart, yStart, width, height, null, 0, width);
-        output.setRGB(0, 0, width, height, rgbaArray, 0,width);
+        int[] rgbaArray = input.getRGB(x, y, width, height, null, 0, width);
+        output.setRGB(0, 0, width, height, rgbaArray, 0, width);
         return output;
-    } 
+    }
 }

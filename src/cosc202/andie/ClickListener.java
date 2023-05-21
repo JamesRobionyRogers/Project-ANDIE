@@ -115,6 +115,7 @@ public class ClickListener implements MouseListener, MouseMotionListener{
 }
     public void mouseClicked(MouseEvent e){
         if (!active) return;
+        active = false;
     }
     public void mouseEntered(MouseEvent e){
         if (!active) return;

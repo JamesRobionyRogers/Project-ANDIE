@@ -15,32 +15,67 @@ package cosc202.andie;
 //Get first and last coords, and store them
 public abstract class Selection implements ImageOperation {
 
-    protected int x1, x2, y1, y2;
+    private int x1;
+    private int x2;
+    private int y1;
+    private int y2;
 
     public void setPoint(double x, double y){
         setPoint((int) x, (int)y);
     }
 
+    public int getY2() {
+        return y2;
+    }
+
+    public void setY2(int y2) {
+        this.y2 = y2;
+    }
+
+    public int getY1() {
+        return y1;
+    }
+
+    public void setY1(int y1) {
+        this.y1 = y1;
+    }
+
+    public int getX2() {
+        return x2;
+    }
+
+    public void setX2(int x2) {
+        this.x2 = x2;
+    }
+
+    public int getX1() {
+        return x1;
+    }
+
+    public void setX1(int x1) {
+        this.x1 = x1;
+    }
+
     public void setPoint(int x, int y){
-        this.x1 = x;
-        this.y1 = y;
-        this.x2 = x;
-        this.y2 = y;
+        this.setX1(x);
+        this.setY1(y);
+        this.setX2(x);
+        this.setY2(y);
     }
 
 
 
     public void setStart(int x, int y){
-        this.x1 = x;
-        this.y1 = y;
+        this.setX1(x);
+        this.setY1(y);
     }
     public void setStart(double x, double y){
         setStart((int)x , (int) y);
     }
     
     public void setEnd(int x, int y){
-        this.x2 = x;
-        this.y2 = y;
+        this.setX2(x);
+        this.setY2(y);
     }
 
     public void setEnd(double x, double y){

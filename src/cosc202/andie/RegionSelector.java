@@ -56,7 +56,7 @@ public class RegionSelector extends Selection{
         Graphics2D g2d = output.createGraphics();
         g2d.setColor(colour);
         if(shape=="line"){
-            g2d.drawLine(x1, y1, x2, y2);
+            g2d.drawLine(getX1(), getY1(), getX2(), getY2());
         }else{
             if(fill){
                 g2d.fill(drawShape());
@@ -75,9 +75,9 @@ public class RegionSelector extends Selection{
     private Shape drawShape(){
         Shape draw = null;
         if(shape=="oval"){
-            draw = new Ellipse2D.Double(Math.min(x1,x2), Math.min(y1,y2), Math.max(x2,x1)-Math.min(x2,x1), Math.max(y2,y1)-Math.min(y1,y2));
+            draw = new Ellipse2D.Double(Math.min(getX1(),getX2()), Math.min(getY1(),getY2()), Math.max(getX2(),getX1())-Math.min(getX2(),getX1()), Math.max(getY2(),getY1())-Math.min(getY1(),getY2()));
         }if(shape == "rectangle"){
-            draw = new Rectangle (Math.min(x1,x2), Math.min(y1,y2), Math.max(x2,x1)-Math.min(x2,x1), Math.max(y2,y1)-Math.min(y1,y2));
+            draw = new Rectangle (Math.min(getX1(),getX2()), Math.min(getY1(),getY2()), Math.max(getX2(),getX1())-Math.min(getX2(),getX1()), Math.max(getY2(),getY1())-Math.min(getY1(),getY2()));
         }
         return draw;
     }
