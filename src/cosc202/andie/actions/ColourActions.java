@@ -50,8 +50,8 @@ public class ColourActions implements ActionCollection {
      */
     public ColourActions() {
         actions = new ArrayList<Action>();
-        actions.add(new ConvertToGreyAction(language.getTranslated("greyscale"), Icons.COLOUR_GREYSCALE, language.getTranslated("greyscale_desc"), null));
-        actions.add(new ChangeBrightnessAndContrast(language.getTranslated("brightness_contrast"), Icons.COLOUR_ADJUSTMENTS, language.getTranslated("brightness_contrast_desc"), KeyboardShortcut.COLOUR_BRIGHTNESS_CONTRAST));
+        actions.add(new ConvertToGreyAction("greyscale", Icons.COLOUR_GREYSCALE, "greyscale_desc", null));
+        actions.add(new ChangeBrightnessAndContrast("brightness_contrast", Icons.COLOUR_ADJUSTMENTS, "brightness_contrast_desc", KeyboardShortcut.COLOUR_BRIGHTNESS_CONTRAST));
         actions.add(new InvertColourAction("[TRANSLATE] Invert", Icons.COLOUR_INVERT, "[TRANSLATE] Invert the colour of an image", KeyboardShortcut.COLOUR_INVERT));
         actions.add(new AlphaMaskAction("[TRANSLATE] Alpha Mask", Icons.COLOUR_MASK, "[TRANSLATE] Apply an alpha mask to the image",null));
 

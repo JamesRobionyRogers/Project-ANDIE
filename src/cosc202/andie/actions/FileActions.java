@@ -57,14 +57,13 @@ public class FileActions implements ActionCollection {
      * </p>
      */
     public FileActions() {
-        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction(language.getTranslated("open"), Icons.FILE_OPEN_MENU, language.getTranslated("open_desc"), KeyboardShortcut.FILE_OPEN));
-        actions.add(new FileSaveAction(language.getTranslated("save"), Icons.FILE_SAVE_MENU, language.getTranslated("save_desc"), KeyboardShortcut.FILE_SAVE));
-        actions.add(new FileSaveAsAction(language.getTranslated("save_as"), Icons.FILE_SAVE_AS_MENU, language.getTranslated("save_as_desc"), KeyboardShortcut.FILE_SAVE_AS));
-        actions.add(new FileExportAction(language.getTranslated("export"), Icons.FILE_EXPORT_MENU, language.getTranslated("export_desc"), KeyboardShortcut.FILE_EXPORT));
+        actions.add(new FileOpenAction("open", Icons.FILE_OPEN_MENU, "open_desc", KeyboardShortcut.FILE_OPEN));
+        actions.add(new FileSaveAction("save", Icons.FILE_SAVE_MENU, "save_desc", KeyboardShortcut.FILE_SAVE));
+        actions.add(new FileSaveAsAction("save_as", Icons.FILE_SAVE_AS_MENU, "save_as_desc", KeyboardShortcut.FILE_SAVE_AS));
+        actions.add(new FileExportAction("export", Icons.FILE_EXPORT_MENU, "export_desc", KeyboardShortcut.FILE_EXPORT));
         actions.add(new ImportAction("Import", Icons.FILE_IMPORT_MENU, "Import an operations macro", KeyboardShortcut.FILE_IMPORT));
-        actions.add(new FileExitAction(language.getTranslated("exit"), Icons.FILE_EXIT_MENU, language.getTranslated("exit_desc"), KeyboardShortcut.FILE_EXIT));
+        actions.add(new FileExitAction("exit", Icons.FILE_EXIT_MENU, "exit_desc", KeyboardShortcut.FILE_EXIT));
     }
 
     /**

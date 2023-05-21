@@ -44,13 +44,12 @@ public class FilterActions implements ActionCollection {
      * </p>
      */
     public FilterActions() {
-        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
-        actions.add(new MeanFilterAction(language.getTranslated("mean_filter"), Icons.FILTER_BLUR, language.getTranslated("mean_filter_desc"), KeyboardShortcut.FILTER_MEAN_BLUR));
-        actions.add(new MedianFilterAction(language.getTranslated("median_filter"), Icons.FILTER_BLUR, language.getTranslated("median_filter_desc"), null));
-        actions.add(new SharpenFilterAction(language.getTranslated("sharpen_filter"), Icons.FILTER_SHARPEN, language.getTranslated("sharpen_filter_desc"), KeyboardShortcut.FILTER_SHARPEN));
-        actions.add(new SoftBlurAction(language.getTranslated("soft_blur_filter"), Icons.FILTER_CIRCLE_BLUR, language.getTranslated("soft_blur_filter_desc"), null));
-        actions.add(new GaussianBlurAction(language.getTranslated("gaussian_blur_filter"), Icons.FILTER_BLUR, language.getTranslated("gaussian_blur_filter_desc"), KeyboardShortcut.FILTER_GAUSSIAN_BLUR));
+        actions.add(new MeanFilterAction("mean_filter", Icons.FILTER_BLUR, "mean_filter_desc", KeyboardShortcut.FILTER_MEAN_BLUR));
+        actions.add(new MedianFilterAction("median_filter", Icons.FILTER_BLUR, "median_filter_desc", null));
+        actions.add(new SharpenFilterAction("sharpen_filter", Icons.FILTER_SHARPEN, "sharpen_filter_desc", KeyboardShortcut.FILTER_SHARPEN));
+        actions.add(new SoftBlurAction("soft_blur_filter", Icons.FILTER_CIRCLE_BLUR, "soft_blur_filter_desc", null));
+        actions.add(new GaussianBlurAction("gaussian_blur_filter", Icons.FILTER_BLUR, "gaussian_blur_filter_desc", KeyboardShortcut.FILTER_GAUSSIAN_BLUR));
         actions.add(new EmbossFilterAction("Emboss Filter", Icons.FILTER_EMBOSS, "EMBOSS FILTER DESCRIPTION", KeyboardShortcut.FILTER_EMBOSS));
         actions.add(new EdgeDetectionAction("Edge Filter", Icons.FILTER_EDGE_DETECTION, "EDGE DETECTION FILTER DESCRIPTION", null));
 

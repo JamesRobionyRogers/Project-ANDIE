@@ -132,8 +132,12 @@ public class SetLanguage {
      */
     public String getTranslated(String translateThis) {
 
-        String translated = bundle.getString(translateThis);
-        //System.out.println(translated);
-        return translated;
+        try {
+            String translated = bundle.getString(translateThis);
+            return translated;
+        } catch (MissingResourceException e) {
+            ExceptionHandler.displayError("Untranslated feature: " + translateThis + "\nProceeding with no translation");
+            return translateThis;
+        }
     }
 }

@@ -5,6 +5,7 @@ import javax.swing.*;
 import cosc202.andie.Icons;
 import cosc202.andie.ImagePanel;
 import cosc202.andie.KeyboardShortcut;
+import cosc202.andie.SetLanguage;
 
 
 /**
@@ -34,6 +35,8 @@ import cosc202.andie.KeyboardShortcut;
  * @version 1.0
  */
 public abstract class ImageAction extends AbstractAction {
+
+    static SetLanguage language = SetLanguage.getInstance();
    
     /**
      * The user interface element containing the image upon which actions should be performed.
@@ -60,10 +63,9 @@ public abstract class ImageAction extends AbstractAction {
      * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
      */
     public ImageAction(String name, String icon, String desc, KeyStroke keyboardShortcut) {
-        super(name);
-        // super(name, icon);
+        super(language.getTranslated(name));
         if (desc != null) {
-            putValue(SHORT_DESCRIPTION, desc);
+            putValue(SHORT_DESCRIPTION, language.getTranslated(desc));
         }
 
         // Adding the keyboard shortcut to the action

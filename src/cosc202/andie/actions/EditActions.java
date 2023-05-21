@@ -36,13 +36,12 @@ public class EditActions implements ActionCollection {
      * </p>
      */
     public EditActions() {
-        SetLanguage language = SetLanguage.getInstance();
         actions = new ArrayList<Action>();
 
-        actions.add(new UndoAction(language.getTranslated("undo"), Icons.EDIT_UNDO, language.getTranslated("undo"), KeyboardShortcut.EDIT_UNDO));
-        actions.add(new RedoAction(language.getTranslated("redo"), Icons.EDIT_REDO, language.getTranslated("redo"), KeyboardShortcut.EDIT_REDO));
-        actions.add(new RecordAction(language.getTranslated("record"), Icons.EDIT_RECORD, language.getTranslated("record"), KeyboardShortcut.EDIT_RECORD));
-        actions.add(new StopRecordAction(language.getTranslated("stop_record"), Icons.EDIT_STOP_RECORD, language.getTranslated("stop_record"), KeyboardShortcut.EDIT_STOP_RECORD));
+        actions.add(new UndoAction("undo", Icons.EDIT_UNDO, "undo", KeyboardShortcut.EDIT_UNDO));
+        actions.add(new RedoAction("redo", Icons.EDIT_REDO, "redo", KeyboardShortcut.EDIT_REDO));
+        actions.add(new RecordAction("record", Icons.EDIT_RECORD, "record", KeyboardShortcut.EDIT_RECORD));
+        actions.add(new StopRecordAction("stop_record", Icons.EDIT_STOP_RECORD, "stop_record", KeyboardShortcut.EDIT_STOP_RECORD));
 
 
     }
