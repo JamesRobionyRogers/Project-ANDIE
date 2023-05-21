@@ -254,54 +254,55 @@ public class ToolActions implements ActionCollection {
         }
     }
 
+    /**
+         * Create a new Crop tool action
+         * 
+         * @param name The name of the action
+         * @param icon An icon to use to represent the action
+         * @param desc A brief description of the action
+         * @param mnemonic A mnemonic key to use as a shortcut
+         */
+        
     public class CropAction extends ImageAction {
 
-        public void actionPerformed(ActionEvent e){
-            int x,y,width,height;
-            x = y = width = height = 0;
+        public void actionPerformed(ActionEvent e) {
+            RegionSelector operation = new RegionSelector("rectangle", Color.WHITE);
+            RegionSelector operationFinal = new RegionSelector("rectangle", Color.WHITE, false);
+            ClickListener.activate(operation, operationFinal);
+            ClickListener.setTarget(target);
+            
+            // Add a mouse listener to the target image panel
+            target.addMouseListener(new MouseAdapter() {
+                public void mouseReleased(MouseEvent e) {
+                    // Get the coordinates of the crop rectangle
+                    int x = Math.min(operation.getX1(), operation.getX2());
+                    int y = Math.min(operation.getY1(), operation.getY2());
+                    int width = Math.abs(operation.getX2() - operation.getX1());
+                    int height = Math.abs(operation.getY2() - operation.getY1());
+                    
+                    //try catch for if the user just clicks, do we want this to cancel crop or do nothing and they continue
+                    try{
+                    // Create a Crop instance with the selected crop region
+                    Crop crop = new Crop(x, y, width, height);
+                    
+                    // undoes the drawing of the rectangle 
+                    target.getImage().undo();
+                    // Apply the crop effect to the image
+                    target.getImage().apply(crop);
     
-            SpinnerNumberModel B = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
-            JSpinner xSpinner = new JSpinner(B);
-            SpinnerNumberModel C = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
-            JSpinner ySpinner = new JSpinner(C);
-            SpinnerNumberModel D = new SpinnerNumberModel(100, 0, Integer.MAX_VALUE, 1);
-            JSpinner widthSpinner = new JSpinner(D);
-            SpinnerNumberModel E = new SpinnerNumberModel(100, 0, Integer.MAX_VALUE, 1);
-            JSpinner heightSpinner = new JSpinner(E);
-        
-            JPanel panel = new JPanel();
-            panel.setLayout(new GridLayout(4, 2));
-            panel.add(new JLabel("x:"));
-            panel.add(xSpinner);
-            panel.add(new JLabel("y:"));
-            panel.add(ySpinner);
-            panel.add(new JLabel("width:"));
-            panel.add(widthSpinner);
-            panel.add(new JLabel("height:"));
-            panel.add(heightSpinner);
+                    // Repaint and revalidate the image panel
+                    target.repaint();
+                    target.getParent().revalidate();
+                    
 
-            int option = JOptionPane.showOptionDialog(
-                Andie.getJFrame(), 
-                panel, 
-                "Crop the image [DNT]",
-                JOptionPane.OK_CANCEL_OPTION, 
-                JOptionPane.QUESTION_MESSAGE, 
-                (Icon) this.getValue("WindowIcon"),
-                null, 
-                null
-            );
-        
-            if (option == JOptionPane.CANCEL_OPTION) {
-                return;
-            } else if (option == JOptionPane.OK_OPTION) {
-                x = B.getNumber().intValue();
-                y = C.getNumber().intValue();
-                width = D.getNumber().intValue();
-                height = E.getNumber().intValue();
-            }
-            target.getImage().apply(new Crop(x,y,width,height));
-            target.repaint();
-            target.getParent().revalidate();
+                } catch (IllegalArgumentException ex){
+                    
+                }
+    
+                    // Remove the mouse listener after cropping is done, or if user just clicks 
+                    target.removeMouseListener(this);
+                }
+            });
         }
     
         CropAction(String name, String icon, String desc, KeyStroke mnemonic) {
