@@ -75,7 +75,7 @@ public class FunActions {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        RollAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        RollAction(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 

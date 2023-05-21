@@ -52,7 +52,7 @@ public class MultilingualSupport implements ActionCollection {
 
     public class ChangeEnglish extends ImageAction{
 
-        ChangeEnglish(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ChangeEnglish(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
     }
 
@@ -65,7 +65,7 @@ public class MultilingualSupport implements ActionCollection {
 
     public class ChangeSpanish extends ImageAction{
 
-    ChangeSpanish(String name, ImageIcon icon, String desc, Integer mnemonic) {
+    ChangeSpanish(String name, String icon, String desc, Integer mnemonic) {
         super(name, icon, desc, mnemonic);
         }
 
@@ -78,7 +78,7 @@ public class MultilingualSupport implements ActionCollection {
 
     public class ChangeGerman extends ImageAction{
 
-        ChangeGerman(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ChangeGerman(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }   
 
@@ -91,7 +91,7 @@ public class MultilingualSupport implements ActionCollection {
 
     public class ChangePortuguese extends ImageAction{
 
-        ChangePortuguese(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ChangePortuguese(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -103,7 +103,7 @@ public class MultilingualSupport implements ActionCollection {
     }
     public class ChangeItalian extends ImageAction{
 
-        ChangeItalian(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ChangeItalian(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -115,7 +115,7 @@ public class MultilingualSupport implements ActionCollection {
     }
     public class ChangeChinese extends ImageAction{
 
-        ChangeChinese(String name, ImageIcon icon, String desc, Integer mnemonic) {
+        ChangeChinese(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 

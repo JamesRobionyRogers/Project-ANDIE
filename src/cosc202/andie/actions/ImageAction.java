@@ -2,6 +2,7 @@ package cosc202.andie.actions;
 
 import javax.swing.*;
 
+import cosc202.andie.Icons;
 import cosc202.andie.ImagePanel;
 import cosc202.andie.KeyboardShortcut;
 
@@ -58,8 +59,9 @@ public abstract class ImageAction extends AbstractAction {
      * @param desc     A brief description of the action (ignored if null).
      * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
      */
-    public ImageAction(String name, ImageIcon icon, String desc, KeyStroke keyboardShortcut) {
-        super(name, icon);
+    public ImageAction(String name, String icon, String desc, KeyStroke keyboardShortcut) {
+        super(name);
+        // super(name, icon);
         if (desc != null) {
             putValue(SHORT_DESCRIPTION, desc);
         }
@@ -67,6 +69,9 @@ public abstract class ImageAction extends AbstractAction {
         // Adding the keyboard shortcut to the action
         if (keyboardShortcut != null) {
             this.putValue(ACCELERATOR_KEY, keyboardShortcut);
+        }
+        if (icon != null) {
+            assignIcons(icon);
         }
     }
 
@@ -86,8 +91,28 @@ public abstract class ImageAction extends AbstractAction {
      * @param desc A brief description of the action  (ignored if null).
      * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
      */
-    public ImageAction(String name, ImageIcon icon, String desc, Integer mnemonic) {
+    public ImageAction(String name, String icon, String desc, Integer mnemonic) {
         this(name, icon, desc, KeyboardShortcut.noShortcut()); 
+    }
+
+    /**
+     * <p>
+     * Method to assign an icon to the action.
+     * </p>
+     * 
+     * <p>
+     * This method is called by the constructor to assign an icon to the action 
+     * and assigns the {@code MenuIcon}, {@code ToolbarIcon}, and {@code WindowIcon} 
+     * values to the {@code Action}.
+     * </p>
+     * 
+     * @param icon The icon to assign to the action. 
+     */
+    private void assignIcons(String icon) {
+        // Assinging the menu icons 
+        this.putValue(Action.SMALL_ICON, Icons.getScaledIcon(icon, Icons.type.menu));
+        this.putValue("ToolbarIcon", Icons.getScaledIcon(icon, Icons.type.toolbar));
+        this.putValue("WindowIcon", Icons.getScaledIcon(icon, Icons.type.window));
     }
 
     /**

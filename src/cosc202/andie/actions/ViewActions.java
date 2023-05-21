@@ -97,7 +97,7 @@ public class ViewActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ZoomInAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        ZoomInAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -142,7 +142,7 @@ public class ViewActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ZoomOutAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        ZoomOutAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -187,7 +187,7 @@ public class ViewActions implements ActionCollection {
          * @param desc A brief description of the action  (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        ResetZoomAction(String name, ImageIcon icon, String desc, KeyStroke mnemonic) {
+        ResetZoomAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
