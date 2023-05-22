@@ -49,7 +49,7 @@ public class FileActions implements ActionCollection {
     private double minHeight = 300;
     private double maxWidth = (new Dimension(Toolkit.getDefaultToolkit().getScreenSize()).getWidth());
     private double maxHeight = (new Dimension(Toolkit.getDefaultToolkit().getScreenSize()).getHeight());
-    
+    private static double scale = 1;
 
     /**
      * <p>
@@ -143,10 +143,9 @@ public class FileActions implements ActionCollection {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            double scale = 1;
+            
             JFileChooser fileChooser = new JFileChooser();
             FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
-            
             fileChooser.setFileFilter(imageFilter);
             fileChooser.setAcceptAllFileFilterUsed(false);
             int result = fileChooser.showOpenDialog(target);
@@ -154,6 +153,7 @@ public class FileActions implements ActionCollection {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
                      target.getImage().open(imageFilepath);
+                     scale = 1;
                 }
                 // Catching Input/Output exceptions associated with opening a file
                 catch (IOException ioException) {

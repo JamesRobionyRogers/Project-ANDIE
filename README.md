@@ -192,10 +192,15 @@ Throughout the project we have been tracking features, bugs and further developm
 
 - ### Roll  
 - **Contributors:** Jess Tyrrell
-- **Description:** This feature will open the user'd default broswer and take them to a fun link. It support use on mac, 
-windows and linus.
+- **Description:** This feature will open the user's default broswer and take them to a fun link. It support use on mac, 
+windows and linux.
 - **Access:** Located under the `Fun` menu
 - **Testing:** Attempted to click the roll button on all operating systems. 
 - **Limitations:** 
 
-- [ ] Feature 2...
+- ### Auto resize of window on opening of file
+- **Contributors:** Jess Tyrrell
+- **Description:** This feature autoresizes the ANDIE window to perfectly contain the image and all other components (pack). To allow for this, the opened image is also scaled/zoomed to a reasonable size. There is a minimum heigth and width of 300 pixels and maximum height and width determinded by the users screen size. If both the height and width of the image is less than the minimum then the image is zoomed by 150% until either the minimum width or height is exceeded. If either the orignal image's height or width exceeds the maxiumum then the image is scaled by 1/1.5 (zoom of 66.7%) until both are less than their respective maximums. 
+- **Access:** Occurs automatically when a file is opened 
+- **Testing:** 
+- **Limitations:** 
