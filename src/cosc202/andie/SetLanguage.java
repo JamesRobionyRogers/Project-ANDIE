@@ -30,7 +30,7 @@ public class SetLanguage {
          */
     private SetLanguage() {
         try {
-            locale = new Locale(prefs.get("language", "en"), prefs.get("country", "NZ"));
+            Locale.setDefault(new Locale(prefs.get("language", "en"), prefs.get("country", "NZ")));
             bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundles.LanguageBundle");
         }
         // Catching exception when the user has a different primary language - tested on MacOS
