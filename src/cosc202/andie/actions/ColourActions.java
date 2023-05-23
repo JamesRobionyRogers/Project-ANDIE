@@ -1,19 +1,18 @@
 package cosc202.andie.actions;
 
-import cosc202.andie.*;
-import cosc202.andie.actions.colour.*;
 import java.util.*;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
-//import javax.swing.plaf.OptionPaneUI;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import cosc202.andie.*;
+import cosc202.andie.actions.colour.*;
 
 /**
  * <p>
@@ -37,8 +36,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @version 1.0
  */
 public class ColourActions implements ActionCollection {
-
-    private SetLanguage language = SetLanguage.getInstance();
     
     /** A list of actions for the Colour menu. */
     protected ArrayList<Action> actions;

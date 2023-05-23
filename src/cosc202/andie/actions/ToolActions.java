@@ -1,14 +1,13 @@
 package cosc202.andie.actions;
 
-import cosc202.andie.*;
-import cosc202.andie.actions.colour.AlphaMask;
-import cosc202.andie.actions.tool.*;
 import java.util.*;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
 
+import cosc202.andie.*;
+import cosc202.andie.actions.tool.*;
 
 public class ToolActions implements ActionCollection {
     
@@ -30,9 +29,9 @@ public class ToolActions implements ActionCollection {
         actions.add(new FlipImageActions("flip_image", Icons.TOOLS_FLIP_HORIZONTAL, "flip_image_desc", KeyboardShortcut.TOOLS_FLIP));
         actions.add(new CropAction("crop", Icons.TOOLS_CROP, "crop_desc", KeyboardShortcut.TOOLS_CROP));
         actions.add(new DrawShapeAction("draw", Icons.TOOLS_DRAW, "draw_shape", null));
-        //actions.add(new AlphaMaskAction());
+        
         // Testing feature - not for production
-        actions.add(new PixelPeekToolAction("peek", null, "peek_desc", null));
+        // actions.add(new PixelPeekToolAction("peek", null, "peek_desc", null));
     }
 
     /**

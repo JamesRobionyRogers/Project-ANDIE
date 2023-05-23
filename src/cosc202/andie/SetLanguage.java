@@ -77,43 +77,35 @@ public class SetLanguage {
             case 0: 
                 language = "en";
                 country = "NZ";
-                //System.out.println("English");
                 break;
             case 1:
                 language = "es";
                 country = "ES";
-                //System.out.println("Spanish");
                 break;
             case 2:
                 language = "de";
                 country = "DE";
-                //System.out.println("German");
                 break;
             case 3:
                 language = "pt";
                 country = "BR";
-                //System.out.println("Portugese");
                 break;
             case 4:
                 language = "it";
                 country = "IT";
-                //System.out.println("Italian");
                 break;
             case 5:
                 language = "zh";
                 country = "CH";
-                //System.out.println("Chinese");
                 break;
 
         }
         prefs.put("language", language);
         prefs.put("country", country);
         locale = (new Locale(prefs.get("language", language), prefs.get("country", country)));
-        //System.out.println(locale);
         bundle = ResourceBundle.getBundle("cosc202.andie.LanguageBundles.LanguageBundle", locale);
         try {
             Andie.main(null);
-            //System.out.println("trying main");
         } catch (Exception ex) {
             ex.printStackTrace();
             ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("general_error"));

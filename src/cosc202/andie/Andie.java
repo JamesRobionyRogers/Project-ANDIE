@@ -193,13 +193,11 @@ public class Andie {
                             }
                             
                         }
-                        //System.out.println(ImageAction.getTarget().getImage().getCurrentImage());
-                        //if (ImageAction.getTarget().getImage().getCurrentImage() != null) firstRun = false;
                     }
                     firstRun = false;
                     
                 } catch (Exception e) {
-                    // ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("general_error"));
+                    // Error's should not be caught here, so if they are they need to be addressed 
                     ExceptionHandler.debugException(e);
                 }
             }
