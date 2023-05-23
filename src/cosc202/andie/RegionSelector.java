@@ -54,7 +54,8 @@ public class RegionSelector extends Selection{
     public BufferedImage apply(BufferedImage input){
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         Graphics2D g2d = output.createGraphics();
-        int stroke = (int) (Math.sqrt(Math.max(input.getHeight(), input.getWidth()))/20);
+        System.out.println(input.getHeight());
+        int stroke = (int) (Math.sqrt(Math.max(input.getHeight(), input.getWidth()))/10);
         g2d.setStroke(new BasicStroke(stroke));
         g2d.setColor(colour);
         if(shape=="line"){
