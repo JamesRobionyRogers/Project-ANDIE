@@ -288,6 +288,7 @@ public class ToolActions implements ActionCollection {
 
         boolean fill = false;
         Color colour = Color.BLUE;
+        int strokeSize = 1;
 
         DrawShapeAction(String name, String icon, String desc, Integer mnemonic) {
             super(name, icon, desc, mnemonic);
@@ -298,43 +299,44 @@ public class ToolActions implements ActionCollection {
             int shape;
             SetLanguage language = SetLanguage.getInstance();
 
-            JButton colourPicker = new JButton(language.getTranslated("choose_colour"));
-            colourPicker.setBounds(200, 250, 100, 30);
-            colourPicker.addActionListener(new ActionListener() {
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (e.getSource() == colourPicker) {
-                        colour = JColorChooser.showDialog(null, language.getTranslated("choose_colour"), colour);
+                JButton colourPicker = new JButton(language.getTranslated("colour_chooser"));
+                colourPicker.setBounds(200, 250, 100, 30);
+                colourPicker.addActionListener(new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource()==colourPicker){
+                            ColorChooser color = new ColorChooser();
+                            color.showDialog(null,language.getTranslated("choose_colour"));
+                            colour = color.getColor();
+                
+                        }
                     }
-                }
-            });
+                });
 
-            JRadioButton panel = new JRadioButton(language.getTranslated("fill_shape"));
-            panel.addItemListener(new ItemListener(){
+                JSlider thicknessSlider = new JSlider(1, 10);
+                thicknessSlider.setMajorTickSpacing(9);
+                thicknessSlider.setMinorTickSpacing(2);
+                thicknessSlider.setPaintTicks(true);
+                thicknessSlider.setPaintLabels(true);
+                thicknessSlider.setValue(strokeSize);
+                JPanel strokePanel = new JPanel();
+                strokePanel.setLayout(new GridLayout(2, 2));
+                //panel.add(new JLabel(language.getTranslated("thickness")));
+                strokePanel.add(new JLabel(language.getTranslated("thickness")));
+                strokePanel.add(thicknessSlider);
+                
+
+
+            JRadioButton fillButton = new JRadioButton(language.getTranslated("fill_shape"));
+            fillButton.addItemListener(new ItemListener() {
 
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     Object source = e.getItemSelectable();
 
-                    if (source == panel){
-                        fill = true;
-                    }
-                    if(e.getStateChange() == ItemEvent.DESELECTED){
-                        fill = false;
-                    }
-                }
-            });
-            // -1 is cancel code for dialog option
-
-            JRadioButton panel1 = new JRadioButton(language.getTranslated("fill_shape"));
-            panel.addItemListener(new ItemListener() {
-
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    Object source = e.getItemSelectable();
-
-                    if (source == panel1) {
+                    if (source == fillButton) {
                         fill = true;
                     }
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
@@ -342,11 +344,13 @@ public class ToolActions implements ActionCollection {
                     }
                 }
             });
-
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(1, 1));
+            panel.add(fillButton);
+            panel.add(strokePanel);
+            panel.add(colourPicker);
             // Option button text
             Object[] options = {
-                panel, 
-                colourPicker, 
                 language.getTranslated("rectangle"),
                 language.getTranslated("oval"),
                 language.getTranslated("line"),
@@ -354,17 +358,19 @@ public class ToolActions implements ActionCollection {
 
             // Creating the dialog box that returns the shape the user wants to draw
             shape = JOptionPane.showOptionDialog(
-                Andie.getJFrame(), 
-                language.getTranslated("draw_shape_question"),
-                language.getTranslated("draw_shape"),
+                Andie.getJFrame(), panel, 
+                language.getTranslated("draw_question"),
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 (Icon) this.getValue("WindowIcon"),
                 options,
-                options[4]
-            );
+                options[2]);
+                strokeSize = thicknessSlider.getValue();
 
-
+                if (shape == -1) {
+                    fill = false;
+                    return;
+                }            
             
             // Assigning the ClickListener to correct shape
             switch (shape) {
@@ -372,14 +378,14 @@ public class ToolActions implements ActionCollection {
                 case -1 : 
                     break;
 
-                case 2: 
-                    ClickListener.activate(new RegionSelector("rectangle", colour, fill));
+                case 0: 
+                    ClickListener.activate(new RegionSelector("rectangle", colour, fill, strokeSize));
                     break;
-                case 3: 
-                    ClickListener.activate(new RegionSelector("oval", colour, fill));
+                case 1: 
+                    ClickListener.activate(new RegionSelector("oval", colour, fill, strokeSize));
                     break;
-                case 4:
-                    ClickListener.activate(new RegionSelector("line", colour, fill));
+                case 2:
+                    ClickListener.activate(new RegionSelector("line", colour, fill, strokeSize));
                     break;
                 
                 default:

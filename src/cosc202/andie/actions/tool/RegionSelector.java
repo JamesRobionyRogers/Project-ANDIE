@@ -33,6 +33,8 @@ public class RegionSelector extends Selection{
     /**Stores whether the shape will be filled or not */
     private boolean fill;
 
+    private int strokeSize;
+
     /**Constructor for unfilled shapes */
     public RegionSelector(String shapeIn, Color colourIn){
         shape = shapeIn;
@@ -45,8 +47,17 @@ public class RegionSelector extends Selection{
         shape = shapeIn;
         colour = colourIn;
         fill = fillIn;
+        strokeSize = 1;
     }
 
+        /**Constructor for filled shapes */
+        public RegionSelector(String shapeIn, Color colourIn, boolean fillIn, int strokeSizeIn){
+            shape = shapeIn;
+            colour = colourIn;
+            fill = fillIn;
+            strokeSize = strokeSizeIn;
+        }
+    
     /**Apply method
      * <p>
      * Draws the shape made by @see drawShape onto the buffered image. There is live feedback to see the shape before drawing it
@@ -56,7 +67,7 @@ public class RegionSelector extends Selection{
     public BufferedImage apply(BufferedImage input){
         BufferedImage output = new BufferedImage(input.getColorModel(), input.copyData(null), input.isAlphaPremultiplied(), null);
         Graphics2D g2d = output.createGraphics();
-        int stroke = (int) (Math.sqrt(Math.max(input.getHeight(), input.getWidth()))/20);
+        int stroke = (int) (Math.sqrt(Math.max(input.getHeight(), input.getWidth()))/10)*strokeSize;
         g2d.setStroke(new BasicStroke(stroke));
         g2d.setColor(colour);
         if(shape=="line"){
