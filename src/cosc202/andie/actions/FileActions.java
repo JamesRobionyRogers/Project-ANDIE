@@ -144,7 +144,7 @@ public class FileActions implements ActionCollection {
         public void actionPerformed(ActionEvent e) {
             
             JFileChooser fileChooser = new JFileChooser();
-            FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+            FileFilter imageFilter = new FileNameExtensionFilter(language.getTranslated("image_files"), ImageIO.getReaderFileSuffixes());
             fileChooser.setFileFilter(imageFilter);
             fileChooser.setAcceptAllFileFilterUsed(false);
             int result = fileChooser.showOpenDialog(target);
@@ -329,7 +329,7 @@ public class FileActions implements ActionCollection {
             fileChooser.setAcceptAllFileFilterUsed(false);
 
             // Setting the title of the dialog box
-            fileChooser.setDialogTitle("Save a file");
+            fileChooser.setDialogTitle(language.getTranslated("file_save_as"));
 
             int result = fileChooser.showSaveDialog(target);
 
@@ -452,7 +452,7 @@ public class FileActions implements ActionCollection {
             fileChooser.setAcceptAllFileFilterUsed(false);
 
             // Setting the title of the dialog box
-            fileChooser.setDialogTitle("Export a file");
+            fileChooser.setDialogTitle(language.getTranslated("file_export"));
 
             int result = fileChooser.showSaveDialog(target);
             if (result == JFileChooser.APPROVE_OPTION) {

@@ -1,10 +1,13 @@
 package cosc202.andie.actions;
 
 import java.util.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
+import javax.swing.JDialog;
 
 import cosc202.andie.*;
 import cosc202.andie.actions.tool.*;
@@ -308,13 +311,30 @@ public class ToolActions implements ActionCollection {
             });
 
             JRadioButton panel = new JRadioButton(language.getTranslated("fill_shape"));
+            panel.addItemListener(new ItemListener(){
+
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    Object source = e.getItemSelectable();
+
+                    if (source == panel){
+                        fill = true;
+                    }
+                    if(e.getStateChange() == ItemEvent.DESELECTED){
+                        fill = false;
+                    }
+                }
+            });
+            // -1 is cancel code for dialog option
+
+            JRadioButton panel1 = new JRadioButton(language.getTranslated("fill_shape"));
             panel.addItemListener(new ItemListener() {
 
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     Object source = e.getItemSelectable();
 
-                    if (source == panel) {
+                    if (source == panel1) {
                         fill = true;
                     }
                     if (e.getStateChange() == ItemEvent.DESELECTED) {
@@ -322,84 +342,95 @@ public class ToolActions implements ActionCollection {
                     }
                 }
             });
-            // Custom button text
-            Object[] options = { panel, colourPicker, language.getTranslated("rectangle"),
-                    language.getTranslated("oval"),
-                    language.getTranslated("line") };
-            shape = JOptionPane.showOptionDialog(null, language.getTranslated("draw_question"),
-                    language.getTranslated("draw"),
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[4]);
 
-            // -1 is cancel code for dialog option
-            if (shape == -1) {
-                fill = false;
-                return;
+            // Option button text
+            Object[] options = {
+                panel, 
+                colourPicker, 
+                language.getTranslated("rectangle"),
+                language.getTranslated("oval"),
+                language.getTranslated("line"),
+            };
+
+            // Creating the dialog box that returns the shape the user wants to draw
+            shape = JOptionPane.showOptionDialog(
+                Andie.getJFrame(), 
+                language.getTranslated("draw_shape_question"),
+                language.getTranslated("draw_shape"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                (Icon) this.getValue("WindowIcon"),
+                options,
+                options[4]
+            );
+
+
+            
+            // Assigning the ClickListener to correct shape
+            switch (shape) {
+                // -1 is cancel code for dialog option
+                case -1 : 
+                    break;
+
+                case 2: 
+                    ClickListener.activate(new RegionSelector("rectangle", colour, fill));
+                    break;
+                case 3: 
+                    ClickListener.activate(new RegionSelector("oval", colour, fill));
+                    break;
+                case 4:
+                    ClickListener.activate(new RegionSelector("line", colour, fill));
+                    break;
+                
+                default:
+                    break;
             }
-            if (fill) {
-                if (shape == 2) {
-                    ClickListener.activate(new RegionSelector("rectangle", colour, true));
-                } else if (shape == 3) {
-                    ClickListener.activate(new RegionSelector("oval", colour, true));
-                } else if (shape == 4) {
-                    ClickListener.activate(new RegionSelector("line", colour, true));
-                }
-            } else {
-                if (shape == 2) {
-                    ClickListener.activate(new RegionSelector("rectangle", colour));
-                } else if (shape == 3) {
-                    ClickListener.activate(new RegionSelector("oval", colour));
-                } else if (shape == 4) {
-                    ClickListener.activate(new RegionSelector("line", colour));
-                }
-            }
+
             fill = false;
         }
 
     }
 
-        /**
-     * <p>
-     * Action to open users default browser and..
-     * </p>
-     * 
-     */
-    public class RollAction extends ImageAction{
 
         /**
          * <p>
-         * Create a new mean-filter action.
+         * Action to open users default browser and..
          * </p>
          * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
          */
-        RollAction(String name, String icon, String desc, Integer mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
+        public class RollAction extends ImageAction {
 
-        /**
-         * <p>
-         * Callback for when the roll action is triggered.
-         * </p>
-         * 
-         * <p>
-         * This method is called whenever the roll action is triggered.
-         * It prompts the user for nothing, then pranks them.
-         * </p>
-         * 
-         * @param e The event triggering this callback.
-         */
-        public void actionPerformed(ActionEvent e){
+            /**
+             * <p>
+             * Create a new mean-filter action.
+             * </p>
+             * 
+             * @param name     The name of the action (ignored if null).
+             * @param icon     An icon to use to represent the action (ignored if null).
+             * @param desc     A brief description of the action (ignored if null).
+             * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
+             */
+            RollAction(String name, String icon, String desc, Integer mnemonic) {
+                super(name, icon, desc, mnemonic);
+            }
+
+            /**
+             * <p>
+             * Callback for when the roll action is triggered.
+             * </p>
+             * 
+             * <p>
+             * This method is called whenever the roll action is triggered.
+             * It prompts the user for nothing, then pranks them.
+             * </p>
+             * 
+             * @param e The event triggering this callback.
+             */
+            public void actionPerformed(ActionEvent e) {
                 Roll r = new Roll();
                 r.applyRoll();
-        
+
+            }
         }
-    }
 
 }
