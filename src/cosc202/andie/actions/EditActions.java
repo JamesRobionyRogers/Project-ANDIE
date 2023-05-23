@@ -256,7 +256,6 @@ public class EditActions implements ActionCollection {
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    System.out.println(imageFilepath);
                     target.getImage().stoprecord(imageFilepath, fileChooser.getFileFilter().getDescription());
     
                 } catch (Exception ex) {

@@ -17,12 +17,12 @@ import javax.swing.ImageIcon;
  * box:
  * 
  * <pre>
- * JOptionPane.showMessageDialog(... , Icons.FILE_OPEN_MENU, ...);
+ * JOptionPane.showMessageDialog(... , Icons.FILE_OPEN, ...);
  * </pre>
  * 
  * or assigning it to a variable:
  * <pre>
- * String icon = Icons.FILE_OPEN_MENU;
+ * String icon = Icons.FILE_OPEN;
  * </pre>
  * </p>
  * 
@@ -31,7 +31,7 @@ import javax.swing.ImageIcon;
  * and are licensed under the <a href="https://github.com/google/material-design-icons/blob/master/LICENSE">Apache License 2.0</a>
  * </p>
  * 
- * @version 3rd May 2023
+ * @version 22nd May 2023
  * @author James Robiony-Rogers
  */
 public final class Icons {
@@ -48,13 +48,12 @@ public final class Icons {
     public static enum type { menu, window, toolbar }; 
     
     // File menu icons see 
-    public static final String FILE_OPEN_MENU = "File-OpenFile.png";
-    public static final String FILE_SAVE_MENU = "File-Save.png";
-    public static final String FILE_SAVE_AS_MENU = "File-SaveAs.png";
-    public static final String FILE_EXPORT_MENU = "File-Export.png";
-    public static final String FILE_IMPORT_MENU = "File-Import.png";
-    public static final String FILE_EXIT_MENU = "File-Exit.png"; 
-
+    public static final String FILE_OPEN = "File-OpenFile.png";
+    public static final String FILE_SAVE = "File-Save.png";
+    public static final String FILE_SAVE_AS = "File-SaveAs.png";
+    public static final String FILE_EXPORT = "File-Export.png";
+    public static final String FILE_IMPORT = "File-Import.png";
+    public static final String FILE_EXIT = "File-Exit.png"; 
 
     // Edit menu icons 
     public static final String EDIT_UNDO = "Edit-Undo.png";
@@ -62,7 +61,6 @@ public final class Icons {
     public static final String EDIT_RECORD = "Record.png";
     public static final String EDIT_STOP_RECORD = "Stop-Recording.png";
     public static final String EDIT_REVERT = "revert.png";
-
 
     // View menu icons
     public static final String VIEW_ZOOM_IN = "View-ZoomIn.png";
@@ -76,16 +74,9 @@ public final class Icons {
     public static final String FILTER_EMBOSS = "Filter-Emboss.png";
     public static final String FILTER_EDGE_DETECTION = "Filter-EdgeDetection.png";
 
-    public static final String FILTER_BLUR_WINDOW = "Filter-Blur.png";
-    public static final String FILTER_SHARPEN_WINDOW = "Filter-Sharpen.png";
-    public static final String FILTER_CIRCLE_BLUR_WINDOW = "Filter-CircleBlur.png";
-    public static final String FILTER_EMBOSS_WINDOW = "Filter-Emboss.png";
-    public static final String FILTER_EDGE_DETECTION_WINDOW = "Filter-EdgeDetection.png";
-
     // Colour menu icons
     public static final String COLOUR_GREYSCALE = "Colour-Greyscale.png";
     public static final String COLOUR_ADJUSTMENTS = "Colour-Adjustments.png";
-    public static final String COLOUR_ADJUSTMENTS_WINDOW = "Colour-Adjustments.png";
     public static final String COLOUR_INVERT = "Colour-Invert.png";
     public static final String COLOUR_MASK = "Colour-Mask.png";
 
@@ -97,18 +88,12 @@ public final class Icons {
     public static final String TOOLS_CROP = "Tools-Crop.png";
     public static final String TOOLS_DRAW = "Tools-Draw.png";
 
-    public static final String TOOLS_FLIP_HORIZONTAL_WINDOW = "Tools-FlipHorizontal.png";
-    public static final String TOOLS_ROTATE_WINDOW = "Tools-Rotate.png";
-    public static final String TOOLS_RESIZE_WINDOW = "Tools-Resize.png";
-    public static final String TOOLS_CROP_WINDOW = "Tools-Crop.png";
-
-
     // Language menu icons
     public static final String LANGUAGE_GLOBAL = "Language-Global-Large.png";
 
     /**
      * <p>
-     * Takes in an {@code Ions.CONSTANT} and a type (either {@code type.menu}, 
+     * Takes in an {@code Icons.CONSTANT} and a type (either {@code type.menu}, 
      * {@code type.window} or {@code type.toolbar}) and returns an {@code ImageIcon}
      * object. 
      * </p><p>
@@ -160,12 +145,17 @@ public final class Icons {
     }
 
 
+    /**
+     * <p>
+     * Returns an Icon's {@code URL} object for the given filename. 
+     * </p>
+     * @param filename The filename of the icon to be loaded
+     * @return The URL of the icon
+     */
     private static URL getIconURL(String filename) {
         String pathToIcon = folderContainingIcons + filename;
         URL path = ClassLoader.getSystemResource(pathToIcon);
         return path; 
-
-
     }
 
     /**

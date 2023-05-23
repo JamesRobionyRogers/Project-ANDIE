@@ -2,7 +2,6 @@ package cosc202.andie.actions;
 
 import java.util.*;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
@@ -58,12 +57,12 @@ public class FileActions implements ActionCollection {
      */
     public FileActions() {
         actions = new ArrayList<Action>();
-        actions.add(new FileOpenAction("open", Icons.FILE_OPEN_MENU, "open_desc", KeyboardShortcut.FILE_OPEN));
-        actions.add(new FileSaveAction("save", Icons.FILE_SAVE_MENU, "save_desc", KeyboardShortcut.FILE_SAVE));
-        actions.add(new FileSaveAsAction("save_as", Icons.FILE_SAVE_AS_MENU, "save_as_desc", KeyboardShortcut.FILE_SAVE_AS));
-        actions.add(new FileExportAction("export", Icons.FILE_EXPORT_MENU, "export_desc", KeyboardShortcut.FILE_EXPORT));
-        actions.add(new ImportAction("import", Icons.FILE_IMPORT_MENU, "import_desc", KeyboardShortcut.FILE_IMPORT));
-        actions.add(new FileExitAction("exit", Icons.FILE_EXIT_MENU, "exit_desc", KeyboardShortcut.FILE_EXIT));
+        actions.add(new FileOpenAction("open", Icons.FILE_OPEN, "open_desc", KeyboardShortcut.FILE_OPEN));
+        actions.add(new FileSaveAction("save", Icons.FILE_SAVE, "save_desc", KeyboardShortcut.FILE_SAVE));
+        actions.add(new FileSaveAsAction("save_as", Icons.FILE_SAVE_AS, "save_as_desc", KeyboardShortcut.FILE_SAVE_AS));
+        actions.add(new FileExportAction("export", Icons.FILE_EXPORT, "export_desc", KeyboardShortcut.FILE_EXPORT));
+        actions.add(new ImportAction("import", Icons.FILE_IMPORT, "import_desc", KeyboardShortcut.FILE_IMPORT));
+        actions.add(new FileExitAction("exit", Icons.FILE_EXIT, "exit_desc", KeyboardShortcut.FILE_EXIT));
     }
 
     /**
@@ -337,7 +336,6 @@ public class FileActions implements ActionCollection {
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    System.out.println(imageFilepath);
                     target.getImage().saveAs(imageFilepath, fileChooser.getFileFilter().getDescription());
 
                 } catch (Exception ex) {
@@ -460,7 +458,6 @@ public class FileActions implements ActionCollection {
             if (result == JFileChooser.APPROVE_OPTION) {
                 try {
                     String imageFilepath = fileChooser.getSelectedFile().getCanonicalPath();
-                    System.out.println(imageFilepath);
                     target.getImage().export(imageFilepath, fileChooser.getFileFilter().getDescription());
 
                 } catch (Exception ex) {
@@ -542,7 +539,6 @@ public class FileActions implements ActionCollection {
 
                 catch (Exception ex) {
                     ex.printStackTrace();
-                    System.out.println("crashed here");
                     System.exit(1);
                 }
             }

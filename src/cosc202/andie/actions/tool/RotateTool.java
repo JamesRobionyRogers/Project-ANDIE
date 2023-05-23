@@ -100,7 +100,6 @@ public class RotateTool implements ImageOperation, java.io.Serializable {
 
             // something went wrong
             default:
-                System.out.println("Something went wrong while rotating");
                 return input;
 
         }

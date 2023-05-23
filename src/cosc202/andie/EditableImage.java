@@ -133,7 +133,6 @@ public class EditableImage {
             verticalOps.stream().takeWhile(i -> (!alpha.hasAlpha)).forEach(y -> {
                 if ((((image.getRGB(x, y) & 0xFF000000) >>> 24) != 255)){
                     alpha.hasAlpha = true;
-                    System.out.println("does this print?");
                 }
             });
         });
@@ -308,11 +307,6 @@ public class EditableImage {
             if (this.opsFilename == null) {
                 this.opsFilename = this.imageFilename + ".ops";
             }
-
-            // just for testing
-            if (!this.opsFilename.equals(this.imageFilename + ".ops")){
-                System.out.println("OPS FILE IS INCORRECT FOR IMAGE FILE");
-            }
             // Write operations file
             FileOutputStream fileOut = new FileOutputStream(this.opsFilename);
             ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
@@ -323,7 +317,6 @@ public class EditableImage {
             ExceptionHandler.displayError(language.getTranslated("file_not_found_exception"));
 
         } catch (IOException a) {
-            System.out.println(a);
             ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
         }
     }
@@ -410,16 +403,11 @@ public class EditableImage {
      * </p>
      */
     public void undo() {
-        //System.out.println("triggered undo");
         if (!ops.isEmpty()) {
-            //System.out.println("undo isn't empty");
             redoOps.push(ops.pop());
             if (!undoImages.isEmpty()){
-                //System.out.println("Image stack isn't empty");
-                //System.out.println(current);
                 redoImages.push(current);
                 current =  undoImages.pop();
-                //System.out.println(current);
             } else {
                 redoImages.push(current);
                 refresh();
@@ -434,16 +422,10 @@ public class EditableImage {
      * </p>
      */
     public void redo() {
-        //System.out.println("redo triggered");
         if (!redoOps.isEmpty()) {
-            //System.out.println("redo isn't empty");
-            
             if (!redoImages.isEmpty()){
-                //System.out.println("image stack isn't empty");
-                //System.out.println(current);
                 undoImages.push(current);
                 current = redoImages.pop();
-                //System.out.println(current);
             } else {
                 undoImages.push(current);
                 current = redoOps.peek().apply(current);
@@ -510,7 +492,6 @@ public class EditableImage {
     public void export(String imageFilename, String extension) throws Exception {
         
         String exportFilename = imageFilename + "." + extension;
-        System.out.println(exportFilename);
         if (original == null) return;
         BufferedImage writeImage;
 
@@ -553,7 +534,6 @@ public class EditableImage {
     private void exportSave(String imageFilename, String extension) throws Exception {
         
         String exportFilename = imageFilename + "." + extension;
-        System.out.println(exportFilename);
 
         BufferedImage writeImage;
         

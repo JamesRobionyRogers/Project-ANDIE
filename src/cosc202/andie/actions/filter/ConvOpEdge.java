@@ -100,7 +100,6 @@ public class ConvOpEdge{
 
             verticalOps.parallelStream().forEach(yNum -> {
                 horizontalOps.parallelStream().forEach(xNum -> {
-                    //System.out.println("NOTHING SHOULD HAVE HAPPENED");
                     output.setRGB(xNum, yNum, kernelIter(xNum, yNum, input));
 
                 });
