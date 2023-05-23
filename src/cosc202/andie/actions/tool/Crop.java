@@ -15,9 +15,12 @@ import java.awt.image.BufferedImage;
 public class Crop extends Selection {
 
     public BufferedImage apply(BufferedImage input){
-        BufferedImage output = new BufferedImage(getWidth(), getHeight(), input.getType());
+        if((getWidth()>0)||(getHeight()>0)){
+            BufferedImage output = new BufferedImage(getWidth(), getHeight(), input.getType());
         int[] rgbaArray = input.getRGB(getX(), getY(), getWidth(), getHeight(), null, 0, getWidth());
         output.setRGB(0, 0, getWidth(), getHeight(), rgbaArray, 0, getWidth());
         return output;
+        }
+        return input;
     }
 }

@@ -183,6 +183,21 @@ Below is a collapsible section documenting how each member of our group contribu
   - ***Enabled Buttons:*** Open an image and try using some of the common operations
 - **Limitations:** 
 ---
+### Mouse Selection of Rectangular regions
+- **Contributors:** Sola Woodhouse, Xavier Nuttal
+- **Description:** This feature ('ClickListener') allows for other features such as draw shape and crop to be used in a more user friendly way.
+- **Testing:** Tested by applying it with the draw function
+- **Limitations:** N/A
+
+---
+### Drawing Shapes
+- **Contributors:** Sola Woodhouse
+- **Description:** Users are now able to draw rectangles, ovals, and lines in ANDIE with their mouse, and can choose whether the shape is filled or not, the thickness of their line, and the colour they would like to use.
+- **Access:** Located under the 'Tools' menu.
+- **Testing:** Tested by using 'PixelPeek' and 'ClickListener' to check the colour of the correct pixels are changed.
+- **Limitations:** 
+
+---
 
 
 </details>

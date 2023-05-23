@@ -6,21 +6,31 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.JColorChooser;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import cosc202.andie.SetLanguage;
 
 
-
+/**
+ * <p>
+ * Creates a colourchooser.
+ * </p>
+ * 
+ * <p>
+ * The ColorChooser creates an interface to select a new colour and returns the colour when selected, or returns the previous colour when cancelled or exited.
+ * </p>
+ * 
+ * @author Sola Woodhouse
+ * @version 1.0
+ */
 public class ColorChooser extends JDialog {
 
 	private SetLanguage language = SetLanguage.getInstance();
-	//private static final long serialVersionUID = -9031046610974332358L;
 	private int rValue,gValue,bValue;
 	private Color color;
 	private JPanel panel;
@@ -28,14 +38,20 @@ public class ColorChooser extends JDialog {
 	private static Color colourDefault = Color.WHITE;
 	String title;
 	
+	/**The method to return the colour selected with the colour chooser inteface 
+	 *@return color
+	*/
 	public Color getColor(){
 		return color;
 	} 
 
-
+	/** Constructor for ColorChooser */
 	public ColorChooser(){
 	}
 
+	/**showDialog creates the colour chooser panel with a JDialog and an AbstractColorChooserPanel
+	 * @param input is component and the title of the colourpanel
+	 */
 	public void showDialog(Component comp, String titleIn){
 
         JDialog dialog = createDialog(comp, title);
@@ -105,7 +121,11 @@ public class ColorChooser extends JDialog {
 
 	}
 	
-	
+	/**Createdialog method for the colour chooser
+	 * @param component 
+	 * @param title
+	 * @return JDialog
+	 */
 	private JDialog createDialog(Component comp, String title) {
         JDialog dialog = new JDialog(null, title, DEFAULT_MODALITY_TYPE, getGraphicsConfiguration());
 
