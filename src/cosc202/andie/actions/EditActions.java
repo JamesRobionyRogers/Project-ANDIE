@@ -42,7 +42,7 @@ public class EditActions implements ActionCollection {
         actions.add(new RedoAction("redo", Icons.EDIT_REDO, "redo", KeyboardShortcut.EDIT_REDO));
         actions.add(new RecordAction("record", Icons.EDIT_RECORD, "record", KeyboardShortcut.EDIT_RECORD));
         actions.add(new StopRecordAction("stop_record", Icons.EDIT_STOP_RECORD, "stop_record", KeyboardShortcut.EDIT_STOP_RECORD));
-        actions.add(new RevertAction("revert", Icons.EDIT_REVERT, "revert_desc", null));
+
 
     }
 
@@ -267,53 +267,7 @@ public class EditActions implements ActionCollection {
         }
     }
 
-    /**
-     * <p>
-     * Action to revert all changes {@link ImageOperation}.
-     * </p>
-     * 
-     * @see EditableImage#revert()
-     */   
-    public class RevertAction extends ImageAction {
-
-        /**
-         * <p>
-         * Create a new revert action.
-         * </p>
-         * 
-         * @param name The name of the action (ignored if null).
-         * @param icon An icon to use to represent the action (ignored if null).
-         * @param desc A brief description of the action  (ignored if null).
-         * @param mnemonic A mnemonic key to use as a shortcut  (ignored if null).
-         */
-        RevertAction(String name, String icon, String desc, KeyStroke mnemonic) {
-            super(name, icon, desc, mnemonic);
-        }
-        /**
-         * <p>
-         * Callback for when the stop recording action is triggered.
-         * </p>
-         * 
-         * 
-         * 
-         * <p>
-         * This method is called whenever the RevertAction is triggered.
-         * It reverts the image contained within the ImagePanel to the original opened image
-         * </p>
-         * 
-         * @param e The event triggering this callback.
-         */
-        public void actionPerformed(ActionEvent e) {
-            target.getImage().revert();
-            target.repaint();
-            target.getParent().revalidate();
-        }
-    }
 
 }
-
-
-
-
 
 
