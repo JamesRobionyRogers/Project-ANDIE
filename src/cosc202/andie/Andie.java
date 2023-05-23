@@ -126,11 +126,6 @@ public class Andie {
                 ToolActions toolActions = new ToolActions();
                 menuBar.add(toolActions.createMenu());
 
-                //Actions to add fun things
-                 FunActions funActions = new FunActions();
-                 menuBar.add(funActions.createMenu());
- 
-
                 //Actions to add multilingual support
                 MultilingualSupport multilingual = new MultilingualSupport();
                 menuBar.add(multilingual.createMenu());

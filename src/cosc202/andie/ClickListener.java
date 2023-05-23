@@ -2,97 +2,111 @@ package cosc202.andie;
 
 import java.awt.*;
 import java.awt.event.*;
-
+import cosc202.andie.actions.tool.Selection;
 
 /**
+ * ClickListener is a class that tracks mouse activity and movement for selecting regions on an image.
+ * When the mouse is pressed, the location point is stored as the start point. While the mouse is dragged, the location point is updated as the end point with each tracked location.
+ * The ClickListener class applies the appropriate operations to the target image panel based on the mouse events, such as drawing focus rectangles or performing other selected actions.
+ *
  * <p>
- * ClickListener to track the mouse activity and movement.
+ * This class provides methods to activate and deactivate the ClickListener, set the target image panel, and specify the selection operations for live feedback and final image.
  * </p>
- * 
+ *
  * <p>
- * When the mouse is pressed, the location point is stored as start. While the mouse is dragged, the location point is stored as end with each tracked location. 
- * The mouse drag calls the apply method of the RegionSelector class to draw either a focus rectangle, or a different selected action. 
+ * Usage example:
  * </p>
- * 
- * <p>
- * </p>
- * 
+ *
+ * <pre>{@code
+ * // Set the target image panel
+ * ImagePanel imagePanel = new ImagePanel();
+ * ClickListener.setTarget(imagePanel);
+ *
+ * // Create a selection operation for live feedback
+ * Selection selectionOp = new RegionSelector();
+ *
+ * // Activate the ClickListener with the selection operation
+ * ClickListener.activate(selectionOp);
+ * }</pre>
+ *
+ * @see ImagePanel
+ * @see Selection
  * @author Sola Woodhouse
- * @version 1.0
+ * @version 1.3
  */
-public class ClickListener implements MouseListener, MouseMotionListener{
+public class ClickListener implements MouseListener, MouseMotionListener {
 
     /**
-     * The ClickListener singleton.
+     * The ClickListener singleton instance.
      */
     private static ClickListener cl = new ClickListener();
 
-    // the operation applied for visual feedback (e.g. a box for crop)
+    // The operation applied for visual feedback (e.g., a box for crop)
     private static Selection operation;
 
-    // the operation applied when the user releases click (e.g. a crop)
+    // The operation applied when the user releases the click (e.g., a crop)
     private static Selection operationFinal;
 
     // The image panel
     private static ImagePanel target;
 
-    // If draw is active or not
+    // Indicates if draw is active or not
     private static boolean active;
 
-    /**Method to set the target image panel 
-     * @parameter ImagePanel imPanel
-    */
-    public static void setTarget(ImagePanel imPanel){
+    /**
+     * Sets the target image panel.
+     *
+     * @param imPanel The target image panel.
+     */
+    public static void setTarget(ImagePanel imPanel) {
         target = imPanel;
     }
 
-    /** Method to set activae for live feedback and final image - drawing
-     * @parameter selection op
-    */
+    /**
+     * Activates the ClickListener with the specified selection operation for live feedback and final image.
+     *
+     * @param op The selection operation for live feedback.
+     */
     public static void activate(Selection op) {
         operation = op;
         operationFinal = op;
         active = true;
     }
 
-    /**Method to set active for live feedback and final image - crop
-     * @parameter selection op
-    */
+    /**
+     * Activates the ClickListener with the specified selection operations for live feedback and final image.
+     *
+     * @param op      The selection operation for live feedback.
+     * @param finalOp The selection operation for the final image.
+     */
     public static void activate(Selection op, Selection finalOp) {
         operation = op;
         operationFinal = finalOp;
         active = true;
     }
 
-    /**Turn off active */
-    public static void disable(){
+    /**
+     * Disables the ClickListener.
+     */
+    public static void disable() {
         active = false;
     }
 
     /**
-     * Implements the ImageAction interface - not used.
+     * Returns the ClickListener instance.
+     *
+     * @return The ClickListener instance.
      */
-    public void actionPerformed(ActionEvent e) {
+    public static ClickListener getInstance() {
+        return cl;
     }
 
     /**
-     * Returns the ClickListener instance.
+     * Stores the start location when the mouse is pressed and calls the RegionSelector apply method for live feedback.
+     *
+     * @param e The mouse event.
      */
-    public static ClickListener getInstance(){
-        return cl;
-    }
-    
-
-    /** 
-     * <p>
-     * Stores the start and end location of when the mouse is pressed.
-     * </p>
-     * 
-     * <p>
-     * Calls the RegionSelector apply method with applyTemp for live feedback.
-     * </p>
-     */
-    public void mousePressed(MouseEvent e){
+    public void mousePressed(MouseEvent e) {
         if (!active)
             return;
         setStart(e.getPoint());
@@ -102,73 +116,104 @@ public class ClickListener implements MouseListener, MouseMotionListener{
         target.getParent().revalidate();
     }
 
-    /**When mouse is released, either draw the final, or clear the highlight */
-   public void mouseReleased(MouseEvent e){
-        if (!active) return;
+    /**
+     * Sets the end location when the mouse is released and applies the final operation to the target image.
+     *
+     * @param e The mouse event.
+     */
+    public void mouseReleased(MouseEvent e) {
+        if (!active)
+            return;
         setEnd(e.getPoint());
-        //target.getImage().revert();
-        target.getImage().apply(operationFinal); 
+        target.getImage().apply(operationFinal);
         target.repaint();
         target.getParent().revalidate();
-
-        active = false;
-}
-    public void mouseClicked(MouseEvent e){
-        if (!active) return;
         active = false;
     }
-    public void mouseEntered(MouseEvent e){
-        if (!active) return;
-    }
-    public void mouseExited(MouseEvent e){
-        if (!active) return;
+
+    /**
+     * Handles the mouseClicked event.
+     *
+     * @param e The mouse event.
+     */
+    public void mouseClicked(MouseEvent e) {
+        if (!active)
+            return;
+        active = false;
     }
 
-    /**When mouse is dragged, if active, live feedback is shown. */
-    public void mouseDragged(MouseEvent e){
-        if (!active) return;
+    /**
+     * Handles the mouseEntered event.
+     *
+     * @param e The mouse event.
+     */
+    public void mouseEntered(MouseEvent e) {}
+
+    /**
+     * Handles the mouseExited event.
+     *
+     * @param e The mouse event.
+     */
+    public void mouseExited(MouseEvent e) {}
+
+    /**
+     * Updates the end location when the mouse is dragged and shows live feedback if active.
+     *
+     * @param e The mouse event.
+     */
+    public void mouseDragged(MouseEvent e) {
+        if (!active)
+            return;
         setEnd(e.getPoint());
         target.getImage().applyTemp(operation);
         target.repaint();
         target.getParent().revalidate();
-
     }
 
-    public void mouseMoved(MouseEvent e){
-        if (!active) return;
-    }
-
-    /**Calculate the x from a point considering zoom
-     * @parameter point p
-     * @return integer x
+    /**
+     * Handles the mouseMoved event.
+     *
+     * @param e The mouse event.
      */
-    private int calcX(Point p){
-        return Math.min(Math.max(0, (int)(p.getX() / (target.getZoom()/100))),target.getImage().getWidth()-1);
-        
-    }
+    public void mouseMoved(MouseEvent e) {}
 
-    /**Calculate the y from a point considering zoom
-     * @parameter point p
-     * @return integer y
-    */
-    private int calcY(Point p){
-        return Math.min(Math.max(0,(int)(p.getY() / (target.getZoom()/100))),target.getImage().getHeight()-1);
-    }
-
-    /**Set the end point
-     * @parameter point p
+    /**
+     * Calculates the x-coordinate from a point considering the zoom level.
+     *
+     * @param p The point.
+     * @return The calculated x-coordinate.
      */
-    private void setEnd(Point p){
+    private int calcX(Point p) {
+        return Math.min(Math.max(0, (int) (p.getX() / (target.getZoom() / 100))), target.getImage().getWidth() - 1);
+    }
+
+    /**
+     * Calculates the y-coordinate from a point considering the zoom level.
+     *
+     * @param p The point.
+     * @return The calculated y-coordinate.
+     */
+    private int calcY(Point p) {
+        return Math.min(Math.max(0, (int) (p.getY() / (target.getZoom() / 100))), target.getImage().getHeight() - 1);
+    }
+
+    /**
+     * Sets the end point of the selection based on the provided point.
+     *
+     * @param p The point representing the end location.
+     */
+    private void setEnd(Point p) {
         operation.setEnd(calcX(p), calcY(p));
         operationFinal.setEnd(calcX(p), calcY(p));
     }
 
-    /**Set the start point 
-    * @parameter point p
-    */
-    private void setStart(Point p){
+    /**
+     * Sets the start point of the selection based on the provided point.
+     *
+     * @param p The point representing the start location.
+     */
+    private void setStart(Point p) {
         operation.setStart(calcX(p), calcY(p));
         operationFinal.setStart(calcX(p), calcY(p));
     }
-
-    }
+}
