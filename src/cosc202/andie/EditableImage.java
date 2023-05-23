@@ -367,7 +367,7 @@ public class EditableImage {
         if (current == null)
             return;
         if (editing){
-            check();
+            revert();
         }
 
         undoImages.push(current);
@@ -389,7 +389,7 @@ public class EditableImage {
         current = op.apply(tempStore);
     }
 
-    public void check(){
+    public void revert(){
         if (editing){
             current = tempStore;
             editing = false;
@@ -669,12 +669,11 @@ public class EditableImage {
             objOut.writeObject(this.recordedOps);
             objOut.close();
             fileOut.close();
-            
+            recordedOps.clear();
         }
         catch (IOException a) {
             ExceptionHandler.displayError(language.getTranslated("save_file_io_excepton"));
         }
-        recordedOps.clear();
     }
 /**
  * Method to se if the user is currently recording operations
@@ -688,14 +687,5 @@ public class EditableImage {
     
     public boolean isRecording() {
         return recording;
-    }
-
-    /**
-     * Reverts image to original 
-     * 
-     */
-    public void revert(){
-        undoImages.add(current);
-        current = original;
     }
 }

@@ -60,7 +60,6 @@ public final class Icons {
     public static final String EDIT_REDO = "Edit-Redo.png";
     public static final String EDIT_RECORD = "Record.png";
     public static final String EDIT_STOP_RECORD = "Stop-Recording.png";
-    public static final String EDIT_REVERT = "revert.png";
 
     // View menu icons
     public static final String VIEW_ZOOM_IN = "View-ZoomIn.png";
