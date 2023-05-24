@@ -305,7 +305,7 @@ public class EditActions implements ActionCollection {
          * @param e The event triggering this callback.
          */
         public void actionPerformed(ActionEvent e) {
-            target.getImage().apply(new Revert(target.getImage().getOriginal()));
+            target.getImage().apply(new Revert());
             target.repaint();
             target.getParent().revalidate();
         }
