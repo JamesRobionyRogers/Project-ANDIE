@@ -33,7 +33,7 @@ public class RegionSelector extends Selection{
     /**Stores whether the shape will be filled or not */
     private boolean fill;
 
-    private int strokeSize;
+    private int strokeSize = 1;
 
     /**Constructor for unfilled shapes */
     public RegionSelector(String shapeIn, Color colourIn){
