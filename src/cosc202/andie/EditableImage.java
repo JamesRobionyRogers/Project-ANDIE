@@ -238,6 +238,8 @@ public class EditableImage {
             return;
         }
 
+        
+
         try {
             current = deepCopy(original);
         } catch (java.lang.NullPointerException e) {
@@ -687,5 +689,14 @@ public class EditableImage {
     
     public boolean isRecording() {
         return recording;
+    }
+
+    /**
+     * For use with revert function 
+     * 
+     * @return the orignal imported image 
+     */
+    public BufferedImage getOriginal(){
+        return original;
     }
 }
