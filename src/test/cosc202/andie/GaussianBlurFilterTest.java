@@ -1,22 +1,22 @@
 package test.cosc202.andie;
 
 import org.junit.*;
-
-import cosc202.andie.actions.filter.GaussianBlurFilter;
-
 import static org.junit.Assert.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 
+import cosc202.andie.actions.filter.GaussianBlurFilter;
 
 public class GaussianBlurFilterTest {
 
     @Test
     public void testApply() throws IOException {
-        // Load test image      
-        File file = new File("/Users/jamesrobiony-rogers/Library/CloudStorage/OneDrive-UniversityofOtago/COSC202/ProjectANDIE/project-andie/src/test/cosc202/andie/test_images/ANDIE-TestImage.jpg");
-        BufferedImage testImage = ImageIO.read(file);  
+        // Doesn't work load test image from file properly 
+        String testImagePath = ClassLoader.getSystemClassLoader().getResource("test/cosc202/andie/test_images/ANDIE-TestImage-02.png").getPath();
+
+        // Createing a new BufferedImage
+        BufferedImage testImage = new BufferedImage(600, 400, BufferedImage.TYPE_INT_RGB);
 
         // Apply Gaussian blur filter to test image
         GaussianBlurFilter filter = new GaussianBlurFilter(2);

@@ -105,6 +105,16 @@ public class FileActions implements ActionCollection {
         return toolbarActions;
     }
 
+    /**
+     * <p>
+     * Return all actions in this collection.
+     * </p>
+     * @return The list of actions.
+     */
+    public ArrayList<Action> getAllActions() {
+        return actions;
+    }
+
 
     /**
      * <p>
@@ -125,7 +135,7 @@ public class FileActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileOpenAction(String name, String icon, String desc, KeyStroke mnemonic) {
+        public FileOpenAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -240,7 +250,7 @@ public class FileActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileSaveAction(String name, String icon, String desc, KeyStroke mnemonic) {
+        public FileSaveAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -288,7 +298,7 @@ public class FileActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileSaveAsAction(String name, String icon, String desc, KeyStroke mnemonic) {
+        public FileSaveAsAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -363,7 +373,7 @@ public class FileActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileExitAction(String name, String icon, String desc, KeyStroke mnemonic) {
+        public FileExitAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -404,7 +414,7 @@ public class FileActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        FileExportAction(String name, String icon, String desc, KeyStroke mnemonic) {
+        public FileExportAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
@@ -487,7 +497,7 @@ public class FileActions implements ActionCollection {
          * @param desc     A brief description of the action (ignored if null).
          * @param mnemonic A mnemonic key to use as a shortcut (ignored if null).
          */
-        ImportAction(String name, String icon, String desc, KeyStroke mnemonic) {
+        public ImportAction(String name, String icon, String desc, KeyStroke mnemonic) {
             super(name, icon, desc, mnemonic);
         }
 
