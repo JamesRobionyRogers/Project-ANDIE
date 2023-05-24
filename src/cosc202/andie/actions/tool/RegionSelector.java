@@ -71,7 +71,7 @@ public class RegionSelector extends Selection{
         int stroke = (int) (Math.sqrt(Math.max(input.getHeight(), input.getWidth()))/10)*strokeSize;
         g2d.setStroke(new BasicStroke(stroke));
         g2d.setColor(colour);
-        if(shape=="line"){
+        if(shape.equals("line")){
             g2d.drawLine(getX1(), getY1(), getX2(), getY2());
         }else{
             if(fill){
@@ -90,9 +90,9 @@ public class RegionSelector extends Selection{
      */
     private Shape drawShape(){
         Shape draw = null;
-        if(shape=="oval"){
+        if(shape.equals("oval")){
             draw = new Ellipse2D.Double(Math.min(getX1(),getX2()), Math.min(getY1(),getY2()), Math.max(getX2(),getX1())-Math.min(getX2(),getX1()), Math.max(getY2(),getY1())-Math.min(getY1(),getY2()));
-        }if(shape == "rectangle"){
+        }if(shape.equals("rectangle")){
             draw = new Rectangle (Math.min(getX1(),getX2()), Math.min(getY1(),getY2()), Math.max(getX2(),getX1())-Math.min(getX2(),getX1()), Math.max(getY2(),getY1())-Math.min(getY1(),getY2()));
         }
         return draw;
