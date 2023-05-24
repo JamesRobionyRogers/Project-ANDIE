@@ -420,9 +420,9 @@ public class FilterActions implements ActionCollection {
      * 
      */
     public class EmbossFilterAction extends ImageAction {
-        private String[] options = { "Left emboss", "Top-left emboss", "Top emboss",
-                "Top-right emboss", "Right emboss", "Bottom-right emboss", "Bottom emboss",
-                "Bottom-left emboss" };
+        private String[] options = { language.getTranslated("emboss_left"), language.getTranslated("emboss_top_left"), language.getTranslated("emboss_top"),
+        language.getTranslated("emboss_top_right"), language.getTranslated("emboss_right"), language.getTranslated("emboss_bottom_right"), language.getTranslated("emboss_bottom"),
+        language.getTranslated("emboss_bottom_left") };
 
         /**
          * Create a new sharpen filter action
@@ -444,7 +444,7 @@ public class FilterActions implements ActionCollection {
             Object[] okClose = { language.getTranslated("ok"), language.getTranslated("cancel") };
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 2));
-            panel.add(new JLabel("TYPE OF EMBOSS [TRANSLATE ME]"));
+            panel.add(new JLabel(language.getTranslated("emboss_type")));
             panel.add(jbox);
             jbox.addItemListener(new ItemListener() {
 
@@ -472,7 +472,7 @@ public class FilterActions implements ActionCollection {
             int option = JOptionPane.showOptionDialog(
                 Andie.getJFrame(), 
                 panel, 
-                "EMBOSS QUESTION CHANGE ME [TRANSLATE ME]",
+                language.getTranslated("emboss_question"),
                 JOptionPane.DEFAULT_OPTION, 
                 JOptionPane.QUESTION_MESSAGE, 
                 (Icon) this.getValue("WindowIcon"),
@@ -497,7 +497,7 @@ public class FilterActions implements ActionCollection {
      * 
      */
     public class EdgeDetectionAction extends ImageAction {
-        private String[] options = { "Horizontal edge", "Vertical edge" };
+        private String[] options = { language.getTranslated("edge_horizontal"), language.getTranslated("edge_vertical") };
 
         /**
          * Create a new sharpen filter action
@@ -519,7 +519,7 @@ public class FilterActions implements ActionCollection {
             Object[] okClose = { language.getTranslated("ok"), language.getTranslated("cancel") };
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(1, 2));
-            panel.add(new JLabel("TYPE OF EDGE DETECTION [TRANSLATE ME]"));
+            panel.add(new JLabel(language.getTranslated("edge_type")));
             panel.add(jbox);
             jbox.addItemListener(new ItemListener() {
 
@@ -548,7 +548,7 @@ public class FilterActions implements ActionCollection {
             int option = JOptionPane.showOptionDialog(
                 Andie.getJFrame(), 
                 panel, 
-                "EDGE DETECTION QUESTION CHANGE ME [TRANSLATE ME]",
+                language.getTranslated("edge_question"),
                 JOptionPane.DEFAULT_OPTION, 
                 JOptionPane.QUESTION_MESSAGE, 
                 (Icon) this.getValue("WindowIcon"), 
