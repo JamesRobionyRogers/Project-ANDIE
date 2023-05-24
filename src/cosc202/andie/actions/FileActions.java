@@ -166,7 +166,7 @@ public class FileActions implements ActionCollection {
                 }
                 // Catching Input/Output exceptions associated with opening a file
                 catch (IOException ioException) {
-                    ExceptionHandler.displayError(language.getTranslated("open_file_io_excepton"));
+                    ExceptionHandler.displayError(language.getTranslated("open_file_io_exception"));
                 }
                 // Catching exceptions associated with opening a file Java doesn't have
                 // permission for
@@ -175,7 +175,7 @@ public class FileActions implements ActionCollection {
                 }
 
                 catch (Exception ex) {
-                    ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("open_file_io_excepton"));
+                    ExceptionHandler.displayError(SetLanguage.getInstance().getTranslated("open_file_io_exception"));
                 }
 
                 // gets dimensions of opened image
@@ -539,7 +539,7 @@ public class FileActions implements ActionCollection {
                 }
                 // Catching Input/Output exceptions associated with opening a file
                 catch (IOException ioException) {
-                    ExceptionHandler.displayError(language.getTranslated("open_file_io_excepton"));
+                    ExceptionHandler.displayError(language.getTranslated("open_file_io_exception"));
                 }
                 // Catching exceptions associated with opening a file Java doesn't have
                 // permission for
