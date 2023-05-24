@@ -9,7 +9,7 @@ import cosc202.andie.ImageOperation;
  * @see ImageOperation
  * @version 1.1
  */
-public abstract class Selection implements ImageOperation {
+public abstract class Selection implements ImageOperation, java.io.Serializable {
 
     private int x1;
     private int x2;
