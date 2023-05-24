@@ -40,6 +40,7 @@ public class RegionSelector extends Selection{
         shape = shapeIn;
         fill = false;
         colour = colourIn;
+        strokeSize = 1;
     }
 
     /**Constructor for filled shapes */
