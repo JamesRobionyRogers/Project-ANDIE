@@ -27,7 +27,7 @@ ANDIE is a Java-based image processing and editing application that leverages th
 ## Running it Locally 
 
 #### Running the `.jar` file 
-1. [Download]() the `ANDIE.jar` file from the root directory of this repository 
+1. Download the `ANDIE.jar` file from the root directory of this repository 
 2. Double click the `ANDIE.jar` file to run it
 
 #### Cloning the repository  
@@ -132,7 +132,7 @@ Below is a collapsible section documenting how each member of our group contribu
 </details>
 
 
-<details open>
+<details>
     <summary>ANDIE: Part Two</summary>
 
 ---
@@ -223,7 +223,7 @@ Below is a collapsible section documenting how each member of our group contribu
 ## Further Development  
 Throughout the project we have been tracking features, bugs and further development using Jira. Here are some of the features we thought of to further develop ANDIE:
 
-<details open>
+<details>
   <summary>Click here to see how we developed ANDIE even further</summary>
 
 
